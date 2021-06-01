@@ -231,8 +231,8 @@ int main (void) {
 		send_message(0x00, id, id);
 		printf("SEND SUCCESS\n");
 		}
-		accept_counter = 0;
-		accept_not_counter = 0; 
+		//accept_counter = 0;
+		//accept_not_counter = 0; 
 	} //END while(1) LOOP
 
 
