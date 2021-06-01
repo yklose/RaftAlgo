@@ -6,11 +6,13 @@
 #include <string.h>
 //#include "ex2.h" 
 
+// setup functions
 void test();
 void setIDLE();
 void setRX();
 int read_rssi1(int rssi_add);
 void rssi_valid(int rssi_add);
+void initialize_spi();
 // state functions
 bool state_open(int state);
 bool state_follower(int state);
@@ -30,4 +32,6 @@ int get_tx_id_from_msg(char *msg);
 char *get_type_from_message(char *msg);
 // convert
 int convert_char_to_int(char *msg);
+// comparing
+bool id_in_list(int *follower_ids, int id, int num_nodes);
 #endif /* LIB_DOT_H */

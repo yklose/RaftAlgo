@@ -24,6 +24,14 @@ int read_rssi1(int rssi_add) {
         return val;
 }
 
+void initialize_spi(){
+        if(spi_init()){
+    	        printf("ERROR: Initialization failed\n");
+   		exit(-1);
+ 	}
+        cc1200_cmd(SRES);
+}
+
 int generate_random_timeout(){
 	srand(time(NULL));
 	int max = 500;
@@ -191,7 +199,14 @@ char *get_type_from_message(char *msg){
 		message = "ERROR";
 	}
 	return message;
-
-
 }
 
+bool id_in_list(int *follower_ids, int id, int num_nodes){
+        int node;
+        for(node=0;node<num_nodes;++node){
+                if(id == follower_ids[node]){
+                        return true;
+                }
+        }
+        return false;
+}
