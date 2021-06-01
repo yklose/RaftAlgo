@@ -158,10 +158,8 @@ int main (void) {
 										break;
 									}
 								}
-								//printf("Anzahl der Follower: %d\n",n);
-								printf("test1");
+								printf("Anzahl der Follower: %d\n",n);
 							}
-							printf("test2");
 							printf("partition of followers: %f\n",(accept_counter/num_nodes));
 							//printf("partition of followers: %f",(float(accept_counter)/num_nodes));
 							if ((accept_counter/num_nodes)>0.5) { //MAJORITY?
