@@ -162,7 +162,7 @@ int main (void) {
 							}
 						//	printf("INCREASE ACCEPT COUNTER\n");
 						//	accept_counter += 1; //Nur wenn noch nicht in Liste
-							if ((accept_counter./num_nodes)>0.5) { //MAJORITY?
+							if (((float)accept_counter/num_nodes)>0.5) { //MAJORITY?
 								printf("I AM LEADER\n");
 								//CHANGE TO LEADER
 								state = set_state_leader();
