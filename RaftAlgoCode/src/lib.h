@@ -1,0 +1,33 @@
+#ifndef LIB_DOT_H    /* This is an "include guard" */
+#define LIB_DOT_H    /* prevents the file from being included twice. */
+#include <stdbool.h>
+#include <time.h>
+#include <unistd.h>
+#include <string.h>
+//#include "ex2.h" 
+
+void test();
+void setIDLE();
+void setRX();
+int read_rssi1(int rssi_add);
+void rssi_valid(int rssi_add);
+// state functions
+bool state_open(int state);
+bool state_follower(int state);
+bool state_proposer(int state);
+bool state_leader(int state);
+int set_state_open();
+int set_state_follower();
+int set_state_proposer();
+int set_state_leader();
+// generating functions
+int generate_random_id();
+int generate_random_timout();
+// message interaction
+void send_message(int message_type, int tx_id, int rx_id);
+int get_rx_id_from_msg(char *msg);
+int get_tx_id_from_msg(char *msg);
+char *get_type_from_message(char *msg);
+// convert
+int convert_char_to_int(char *msg);
+#endif /* LIB_DOT_H */

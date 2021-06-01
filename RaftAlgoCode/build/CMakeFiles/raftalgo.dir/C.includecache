@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/Beaglebone/RaftAlgo/src/ex2.h
+
+/root/Beaglebone/RaftAlgo/src/lib.c
+lib.h
+/root/Beaglebone/RaftAlgo/src/lib.h
+stdio.h
+-
+SPIv1.h
+-
+unistd.h
+-
+stdbool.h
+-
+
+/root/Beaglebone/RaftAlgo/src/lib.h
+stdbool.h
+-
+time.h
+-
+unistd.h
+-
+string.h
+-
+
+/root/Beaglebone/RaftAlgo/src/raftalgo.c
+lib.h
+/root/Beaglebone/RaftAlgo/src/lib.h
+stdio.h
+-
+SPIv1.h
+-
+ex2.h
+/root/Beaglebone/RaftAlgo/src/ex2.h
+unistd.h
+-
+string.h
+-
+
