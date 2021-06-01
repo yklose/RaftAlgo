@@ -11,8 +11,6 @@
 #include <unistd.h>
 #include <string.h>
 
-
-
 int main (void) {
 
 	// set default values
@@ -24,8 +22,8 @@ int main (void) {
 	int fifo = 0;					// variable for reading fifo
 	char message[max_packet_len];	// message string 
 
-  	// first initialize
-  	initialize_spi()
+	// first initialize
+	initialize_spi()
 	
 	// write registers
 	int cnt;
@@ -42,8 +40,8 @@ int main (void) {
 	printf("Random timeout: %d\n", timeout);
 
 	// set RX mode
-	cc1200_reg_write(PKT_CFG0, 0x01); 				// variable packet len
-	cc1200_reg_write(PKT_LEN, max_packet_len);  	// maximum packet len = 10 CHANGE!
+	cc1200_reg_write(PKT_CFG0, 0x01);				// variable packet len
+	cc1200_reg_write(PKT_LEN, max_packet_len);		// maximum packet len = 10 CHANGE!
 	setRX();
 	
 	// set state
@@ -92,27 +90,27 @@ int main (void) {
 			if(numRX>0){
 				printf("----------- PACKET detected -----------\n");
 
-        	    if (packet_len == 0){ // NOTE: why do we need to check packet len?
-	                cc1200_reg_read(0x3F, &packet_len);
+				if (packet_len == 0){ // NOTE: why do we need to check packet len?
+					cc1200_reg_read(0x3F, &packet_len);
 					// check if message is longer than expected
-                    if (packet_len>max_packet_len){
-                  		packet_len = max_packet_len;
-                        printf("Transmitted message is longer than max configured lengths\n");
-		  			}
+					if (packet_len>max_packet_len){
+						packet_len = max_packet_len;
+						printf("Transmitted message is longer than max configured lengths\n");
+					}
 					// read the message 
-                    int k = 0;
-                    for (k=0; k<packet_len; ++k){
-                        cc1200_reg_read(0x3F, &fifo);
+					int k = 0;
+					for (k=0; k<packet_len; ++k){
+						cc1200_reg_read(0x3F, &fifo);
 						message[k] = (char)fifo;
 						printf("READING: %c\n", message[k]);
-                    }
+					}
 					message[k+1] = '\0';
 					printf("\nReceivedMessage: %s\n",message);
 	
 					// get message informations
 					int sender_id = get_tx_id_from_msg(message);
 					int receiver_id = get_rx_id_from_msg(message);
-                	char *sender_type = get_type_from_message(message);
+					char *sender_type = get_type_from_message(message);
 					printf("Sender Type: %s\n", sender_type);
 					printf("tx_id: %d\n", sender_id);
 					printf("rx_id: %d\n", receiver_id);
@@ -166,7 +164,7 @@ int main (void) {
 
 					else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
 						// Received ACCEPT NOT: Proposers increase counter and maybe switch to OPEN 
-                        printf("ACCEPT NOT MESSAGE\n");
+						printf("ACCEPT NOT MESSAGE\n");
 						// increase decline counter
 						if (state_proposer(state)){
 							bool found = id_in_list(follower_ids, sender_id, num_nodes);
@@ -186,32 +184,32 @@ int main (void) {
 							// check if miniority is reached
 							if ((accept_not_counter/num_nodes)>0.5) { 
 								printf("Clear Minority - SET OPEN\n");
-                                state = set_state_open();
+								state = set_state_open();
 								accept_not_counter = 0;
 								accept_counter = 0;
-                            }
-                        }
-                	}
+							}
+						}
+					}
 
 					else if (strcmp(sender_type,"LEADER") == 0){
 						// Received LEADER: All change to follower
-                        printf("LEADER MESSAGE\n");
+						printf("LEADER MESSAGE\n");
 						state = set_state_follower();
 						// send ok message
 						send_message(0x04, id, sender_id);
 						//save leader id
 						leader_id = sender_id;
-                    }
+					}
 
 					else if (strcmp(sender_type,"OK") == 0){
 						// Received OK: Leaders count listeners
-        	            printf("OK MESSAGE\n");
+						printf("OK MESSAGE\n");
 						if  (state_leader(state)){
 							// TODO: ADD TO LIST OF LISTENERS
-		  					printf("Listeners +1");
+							printf("Listeners +1");
 						}
 						// do nothing (see how many are listening)
-                	}
+					}
 
 					// go in IDLE mode to Reset FIFO
 					printf("\n\n");
@@ -221,11 +219,11 @@ int main (void) {
 					setRX();
 
 					// Reset Timer
-                    printf("RESET TIMER\n");
+					printf("RESET TIMER\n");
 					starttime = clock();
 					// TODO: change timeout to random
 				}	
-       		}
+			}
 			printf("---------------------------------------\n");
 		}
 		// TIMER ABGELAUFEN
@@ -237,7 +235,7 @@ int main (void) {
 		// DEBUG deactivate! Otherwise keep!
 		//accept_counter = 0;
 		//accept_not_counter = 0; 
-	} 
+	}
 
 	// shutdown SPI
 	spi_shutdown();
