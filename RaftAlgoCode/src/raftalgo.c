@@ -158,7 +158,7 @@ int main (void) {
 										break;
 									}
 								}
-								printf("Anzahl der Follower: %d\n",n);
+								//printf("Anzahl der Follower: %d\n",n);
 								printf("test1");
 							}
 							printf("test2");
