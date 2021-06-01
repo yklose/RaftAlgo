@@ -158,7 +158,7 @@ int main (void) {
 										break;
 									}
 								}
-								printf("Anzahl der Follower: %d\n",accept_counter);
+								printf("Anzahl der Followers: %d\n",accept_counter);
 							}
 							printf("partition of followers: %f\n",(accept_counter/num_nodes));
 							//printf("partition of followers: %f",(float(accept_counter)/num_nodes));
