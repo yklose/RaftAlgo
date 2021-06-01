@@ -54,8 +54,8 @@ int main (void) {
 		printf("INITIAL STATE: OPEN\n");
 	}
 	// ACCEPT counter
-	int accept_counter = 0;
-	int accept_not_counter = 0;
+	float accept_counter = 0;
+	float accept_not_counter = 0;
 	int num_nodes = 6;
 
 	//Save IDs
@@ -162,9 +162,9 @@ int main (void) {
 							}
 						//	printf("INCREASE ACCEPT COUNTER\n");
 						//	accept_counter += 1; //Nur wenn noch nicht in Liste
-							printf("partition of followers: %f",((float)accept_counter/num_nodes));
-							printf("partition of followers: %f",(float(accept_counter)/num_nodes));
-							if (((float)accept_counter/num_nodes)>0.5) { //MAJORITY?
+							//printf("partition of followers: %f",((float)accept_counter/num_nodes));
+							//printf("partition of followers: %f",(float(accept_counter)/num_nodes));
+							if ((accept_counter/num_nodes)>0.5) { //MAJORITY?
 								printf("I AM LEADER\n");
 								//CHANGE TO LEADER
 								state = set_state_leader();
@@ -212,18 +212,18 @@ int main (void) {
 						// do nothing (see how many are listening)
                 	                }
 
-        	                	// go in IDLE mode to Reset FIFO
-	                        	printf("\n\n");
-                        		setIDLE();
+					// go in IDLE mode to Reset FIFO
+					printf("\n\n");
+					setIDLE();
 					cc1200_cmd(SFRX);
 					packet_len = 0;
 					setRX();
 
 					// Reset Timer
-                                        printf("RESET TIMER\n");
+                    printf("RESET TIMER\n");
 					starttime = clock();
-                                       // msec = timeout;
-               			}
+                    // msec = timeout;
+					}	
        			}
 		}
 		//TIMER ABGELAUFEN
