@@ -150,7 +150,7 @@ int main (void) {
 							printf("loop end\n");
 							if (found == false){
 								printf("INCREASE ACCEPT COUNTER\n");
-								accept_counter += 1; //Nur wenn noch nicht in L$
+								accept_counter = accept_counter + 1.0;//Nur wenn noch nicht in L$
 								int n;
 								for (n=0; n<num_nodes;++n){
 									if (follower_ids[n]==0){
