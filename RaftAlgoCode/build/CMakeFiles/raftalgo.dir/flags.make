@@ -6,5 +6,5 @@ C_FLAGS =
 
 C_DEFINES = 
 
-C_INCLUDES = -I/root/Beaglebone/RaftAlgo/include 
+C_INCLUDES = -I/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/include 
 

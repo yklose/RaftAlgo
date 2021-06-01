@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/Beaglebone/RaftAlgo
+CMAKE_SOURCE_DIR = /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/Beaglebone/RaftAlgo/build
+CMAKE_BINARY_DIR = /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/raftalgo.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/raftalgo.dir/flags.make
 
 CMakeFiles/raftalgo.dir/src/lib.c.o: CMakeFiles/raftalgo.dir/flags.make
 CMakeFiles/raftalgo.dir/src/lib.c.o: ../src/lib.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/Beaglebone/RaftAlgo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/raftalgo.dir/src/lib.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/raftalgo.dir/src/lib.c.o   -c /root/Beaglebone/RaftAlgo/src/lib.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/raftalgo.dir/src/lib.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/raftalgo.dir/src/lib.c.o   -c /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c
 
 CMakeFiles/raftalgo.dir/src/lib.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/raftalgo.dir/src/lib.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/Beaglebone/RaftAlgo/src/lib.c > CMakeFiles/raftalgo.dir/src/lib.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c > CMakeFiles/raftalgo.dir/src/lib.c.i
 
 CMakeFiles/raftalgo.dir/src/lib.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/raftalgo.dir/src/lib.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/Beaglebone/RaftAlgo/src/lib.c -o CMakeFiles/raftalgo.dir/src/lib.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c -o CMakeFiles/raftalgo.dir/src/lib.c.s
 
 CMakeFiles/raftalgo.dir/src/lib.c.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/raftalgo.dir/src/lib.c.o.provides.build: CMakeFiles/raftalgo.dir/src/
 
 CMakeFiles/raftalgo.dir/src/raftalgo.c.o: CMakeFiles/raftalgo.dir/flags.make
 CMakeFiles/raftalgo.dir/src/raftalgo.c.o: ../src/raftalgo.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/Beaglebone/RaftAlgo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/raftalgo.dir/src/raftalgo.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/raftalgo.dir/src/raftalgo.c.o   -c /root/Beaglebone/RaftAlgo/src/raftalgo.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/raftalgo.dir/src/raftalgo.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/raftalgo.dir/src/raftalgo.c.o   -c /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/raftalgo.c
 
 CMakeFiles/raftalgo.dir/src/raftalgo.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/raftalgo.dir/src/raftalgo.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/Beaglebone/RaftAlgo/src/raftalgo.c > CMakeFiles/raftalgo.dir/src/raftalgo.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/raftalgo.c > CMakeFiles/raftalgo.dir/src/raftalgo.c.i
 
 CMakeFiles/raftalgo.dir/src/raftalgo.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/raftalgo.dir/src/raftalgo.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/Beaglebone/RaftAlgo/src/raftalgo.c -o CMakeFiles/raftalgo.dir/src/raftalgo.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/raftalgo.c -o CMakeFiles/raftalgo.dir/src/raftalgo.c.s
 
 CMakeFiles/raftalgo.dir/src/raftalgo.c.o.requires:
 
@@ -117,7 +117,7 @@ raftalgo: CMakeFiles/raftalgo.dir/src/lib.c.o
 raftalgo: CMakeFiles/raftalgo.dir/src/raftalgo.c.o
 raftalgo: CMakeFiles/raftalgo.dir/build.make
 raftalgo: CMakeFiles/raftalgo.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/Beaglebone/RaftAlgo/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable raftalgo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable raftalgo"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/raftalgo.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -135,6 +135,6 @@ CMakeFiles/raftalgo.dir/clean:
 .PHONY : CMakeFiles/raftalgo.dir/clean
 
 CMakeFiles/raftalgo.dir/depend:
-	cd /root/Beaglebone/RaftAlgo/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/Beaglebone/RaftAlgo /root/Beaglebone/RaftAlgo /root/Beaglebone/RaftAlgo/build /root/Beaglebone/RaftAlgo/build /root/Beaglebone/RaftAlgo/build/CMakeFiles/raftalgo.dir/DependInfo.cmake --color=$(COLOR)
+	cd /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/raftalgo.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/raftalgo.dir/depend
 

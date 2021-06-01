@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/root/Beaglebone/RaftAlgo/src/lib.c" "/root/Beaglebone/RaftAlgo/build/CMakeFiles/raftalgo.dir/src/lib.c.o"
-  "/root/Beaglebone/RaftAlgo/src/raftalgo.c" "/root/Beaglebone/RaftAlgo/build/CMakeFiles/raftalgo.dir/src/raftalgo.c.o"
+  "/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c" "/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/raftalgo.dir/src/lib.c.o"
+  "/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/raftalgo.c" "/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/raftalgo.dir/src/raftalgo.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /root/Beaglebone/RaftAlgo
+CMAKE_SOURCE_DIR = /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /root/Beaglebone/RaftAlgo/build
+CMAKE_BINARY_DIR = /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/Beaglebone/RaftAlgo/build/CMakeFiles /root/Beaglebone/RaftAlgo/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /root/Beaglebone/RaftAlgo/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

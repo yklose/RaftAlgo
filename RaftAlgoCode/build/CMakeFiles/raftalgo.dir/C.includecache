@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/root/Beaglebone/RaftAlgo/src/ex2.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/ex2.h
 
-/root/Beaglebone/RaftAlgo/src/lib.c
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c
 lib.h
-/root/Beaglebone/RaftAlgo/src/lib.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.h
 stdio.h
 -
 SPIv1.h
@@ -20,7 +20,7 @@ unistd.h
 stdbool.h
 -
 
-/root/Beaglebone/RaftAlgo/src/lib.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.h
 stdbool.h
 -
 time.h
@@ -30,15 +30,15 @@ unistd.h
 string.h
 -
 
-/root/Beaglebone/RaftAlgo/src/raftalgo.c
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/raftalgo.c
 lib.h
-/root/Beaglebone/RaftAlgo/src/lib.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.h
 stdio.h
 -
 SPIv1.h
 -
 ex2.h
-/root/Beaglebone/RaftAlgo/src/ex2.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/ex2.h
 unistd.h
 -
 string.h
