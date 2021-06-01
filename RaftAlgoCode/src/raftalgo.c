@@ -150,7 +150,7 @@ int main (void) {
 							printf("loop end\n");
 							if (found == false){
 								printf("INCREASE ACCEPT COUNTER\n");
-	                                                        accept_counter += 1; //Nur wenn noch nicht in L$
+								accept_counter += 1; //Nur wenn noch nicht in L$
 								int n;
 								for (n=0; n<num_nodes;++n){
 									if (follower_ids[n]==0){
@@ -158,7 +158,7 @@ int main (void) {
 										break;
 									}
 								}
-								printf("Anzahl der Follower: %d\n",n);
+								printf("Anzahl der Follower: %d\n",accept_counter);
 							}
 							printf("partition of followers: %f\n",(accept_counter/num_nodes));
 							//printf("partition of followers: %f",(float(accept_counter)/num_nodes));
