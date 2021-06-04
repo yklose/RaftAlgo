@@ -105,6 +105,7 @@ void setIDLE() {
     cc1200_cmd(SNOP);
     while (get_status_cc1200() != IDLE) {
         cc1200_cmd(SNOP);
+        cc1200_cmd(SIDLE);
     }
 }
 
@@ -113,6 +114,7 @@ void setRX() {
     cc1200_cmd(SNOP);
     while (get_status_cc1200() != RX) {
         cc1200_cmd(SNOP);
+        cc1200_cmd(SRX);
     }
 }
 
