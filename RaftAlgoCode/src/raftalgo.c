@@ -226,28 +226,28 @@ int main (void) {
 							}
 							// do nothing (see how many are listening)
 						}
-
-						// go in IDLE mode to Reset FIFO
-						printf("\n\n");
-						setIDLE();
-						cc1200_cmd(SFRX);
-						packet_len = 0;
-						setRX();
-
-						// Reset Timer
-						printf("RESET TIMER\n");
-						// random timeout
-						//int timeout = 2000; //generate_random_timeout();
-						//starttime = clock();
-						
-						break;
-						printf("SHould not be printed!");
-						// TODO: change timeout to random
-						printf("---------------------------------------\n");
 					}
 					else{
-					printf("invalid message\n");
-					}	
+						printf("invalid message\n");
+					}
+					// go in IDLE mode to Reset FIFO
+					printf("\n\n");
+					setIDLE();
+					cc1200_cmd(SFRX);
+					packet_len = 0;
+					setRX();
+
+					// Reset Timer
+					printf("RESET TIMER\n");
+					// random timeout
+					//int timeout = 2000; //generate_random_timeout();
+					//starttime = clock();
+					
+					break;
+					printf("SHould not be printed!");
+					// TODO: change timeout to random
+					printf("---------------------------------------\n");
+						
 				}
 				
 			}
