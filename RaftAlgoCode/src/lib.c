@@ -196,7 +196,7 @@ int get_rx_id_from_msg(char *msg){
 }
 
 int get_checksum_from_msg(char *msg){
-        int id_len = 3;
+        int id_len = 7;
 	int checksum_len = 3;
 	char checksum[checksum_len];
 	int i;
