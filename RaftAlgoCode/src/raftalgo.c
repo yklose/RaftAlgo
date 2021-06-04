@@ -240,7 +240,7 @@ int main (void) {
 			
 		}
 		// TIMER ABGELAUFEN
-		if ((state_leader(state)==false) && (valid_packet==true)){ 
+		if ((state_leader(state)==false) && (valid_packet==false)){ 
 			printf("SEND PROPOSE\n");
 			state = set_state_proposer();
 			send_message(0x00, id, id);
