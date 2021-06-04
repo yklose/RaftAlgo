@@ -130,6 +130,7 @@ void setTX() {
 bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
         int modulus = 999;
         int sum = message_type + tx_id + rx_id;
+        printf("CHECKSUM in: %d", checksum);
         return (sum%modulus == checksum);       
 }
 
