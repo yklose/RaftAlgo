@@ -147,7 +147,7 @@ int main (void) {
 										break;
 									}
 								}
-								printf("Anzahl ACCEPT Nachrichten: %d\n",accept_counter);
+								printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
 							}
 							printf("partition of followers: %f\n",(accept_counter/num_nodes));
 							// check if majority is reached
