@@ -287,6 +287,10 @@ int main (void) {
 		bool heartbeat_send = false;
 		// RX loop
 		while (msec < timeout){
+			// set up timer
+			difference = clock() - starttime;
+			msec = difference * 1000 / CLOCKS_PER_SEC;
+			// heartbeat send
 			if (heartbeat_send==false){
 				send_message(0x03, id, id);
 				heartbeat_send=true;
