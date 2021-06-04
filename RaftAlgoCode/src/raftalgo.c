@@ -88,7 +88,7 @@ int main (void) {
 			// read number of bytes in fifo
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
-			// if there is a packet detected
+			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
 				printf("----------- PACKET detected -----------\n");
 
@@ -251,9 +251,11 @@ int main (void) {
 				}
 				
 			}
-			
+			if (state_leader(state)==true){
+				break;
+			}
 		}
-		// TIMER ABGELAUFEN
+		// TIMER ABGELAUFEN (nur relevant für nicht leader!)
 		if ((state_leader(state)==false) && (valid_packet==false)){ 
 			printf("SEND PROPOSE\n");
 			state = set_state_proposer();
@@ -261,7 +263,35 @@ int main (void) {
 		}
 		// DEBUG deactivate! Otherwise keep!
 		//accept_counter = 0;
-		//accept_not_counter = 0; 
+		//accept_not_counter = 0;
+		if (state_leader(state)==true){
+			break;
+		}
+	
+	}
+
+	// Leader Loop
+	while (true){
+		// print current state
+		printf("Initialize Leader Loop \n\n");
+
+		// set RX
+		setRX();
+
+		// start clock
+		clock_t starttime = clock();
+		clock_t difference = clock()-starttime;
+		msec = difference * 1000 / CLOCKS_PER_SEC;
+		int timeout = 300; //generate_random_timeout();
+		valid_packet = false;
+		bool heartbeat_send = false
+		// RX loop
+		while (msec < timeout){
+			if (heartbeat_send==false){
+				send_message(0x03, id, id);
+				heartbeat_send=true;
+			}
+		}
 	}
 
 	// shutdown SPI
