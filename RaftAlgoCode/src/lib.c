@@ -121,6 +121,7 @@ void setTX() {
     cc1200_cmd(SNOP);
     while (get_status_cc1200() != TX) {
         cc1200_cmd(SNOP);
+        cc1200_cmd(STX);
     }
 }
 
@@ -143,7 +144,6 @@ void send_message(int message_type, int tx_id, int rx_id){
 	int numTx;
 	cc1200_reg_read(0x2FD6, &numTx);
 	setTX();
-        printf("TX set");
         while((get_status_cc1200()==TX) || (numTx != 0)){
                 cc1200_cmd(SNOP);
                 cc1200_reg_read(0x2FD6, & numTx);
