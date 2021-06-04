@@ -135,7 +135,7 @@ void send_message(int message_type, int tx_id, int rx_id){
 	cc1200_reg_write(0x3F, strlen(msg));
 	int j;
 	for (j=0; j<strlen(msg); ++j){
-//        	printf("Transmit: %c\n", msg[j]);
+        	printf("Transmit: %c\n", msg[j]);
         	cc1200_cmd(SNOP);
         	cc1200_reg_write(0x3F, msg[j]);
         	cc1200_cmd(SNOP);
