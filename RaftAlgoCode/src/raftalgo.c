@@ -23,7 +23,7 @@ int main (void) {
 	char message[max_packet_len];	// message string 
 
 	// first initialize
-	initialize_spi()
+	initialize_spi();
 	
 	// write registers
 	int cnt;
