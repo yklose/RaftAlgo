@@ -53,7 +53,7 @@ int main (void) {
 	// ACCEPT counter 
 	float accept_counter = 0;
 	float accept_not_counter = 0;
-	int num_nodes = 6;
+	int num_nodes = 1;
 
 	// Save IDs
 	int proposer_id = 0;
