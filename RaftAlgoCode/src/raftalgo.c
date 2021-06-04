@@ -222,9 +222,10 @@ int main (void) {
 					printf("RESET TIMER\n");
 					starttime = clock();
 					// TODO: change timeout to random
+					printf("---------------------------------------\n");
 				}	
 			}
-			printf("---------------------------------------\n");
+			
 		}
 		// TIMER ABGELAUFEN
 		if (state_leader(state)==false){ 
