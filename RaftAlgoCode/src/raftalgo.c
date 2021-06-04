@@ -75,6 +75,7 @@ int main (void) {
 		clock_t starttime = clock();
 		clock_t difference = clock()-starttime;
 		msec = difference * 1000 / CLOCKS_PER_SEC;
+		int timeout = 2000; //generate_random_timeout();
 
 		// RX loop
 		while (msec < timeout){
@@ -179,7 +180,7 @@ int main (void) {
 										break;
 									}
 								}
-								printf("Anzahl ACCEPT NOT Nachrichten: %d\n",accept_not_counter);
+								printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
 							}
 							// check if miniority is reached
 							if ((accept_not_counter/num_nodes)>0.5) { 
@@ -220,7 +221,11 @@ int main (void) {
 
 					// Reset Timer
 					printf("RESET TIMER\n");
-					starttime = clock();
+					// random timeout
+					//int timeout = 2000; //generate_random_timeout();
+					//starttime = clock();
+					break;
+					printf("SHould not be printed!");
 					// TODO: change timeout to random
 					printf("---------------------------------------\n");
 				}	
