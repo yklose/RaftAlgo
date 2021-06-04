@@ -62,6 +62,7 @@ int main (void) {
 	// Received_ids
 	int follower_ids[6] = {0};
 	follower_ids[0] = id;
+	bool valid_packet = false;
 
 	// Dauerschleife
 	while(1){ 
@@ -76,7 +77,7 @@ int main (void) {
 		clock_t difference = clock()-starttime;
 		msec = difference * 1000 / CLOCKS_PER_SEC;
 		int timeout = 2000; //generate_random_timeout();
-
+		valid_packet = false;
 		// RX loop
 		while (msec < timeout){
 
@@ -120,6 +121,7 @@ int main (void) {
 					if (strcmp(sender_type,"PROPOSE") == 0){
 						// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
 						printf("PROPOSE MESSAGE\n");
+						valid_packet = true;
 						if ((state_open(state))||(sender_id == proposer_id)){	
 							printf("SEND ACCEPT OK message\n");
 							state = set_state_follower();
@@ -135,6 +137,7 @@ int main (void) {
 					else if (strcmp(sender_type,"ACCEPT_OK") == 0){
 						// Received ACCEPT OK: Proposers increase counter and maybe switch to LEADER
 						printf("ACCEPT OK MESSAGE\n");
+						valid_packet = true;
 						if (state_proposer(state)){
 							bool found = id_in_list(follower_ids, sender_id, num_nodes);
 							if (found == false){
@@ -166,6 +169,7 @@ int main (void) {
 					else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
 						// Received ACCEPT NOT: Proposers increase counter and maybe switch to OPEN 
 						printf("ACCEPT NOT MESSAGE\n");
+						valid_packet = true;
 						// increase decline counter
 						if (state_proposer(state)){
 							bool found = id_in_list(follower_ids, sender_id, num_nodes);
@@ -195,6 +199,7 @@ int main (void) {
 					else if (strcmp(sender_type,"LEADER") == 0){
 						// Received LEADER: All change to follower
 						printf("LEADER MESSAGE\n");
+						valid_packet = true;
 						state = set_state_follower();
 						// send ok message
 						send_message(0x04, id, sender_id);
@@ -205,6 +210,7 @@ int main (void) {
 					else if (strcmp(sender_type,"OK") == 0){
 						// Received OK: Leaders count listeners
 						printf("OK MESSAGE\n");
+						valid_packet = true;
 						if  (state_leader(state)){
 							// TODO: ADD TO LIST OF LISTENERS
 							printf("Listeners +1");
@@ -224,6 +230,7 @@ int main (void) {
 					// random timeout
 					//int timeout = 2000; //generate_random_timeout();
 					//starttime = clock();
+					
 					break;
 					printf("SHould not be printed!");
 					// TODO: change timeout to random
@@ -233,7 +240,7 @@ int main (void) {
 			
 		}
 		// TIMER ABGELAUFEN
-		if (state_leader(state)==false){ 
+		if ((state_leader(state)==false) && (valid_packet==true)){ 
 			printf("SEND PROPOSE\n");
 			state = set_state_proposer();
 			send_message(0x00, id, id);
