@@ -143,7 +143,7 @@ void send_message(int message_type, int tx_id, int rx_id){
 
 	//char msg[] = "HelloWorld0";
 	char msg[20];
-        int chechsum = compute_checksum(message_type, tx_id, rx_id);
+        int checksum = compute_checksum(message_type, tx_id, rx_id);
 	sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00); // TODO: add checksum (1 bit)
 	printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
