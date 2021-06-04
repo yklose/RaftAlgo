@@ -31,6 +31,7 @@ int get_rx_id_from_msg(char *msg);
 int get_tx_id_from_msg(char *msg);
 int get_checksum_from_msg(char *msg);
 char *get_type_from_message(char *msg);
+int get_int_type_from_msg(char *msg);
 int compute_checksum(int message_type, int tx_id, int rx_id);
 // convert
 int convert_char_to_int(char *msg);

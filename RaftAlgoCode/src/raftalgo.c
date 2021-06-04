@@ -114,7 +114,8 @@ int main (void) {
 					int receiver_id = get_rx_id_from_msg(message);
 					int checksum = get_checksum_from_msg(message);
 					char *sender_type = get_type_from_message(message);
-					bool checksum_correct = valid_message(sender_type, sender_id, receiver_id, checksum);
+					int sender_type_int = get_int_type_from_msg(message);
+					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
 					if (checksum_correct==true){
 						printf("VALID MESSAGE!!! YEAH");
 					}

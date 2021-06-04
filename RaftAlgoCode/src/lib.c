@@ -205,6 +205,10 @@ int get_checksum_from_msg(char *msg){
 	return convert_char_to_int(checksum);
 }
 
+int get_int_type_from_msg(char *msg){
+	return convert_char_to_int(msg[0]);
+}
+
 char *get_type_from_message(char *msg){
 	char *message;
 	if (msg[0] == '0'){
