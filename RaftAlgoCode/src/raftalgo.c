@@ -119,129 +119,137 @@ int main (void) {
 					if (checksum_correct==true){
 						printf("VALID MESSAGE!!! YEAH");
 					}
+					else{
+
+					}
 					printf("Sender Type: %s\n", sender_type);
 					printf("tx_id: %d\n", sender_id);
 					printf("rx_id: %d\n", receiver_id);
+					if (checksum_correct==true){
+						// evaluate message types
+						if (strcmp(sender_type,"PROPOSE") == 0){
+							// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
+							printf("PROPOSE MESSAGE\n");
+							valid_packet = true;
+							if ((state_open(state))||(sender_id == proposer_id)){	
+								printf("SEND ACCEPT OK message\n");
+								state = set_state_follower();
+								send_message(0x01, id, sender_id);
+								proposer_id = sender_id;
+							}
+							else{
+								printf("SEND ACCEPT DECLINE message\n");
+								send_message(0x02, id, sender_id);
+							}
+						}
 
-					// evaluate message types
-					if (strcmp(sender_type,"PROPOSE") == 0){
-						// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
-						printf("PROPOSE MESSAGE\n");
-						valid_packet = true;
-						if ((state_open(state))||(sender_id == proposer_id)){	
-							printf("SEND ACCEPT OK message\n");
+						else if (strcmp(sender_type,"ACCEPT_OK") == 0){
+							// Received ACCEPT OK: Proposers increase counter and maybe switch to LEADER
+							printf("ACCEPT OK MESSAGE\n");
+							valid_packet = true;
+							if (state_proposer(state)){
+								bool found = id_in_list(follower_ids, sender_id, num_nodes);
+								if (found == false){
+									printf("INCREASE ACCEPT COUNTER\n");
+									accept_counter = accept_counter + 1;
+									int n;
+									// add sender_id to follower_ids
+									for (n=0; n<num_nodes;++n){
+										if (follower_ids[n]==0){
+											follower_ids[n]=sender_id;
+											break;
+										}
+									}
+									printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
+								}
+								printf("partition of followers: %f\n",(accept_counter/num_nodes));
+								// check if majority is reached
+								if ((accept_counter/num_nodes)>0.5) { 
+									printf("Clear Majority - SET LEADER\n");
+									state = set_state_leader();
+									// send Leader msg (NOTE: outside the loop)
+									// reset old counter (not needed?)
+									accept_counter = 0;
+									accept_not_counter = 0;
+								}
+							}
+						}
+
+						else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
+							// Received ACCEPT NOT: Proposers increase counter and maybe switch to OPEN 
+							printf("ACCEPT NOT MESSAGE\n");
+							valid_packet = true;
+							// increase decline counter
+							if (state_proposer(state)){
+								bool found = id_in_list(follower_ids, sender_id, num_nodes);
+								if (found == false){
+									printf("INCREASE ACCEPT NOT COUNTER\n");
+									accept_not_counter = accept_not_counter + 1;
+									int n;
+									// add sender_id to follower_ids
+									for (n=0; n<num_nodes;++n){
+										if (follower_ids[n]==0){
+											follower_ids[n]=sender_id;
+											break;
+										}
+									}
+									printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
+								}
+								// check if miniority is reached
+								if ((accept_not_counter/num_nodes)>0.5) { 
+									printf("Clear Minority - SET OPEN\n");
+									state = set_state_open();
+									accept_not_counter = 0;
+									accept_counter = 0;
+								}
+							}
+						}
+
+						else if (strcmp(sender_type,"LEADER") == 0){
+							// Received LEADER: All change to follower
+							printf("LEADER MESSAGE\n");
+							valid_packet = true;
 							state = set_state_follower();
-							send_message(0x01, id, sender_id);
-							proposer_id = sender_id;
+							// send ok message
+							send_message(0x04, id, sender_id);
+							//save leader id
+							leader_id = sender_id;
 						}
-						else{
-							printf("SEND ACCEPT DECLINE message\n");
-							send_message(0x02, id, sender_id);
-						}
-					}
 
-					else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-						// Received ACCEPT OK: Proposers increase counter and maybe switch to LEADER
-						printf("ACCEPT OK MESSAGE\n");
-						valid_packet = true;
-						if (state_proposer(state)){
-							bool found = id_in_list(follower_ids, sender_id, num_nodes);
-							if (found == false){
-								printf("INCREASE ACCEPT COUNTER\n");
-								accept_counter = accept_counter + 1;
-								int n;
-								// add sender_id to follower_ids
-								for (n=0; n<num_nodes;++n){
-									if (follower_ids[n]==0){
-										follower_ids[n]=sender_id;
-										break;
-									}
-								}
-								printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
+						else if (strcmp(sender_type,"OK") == 0){
+							// Received OK: Leaders count listeners
+							printf("OK MESSAGE\n");
+							valid_packet = true;
+							if  (state_leader(state)){
+								// TODO: ADD TO LIST OF LISTENERS
+								printf("Listeners +1");
 							}
-							printf("partition of followers: %f\n",(accept_counter/num_nodes));
-							// check if majority is reached
-							if ((accept_counter/num_nodes)>0.5) { 
-								printf("Clear Majority - SET LEADER\n");
-								state = set_state_leader();
-								// send Leader msg (NOTE: outside the loop)
-								// reset old counter (not needed?)
-								accept_counter = 0;
-								accept_not_counter = 0;
-							}
+							// do nothing (see how many are listening)
 						}
+
+						// go in IDLE mode to Reset FIFO
+						printf("\n\n");
+						setIDLE();
+						cc1200_cmd(SFRX);
+						packet_len = 0;
+						setRX();
+
+						// Reset Timer
+						printf("RESET TIMER\n");
+						// random timeout
+						//int timeout = 2000; //generate_random_timeout();
+						//starttime = clock();
+						
+						break;
+						printf("SHould not be printed!");
+						// TODO: change timeout to random
+						printf("---------------------------------------\n");
 					}
-
-					else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-						// Received ACCEPT NOT: Proposers increase counter and maybe switch to OPEN 
-						printf("ACCEPT NOT MESSAGE\n");
-						valid_packet = true;
-						// increase decline counter
-						if (state_proposer(state)){
-							bool found = id_in_list(follower_ids, sender_id, num_nodes);
-							if (found == false){
-								printf("INCREASE ACCEPT NOT COUNTER\n");
-								accept_not_counter = accept_not_counter + 1;
-								int n;
-								// add sender_id to follower_ids
-								for (n=0; n<num_nodes;++n){
-									if (follower_ids[n]==0){
-										follower_ids[n]=sender_id;
-										break;
-									}
-								}
-								printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
-							}
-							// check if miniority is reached
-							if ((accept_not_counter/num_nodes)>0.5) { 
-								printf("Clear Minority - SET OPEN\n");
-								state = set_state_open();
-								accept_not_counter = 0;
-								accept_counter = 0;
-							}
-						}
-					}
-
-					else if (strcmp(sender_type,"LEADER") == 0){
-						// Received LEADER: All change to follower
-						printf("LEADER MESSAGE\n");
-						valid_packet = true;
-						state = set_state_follower();
-						// send ok message
-						send_message(0x04, id, sender_id);
-						//save leader id
-						leader_id = sender_id;
-					}
-
-					else if (strcmp(sender_type,"OK") == 0){
-						// Received OK: Leaders count listeners
-						printf("OK MESSAGE\n");
-						valid_packet = true;
-						if  (state_leader(state)){
-							// TODO: ADD TO LIST OF LISTENERS
-							printf("Listeners +1");
-						}
-						// do nothing (see how many are listening)
-					}
-
-					// go in IDLE mode to Reset FIFO
-					printf("\n\n");
-					setIDLE();
-					cc1200_cmd(SFRX);
-					packet_len = 0;
-					setRX();
-
-					// Reset Timer
-					printf("RESET TIMER\n");
-					// random timeout
-					//int timeout = 2000; //generate_random_timeout();
-					//starttime = clock();
-					
-					break;
-					printf("SHould not be printed!");
-					// TODO: change timeout to random
-					printf("---------------------------------------\n");
-				}	
+					else{
+					printf("invalid message\n");
+					}	
+				}
+				
 			}
 			
 		}
