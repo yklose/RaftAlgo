@@ -112,7 +112,12 @@ int main (void) {
 					// get message informations
 					int sender_id = get_tx_id_from_msg(message);
 					int receiver_id = get_rx_id_from_msg(message);
+					int checksum = get_checksum_from_msg(message);
 					char *sender_type = get_type_from_message(message);
+					bool checksum_correct = valid_message(sender_type, sender_id, receiver_id, checksum);
+					if (checksum_correct==true){
+						printf("VALID MESSAGE!!! YEAH");
+					}
 					printf("Sender Type: %s\n", sender_type);
 					printf("tx_id: %d\n", sender_id);
 					printf("rx_id: %d\n", receiver_id);

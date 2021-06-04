@@ -127,11 +127,24 @@ void setTX() {
     }
 }
 
+bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
+        int modulus = 999;
+        int sum = message_type + tx_id + rx_id;
+        return (sum%modulus == checksum);       
+}
+
+int compute_checksum(int message_type, int tx_id, int rx_id){
+        int modulus = 999;
+        int sum = message_type + tx_id + rx_id;
+        return (sum%modulus);     
+}       
+
 void send_message(int message_type, int tx_id, int rx_id){
 
 	//char msg[] = "HelloWorld0";
 	char msg[20];
-	sprintf(msg, "%d%d%d%d",message_type, tx_id, rx_id, 0x00); // TODO: add checksum (1 bit)
+        int chechsum = compute_checksum(message_type, tx_id, rx_id);
+	sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00); // TODO: add checksum (1 bit)
 	printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
 	cc1200_cmd(SFTX);
@@ -179,6 +192,17 @@ int get_rx_id_from_msg(char *msg){
                 id[i] = msg[i+1+id_len];
         }
         return convert_char_to_int(id);
+}
+
+int get_checksum_from_msg(char *msg){
+        int id_len = 3;
+	int checksum_len = 3;
+	char checksum[checksum_len];
+	int i;
+	for (i=0; i<checksum_len; ++i){
+		checksum[i] = msg[i+1+id_len+id_len];
+	}
+	return convert_char_to_int(checksum);
 }
 
 char *get_type_from_message(char *msg){

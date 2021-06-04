@@ -29,9 +29,12 @@ int generate_random_timout();
 void send_message(int message_type, int tx_id, int rx_id);
 int get_rx_id_from_msg(char *msg);
 int get_tx_id_from_msg(char *msg);
+int get_checksum_from_msg(char *msg);
 char *get_type_from_message(char *msg);
+int compute_checksum(int message_type, int tx_id, int rx_id)
 // convert
 int convert_char_to_int(char *msg);
 // comparing
 bool id_in_list(int *follower_ids, int id, int num_nodes);
+bool valid_message(int message_type, int tx_id, int rx_id, int checksum)
 #endif /* LIB_DOT_H */
