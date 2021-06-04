@@ -284,7 +284,7 @@ int main (void) {
 		msec = difference * 1000 / CLOCKS_PER_SEC;
 		int timeout = 300; //generate_random_timeout();
 		valid_packet = false;
-		bool heartbeat_send = false
+		bool heartbeat_send = false;
 		// RX loop
 		while (msec < timeout){
 			if (heartbeat_send==false){
