@@ -89,7 +89,7 @@ int main (void) {
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
 			// if there is a packet detected and you are not the leader!
-			if(numRX>packet_len){
+			if(numRX>0){
 				printf("----------- PACKET detected -----------\n");
 
 				if (packet_len == 0){ // NOTE: why do we need to check packet len?
@@ -99,7 +99,7 @@ int main (void) {
 						packet_len = max_packet_len;
 						printf("Transmitted message is longer than max configured lengths\n");
 					}
-					// read the message
+					// read the message TODO: abbruchbedingung! Falls packet kürzer
 					int k = 0;
 					while(k<packet_len){
 						cc1200_reg_read(NUM_RXBYTES,&numRX);
