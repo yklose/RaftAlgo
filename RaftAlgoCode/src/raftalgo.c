@@ -99,12 +99,22 @@ int main (void) {
 						packet_len = max_packet_len;
 						printf("Transmitted message is longer than max configured lengths\n");
 					}
-					// read the message 
+					// read the message
 					int k = 0;
-					for (k=0; k<packet_len; ++k){
+					while(k<packet_len){
+						cc1200_reg_read(NUM_RXBYTES,&numRX);
+						if (numRX>0){
+						//cc1200_reg_read(NUM_RXBYTES,&numRX);
+						//printf("numRX: %d\n", numRX);
 						cc1200_reg_read(0x3F, &fifo);
 						message[k] = (char)fifo;
-						//printf("READING: %c\n", message[k]);
+						cc1200_cmd(SNOP);
+						//printf("READING: %c\n", (char)fifo);
+						//printf("State: %s\n", get_status_cc1200_str());
+						//printf("\n");
+						k = k +1;
+						//printf("READING: %c\n", (char)fifo);
+						}
 					}
 					message[k+1] = '\0';
 					printf("\nReceivedMessage: %s\n",message);
