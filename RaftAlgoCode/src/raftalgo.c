@@ -89,7 +89,7 @@ int main (void) {
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
 			// if there is a packet detected and you are not the leader!
-			if(numRX>0){
+			if(numRX>packet_len){
 				printf("----------- PACKET detected -----------\n");
 
 				if (packet_len == 0){ // NOTE: why do we need to check packet len?
@@ -120,14 +120,11 @@ int main (void) {
 					int sender_type_int = get_int_type_from_msg(message);
 					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
 					if (checksum_correct==true){
-						printf("VALID MESSAGE!!! YEAH");
+						printf("VALID MESSAGE!!!\n");
+						printf("Sender Type: %s\n", sender_type);
+						printf("tx_id: %d\n", sender_id);
+						printf("rx_id: %d\n", receiver_id);
 					}
-					else{
-
-					}
-					printf("Sender Type: %s\n", sender_type);
-					printf("tx_id: %d\n", sender_id);
-					printf("rx_id: %d\n", receiver_id);
 					if (checksum_correct==true){
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
@@ -245,11 +242,7 @@ int main (void) {
 					// random timeout
 					//int timeout = 2000; //generate_random_timeout();
 					//starttime = clock();
-					
 					break;
-					printf("SHould not be printed!");
-					// TODO: change timeout to random
-					printf("---------------------------------------\n");
 						
 				}
 				
