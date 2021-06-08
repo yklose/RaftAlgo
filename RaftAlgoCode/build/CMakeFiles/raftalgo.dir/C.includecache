@@ -6,8 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/ex2.h
-
 /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.c
 lib.h
 /root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/lib.h
@@ -37,10 +35,12 @@ stdio.h
 -
 SPIv1.h
 -
-ex2.h
-/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/ex2.h
+registers.h
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/registers.h
 unistd.h
 -
 string.h
 -
+
+/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/src/registers.h
 
