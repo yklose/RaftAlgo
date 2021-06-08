@@ -104,7 +104,7 @@ int main (void) {
 					for (k=0; k<packet_len; ++k){
 						cc1200_reg_read(0x3F, &fifo);
 						message[k] = (char)fifo;
-						printf("READING: %c\n", message[k]);
+						//printf("READING: %c\n", message[k]);
 					}
 					message[k+1] = '\0';
 					printf("\nReceivedMessage: %s\n",message);
