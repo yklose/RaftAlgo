@@ -104,16 +104,9 @@ int main (void) {
 					while(k<packet_len){
 						cc1200_reg_read(NUM_RXBYTES,&numRX);
 						if (numRX>0){
-						//cc1200_reg_read(NUM_RXBYTES,&numRX);
-						//printf("numRX: %d\n", numRX);
-						cc1200_reg_read(0x3F, &fifo);
-						message[k] = (char)fifo;
-						cc1200_cmd(SNOP);
-						//printf("READING: %c\n", (char)fifo);
-						//printf("State: %s\n", get_status_cc1200_str());
-						//printf("\n");
-						k = k +1;
-						//printf("READING: %c\n", (char)fifo);
+							cc1200_reg_read(0x3F, &fifo);
+							message[k] = (char)fifo;
+							k = k + 1;
 						}
 					}
 					message[k+1] = '\0';
