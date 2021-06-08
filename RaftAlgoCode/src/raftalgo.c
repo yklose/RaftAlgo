@@ -258,8 +258,8 @@ int main (void) {
 			send_message(0x00, id, id);
 		}
 		// DEBUG deactivate! Otherwise keep!
-		//accept_counter = 0;
-		//accept_not_counter = 0;
+		accept_counter = 0;
+		accept_not_counter = 0;
 		if (state_leader(state)==true){
 			break;
 		}
