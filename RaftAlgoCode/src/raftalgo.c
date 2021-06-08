@@ -91,6 +91,10 @@ int main (void) {
 			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
 				printf("----------- PACKET detected -----------\n");
+				rssi_valid(RSSI0);
+				int rssi = read_rssi1(RSSI1);
+				printf("RSSI: %d\n", rssi);
+
 
 				if (packet_len == 0){ // NOTE: why do we need to check packet len?
 					cc1200_reg_read(0x3F, &packet_len);
@@ -216,16 +220,16 @@ int main (void) {
 							leader_id = sender_id;
 						}
 
-						else if (strcmp(sender_type,"OK") == 0){
+						//else if (strcmp(sender_type,"OK") == 0){
 							// Received OK: Leaders count listeners
-							printf("OK MESSAGE\n");
-							valid_packet = true;
-							if  (state_leader(state)){
+						//	printf("OK MESSAGE\n");
+						//	valid_packet = true;
+						//	if  (state_leader(state)){
 								// TODO: ADD TO LIST OF LISTENERS
-								printf("Listeners +1");
-							}
+						//		printf("Listeners +1");
+						//	}
 							// do nothing (see how many are listening)
-						}
+						//}
 					}
 					else{
 						printf("invalid message\n");
