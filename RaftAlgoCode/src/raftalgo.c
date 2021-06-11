@@ -144,14 +144,14 @@ int main (void) {
 								if (network_ids[n]==0){
 									network_ids[n]=sender_id;
 									rssi_values[n]=rssi;
-									print("added new RSSI\n");
+									printf("added new RSSI\n");
 									break;
 								}
 							}
 						}
 						else{
-							rssi_values = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
-							print("updated RSSI\n");
+							int *rssi_values_new = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
+							printf("updated RSSI\n");
 						}
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
