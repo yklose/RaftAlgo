@@ -53,7 +53,7 @@ int main (void) {
 	// ACCEPT counter 
 	float accept_counter = 0;
 	float accept_not_counter = 0;
-	int num_nodes = 1;
+	int num_nodes = 2;//1;
 
 	// Save IDs
 	int proposer_id = 0;
@@ -130,29 +130,30 @@ int main (void) {
 					int sender_type_int = get_int_type_from_msg(message);
 					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
 					if (checksum_correct==true){
-						printf("VALID MESSAGE!!!\n");
 						printf("Sender Type: %s\n", sender_type);
 						printf("tx_id: %d\n", sender_id);
 						printf("rx_id: %d\n", receiver_id);
 					}
 					if (checksum_correct==true){
 						// Update local list
-						if (id_in_list(network_ids, sender_id, num_nodes) == false){
+						bool in_local_list = id_in_list(network_ids, sender_id, num_nodes);
+						if (in_local_list == false){
 							// add sender_id to network_ids
-							int n;
+							int n=0;
 							for (n=0; n<num_nodes;++n){
 								if (network_ids[n]==0){
 									network_ids[n]=sender_id;
 									rssi_values[n]=rssi;
-									printf("added new RSSI\n");
 									break;
 								}
 							}
+							printf("Update Local list - new id");
 						}
 						else{
 							int *rssi_values_new = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
-							printf("updated RSSI\n");
+							printf("Update Local list - new RSSI\n");
 						}
+						printf("done update local list\n");
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
 							// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
