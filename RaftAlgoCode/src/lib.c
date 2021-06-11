@@ -235,13 +235,23 @@ char *get_type_from_message(char *msg){
 	return message;
 }
 
-bool id_in_list(int *follower_ids, int id, int num_nodes){
+bool id_in_list(int *id_list, int id, int num_nodes){
         int node;
         for(node=0;node<num_nodes;++node){
-                if(id == follower_ids[node]){
+                if(id == id_list[node]){
                         return true;
                 }
         }
         return false;
+}
+
+int *update_RSSI_list(int *rssi_values, int *network_ids, int sender_id, int rssi_value, int num_nodes){
+        for (n=0; n<num_nodes;++n){
+                if (network_ids[n]==sender_id){
+                        rssi_values[n]=rssi_value;
+                        break;
+                }
+        }
+        return rssi_values;       
 }
 

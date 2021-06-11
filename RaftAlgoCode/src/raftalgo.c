@@ -64,6 +64,12 @@ int main (void) {
 	follower_ids[0] = id;
 	bool valid_packet = false;
 
+	// Network and RSSI addresses
+	int network_ids[6] = {0};
+	network_ids[0] = id;
+	int rssi_values[6] = {0};
+	rssi_values[0] = 127;
+
 	// Dauerschleife
 	while(1){ 
 		// print current state
@@ -130,6 +136,22 @@ int main (void) {
 						printf("rx_id: %d\n", receiver_id);
 					}
 					if (checksum_correct==true){
+						// Update local list
+						if (id_in_list(network_ids, sender_id, num_nodes) == false){
+							// add sender_id to network_ids
+							for (n=0; n<num_nodes;++n){
+								if (network_ids[n]==0){
+									network_ids[n]=sender_id;
+									rssi_values[n]=rssi;
+									print("added new RSSI\n");
+									break;
+								}
+							}
+						}
+						else{
+							rssi_values = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
+							print("updated RSSI\n");
+						}
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
 							// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
