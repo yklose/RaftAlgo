@@ -246,6 +246,7 @@ bool id_in_list(int *id_list, int id, int num_nodes){
 }
 
 int *update_RSSI_list(int *rssi_values, int *network_ids, int sender_id, int rssi_value, int num_nodes){
+        int n;
         for (n=0; n<num_nodes;++n){
                 if (network_ids[n]==sender_id){
                         rssi_values[n]=rssi_value;
