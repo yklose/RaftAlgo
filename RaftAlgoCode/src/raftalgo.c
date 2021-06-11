@@ -139,6 +139,7 @@ int main (void) {
 						// Update local list
 						if (id_in_list(network_ids, sender_id, num_nodes) == false){
 							// add sender_id to network_ids
+							int n;
 							for (n=0; n<num_nodes;++n){
 								if (network_ids[n]==0){
 									network_ids[n]=sender_id;
