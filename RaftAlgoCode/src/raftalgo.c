@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include <string.h>
 
+#define LEN(x)  (sizeof(x) / sizeof((x)[0]))
+
 int main (void) {
 
 	// set default values
@@ -78,10 +80,9 @@ int main (void) {
 	char testmsg[18] = "511111112222222333";
 	int *test = get_broadcast_ids_from_msg(global_network_ids, testmsg);
 	printf("Liste: %d\n",test[1]);
-	int requests[6] = {0};
-	int list1 = {1, 2, 3};
-	int list2 = {2, 3, 4};
-	process_list_broadcast(list1, list2, requests);
+	int list1[3] = {1, 2, 3};
+	int list2[3] = {2, 3, 4};
+	process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
 
 
 	// Dauerschleife

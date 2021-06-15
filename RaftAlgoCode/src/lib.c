@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-
 void rssi_valid(int rssi_add) {
         int val;
         cc1200_reg_read(rssi_add,&val);
@@ -234,16 +233,23 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
 
 }
 
-void process_list_broadcast(int* global_network_ids, int* network_ids, int* requests){
+void process_list_broadcast(int* global_network_ids, int len_global_network_ids, int* network_ids,int len_network_ids, int id){
         int i;
-        for (i=0; i<sizeof(network_ids); ++i){
+	for (i=0; i<(len_network_ids); ++i){
+		printf("ID: %d\n", network_ids[i]);
                 int j;
-                bool found = (std::find(global_network_ids.begin(), global_network_ids.end(), network_ids[i]) != global_network_ids.end());
+                bool found = false;
+		for (j=0; j<(len_global_network_ids); ++j){
+			if (network_ids[i]==global_network_ids[j]){
+				found = true;
+			}
+		}
                 if (found == false){
-                        printf("Not in list...\n")
+                        printf("Not in list...\n");
+			send_message(6, id, network_ids[i]);
                 }
                 else{
-                        printf("already in list \n")
+                        printf("already in list \n");
                 }
         }
 }
