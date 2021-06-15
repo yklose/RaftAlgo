@@ -78,6 +78,12 @@ int main (void) {
 	char testmsg[18] = "511111112222222333";
 	int *test = get_broadcast_ids_from_msg(global_network_ids, testmsg);
 	printf("Liste: %d\n",test[1]);
+	int requests[6] = {0};
+	int list1 = {1, 2, 3};
+	int list2 = {2, 3, 4};
+	process_list_broadcast(list1, list2, requests);
+
+
 	// Dauerschleife
 	while(1){ 
 		// print current state

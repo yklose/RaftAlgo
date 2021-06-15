@@ -234,6 +234,21 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
 
 }
 
+void process_list_broadcast(int* global_network_ids, int* network_ids, int* requests){
+        int i;
+        for (i=0; i<sizeof(network_ids); ++i){
+                int j;
+                bool found = (std::find(global_network_ids.begin(), global_network_ids.end(), network_ids[i]) != global_network_ids.end());
+                if (found == false){
+                        printf("Not in list...\n")
+                }
+                else{
+                        printf("already in list \n")
+                }
+        }
+}
+
+
 char *get_type_from_message(char *msg){
 	char *message;
 	if (msg[0] == '0'){
