@@ -130,7 +130,6 @@ void setTX() {
 bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
         int modulus = 999;
         int sum = message_type + tx_id + rx_id;
-        printf("CHECKSUM in: %d", checksum);
         return (sum%modulus == checksum);       
 }
 
@@ -145,14 +144,13 @@ void send_message(int message_type, int tx_id, int rx_id){
 	//char msg[] = "HelloWorld0";
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
-	sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00); // TODO: add checksum (1 bit)
+	sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00); 
 	printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
 	cc1200_cmd(SFTX);
 	cc1200_reg_write(0x3F, strlen(msg));
 	int j;
 	for (j=0; j<strlen(msg); ++j){
-        	//printf("Transmit: %c\n", msg[j]);
         	cc1200_cmd(SNOP);
         	cc1200_reg_write(0x3F, msg[j]);
         	cc1200_cmd(SNOP);
@@ -229,6 +227,12 @@ char *get_type_from_message(char *msg){
 	else if (msg[0] == '4'){
                 message = "OK";
         }
+        else if (msg[0] == '5'){
+                message = "LIST_BROADCAST";
+        }
+        else if (msg[0] == '6'){
+                message = "FORWARD_OK";
+        }
 	else{
 		message = "ERROR";
 	}
@@ -255,4 +259,5 @@ int *update_RSSI_list(int *rssi_values, int *network_ids, int sender_id, int rss
         }
         return rssi_values;       
 }
+
 

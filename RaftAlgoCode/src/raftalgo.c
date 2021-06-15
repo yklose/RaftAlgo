@@ -64,11 +64,15 @@ int main (void) {
 	follower_ids[0] = id;
 	bool valid_packet = false;
 
-	// Network and RSSI addresses
+	// Network and RSSI addresses (local)
 	int network_ids[6] = {0};
 	network_ids[0] = id;
 	int rssi_values[6] = {0};
 	rssi_values[0] = 127;
+	// Network addresses broadcasted by leader
+	int global_network_ids[6] = {0};
+	// Ids local node will forward
+	int forwarder_ids[6] = {0}
 
 	// Dauerschleife
 	while(1){ 
@@ -243,6 +247,20 @@ int main (void) {
 							//save leader id
 							leader_id = sender_id;
 						}
+						else if (strcmp(sender_type,"LIST_BROADCAST") == 0){
+							printf("LIST_BROADCAST MESSAGE\n");
+							// update global list 
+
+							// if ids in local list not in global, send request
+						}
+
+						else if (strcmp(sender_type,"FORWARD_OK") == 0){
+							printf("FORWARD_OK MESSAGE\n");
+							// check if message is for your id
+
+							// add id to forwarder list
+						}
+
 
 						//else if (strcmp(sender_type,"OK") == 0){
 							// Received OK: Leaders count listeners
