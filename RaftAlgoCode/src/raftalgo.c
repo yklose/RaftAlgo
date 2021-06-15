@@ -74,6 +74,10 @@ int main (void) {
 	// Ids local node will forward
 	int forwarder_ids[6] = {0}
 
+	// TESTING
+	char testmsg[18] = "511111112222222333";
+	get_broadcast_ids_from_msg(char *msg);
+
 	// Dauerschleife
 	while(1){ 
 		// print current state
@@ -250,6 +254,7 @@ int main (void) {
 						else if (strcmp(sender_type,"LIST_BROADCAST") == 0){
 							printf("LIST_BROADCAST MESSAGE\n");
 							// update global list 
+							
 
 							// if ids in local list not in global, send request
 						}

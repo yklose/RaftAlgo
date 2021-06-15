@@ -32,6 +32,7 @@ int get_tx_id_from_msg(char *msg);
 int get_checksum_from_msg(char *msg);
 char *get_type_from_message(char *msg);
 int get_int_type_from_msg(char *msg);
+void get_broadcast_ids_from_msg(char *msg);
 int compute_checksum(int message_type, int tx_id, int rx_id);
 int *update_RSSI_list(int *rssi_values, int *network_ids, int sender_id, int rssi_value, int num_nodes);
 // convert

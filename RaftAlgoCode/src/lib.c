@@ -210,6 +210,23 @@ int get_int_type_from_msg(char *msg){
 	return convert_char_to_int(type);
 }
 
+void get_broadcast_ids_from_msg(char *msg){
+        int message_len = strlen(msg);
+        int checksum_len = 3;
+        int id_len = 7;
+        int num_ids = message_len/id_len;
+        int i;
+        for (i=0; i<num_ids;++i){
+                int j;
+                char *id[id_len];
+                for (j=0; j<id_len; ++j){
+                        id[j] = msg[1+i*id_len];
+                }
+                printf("Current ID: %d\n",id);
+        }
+
+}
+
 char *get_type_from_message(char *msg){
 	char *message;
 	if (msg[0] == '0'){
