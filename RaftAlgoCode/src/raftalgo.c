@@ -72,11 +72,11 @@ int main (void) {
 	// Network addresses broadcasted by leader
 	int global_network_ids[6] = {0};
 	// Ids local node will forward
-	int forwarder_ids[6] = {0}
+	int forwarder_ids[6] = {0};
 
 	// TESTING
 	char testmsg[18] = "511111112222222333";
-	get_broadcast_ids_from_msg(char *msg);
+	get_broadcast_ids_from_msg(testmsg);
 
 	// Dauerschleife
 	while(1){ 
