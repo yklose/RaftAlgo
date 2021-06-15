@@ -76,8 +76,8 @@ int main (void) {
 
 	// TESTING
 	char testmsg[18] = "511111112222222333";
-	get_broadcast_ids_from_msg(testmsg);
-
+	int *test = get_broadcast_ids_from_msg(global_network_ids, testmsg);
+	printf("Liste: %d\n",test[1]);
 	// Dauerschleife
 	while(1){ 
 		// print current state

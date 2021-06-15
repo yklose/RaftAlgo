@@ -210,20 +210,27 @@ int get_int_type_from_msg(char *msg){
 	return convert_char_to_int(type);
 }
 
-void get_broadcast_ids_from_msg(char *msg){
+int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
         int message_len = strlen(msg);
         int checksum_len = 3;
         int id_len = 7;
-        int num_ids = message_len/id_len;
+        int num_ids = (message_len-checksum_len-1)/id_len;
+	//int output_ids[num_ids];
+	//memset(output_ids, 0, sizeof output_ids);
         int i;
         for (i=0; i<num_ids;++i){
                 int j;
-                char *id[id_len];
+                char id[id_len];
                 for (j=0; j<id_len; ++j){
-                        id[j] = msg[1+i*id_len];
+			int index = 1+j+i*id_len;
+			printf("index: %d\n", index);
+                        id[j] = msg[index];
                 }
-                printf("Current ID: %d\n",id);
+		int id_int = convert_char_to_int(id);
+		broadcast_network_ids[i] = id_int;
+                printf("Current ID: %d\n",broadcast_network_ids[i]);
         }
+	return broadcast_network_ids;
 
 }
 
