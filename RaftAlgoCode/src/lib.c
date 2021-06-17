@@ -278,6 +278,9 @@ char *get_type_from_message(char *msg){
         else if (msg[0] == '6'){
                 message = "FORWARD_OK";
         }
+        else if (msg[0] == '7'){
+                message = "REQUEST_FORWARD";
+        }
 	else{
 		message = "ERROR";
 	}

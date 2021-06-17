@@ -349,6 +349,66 @@ int main (void) {
 				send_message(0x03, id, id);
 				heartbeat_send=true;
 			}
+
+			// read number of bytes in fifo
+			cc1200_reg_read(NUM_RXBYTES, &numRX);
+
+			// if there is a packet detected and you are not the leader!
+			if(numRX>0){
+				// read packet len
+				cc1200_reg_read(0x3F, &packet_len);
+				// check if message is longer than expected
+				if (packet_len>max_packet_len){
+					packet_len = max_packet_len;
+					printf("Transmitted message is longer than max configured lengths\n");
+				}
+				// read the message TODO: abbruchbedingung! Falls packet kürzer
+				int k = 0;
+				while(k<packet_len){
+					cc1200_reg_read(NUM_RXBYTES,&numRX);
+					if (numRX>0){
+						cc1200_reg_read(0x3F, &fifo);
+						message[k] = (char)fifo;
+						k = k + 1;
+					}
+				}
+				message[k+1] = '\0';
+				printf("\nReceivedMessage: %s\n",message);
+
+				// get message informations
+				int sender_id = get_tx_id_from_msg(message);
+				int receiver_id = get_rx_id_from_msg(message);
+				int checksum = get_checksum_from_msg(message);
+				char *sender_type = get_type_from_message(message);
+				int sender_type_int = get_int_type_from_msg(message);
+				bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
+				
+				if (checksum_correct==true){
+					printf("RECEIVED MESSAGE");
+					printf("Sender Type: %s\n", sender_type);
+					printf("tx_id: %d\n", sender_id);
+					printf("rx_id: %d\n", receiver_id);
+				}
+
+				if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
+							printf("RECEIVED REQUEST FORWARD\n");
+							// check if message is for your id
+
+							// add id to forwarder list
+				}
+
+				if (strcmp(sender_type,"OK") == 0){
+							printf("RECEIVED OK\n");
+							// check if message is for your id
+
+							// add id to forwarder list
+				}
+
+				
+
+
+				
+			}
 		}
 	}
 
