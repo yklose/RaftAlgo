@@ -336,7 +336,7 @@ int main (void) {
 		clock_t starttime = clock();
 		clock_t difference = clock()-starttime;
 		msec = difference * 1000 / CLOCKS_PER_SEC;
-		int timeout = 300; //generate_random_timeout();
+		int timeout = 2000; //generate_random_timeout();
 		valid_packet = false;
 		bool heartbeat_send = false;
 		// RX loop
@@ -350,14 +350,16 @@ int main (void) {
 			//	heartbeat_send=true;
 			//}
 
-			setIDLE();
-			cc1200_cmd(SFRX);
-			setRX();
+			//setIDLE();
+			//cc1200_cmd(SFRX);
+			//setRX();
+			cc1200_cmd(SNOP);
 			// read number of bytes in fifo
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
 			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
+				if (packet_len == 0){
 				// read packet len
 				cc1200_reg_read(0x3F, &packet_len);
 				// check if message is longer than expected
@@ -407,7 +409,7 @@ int main (void) {
 							// add id to forwarder list
 				}
 
-				
+				}
 
 
 				
