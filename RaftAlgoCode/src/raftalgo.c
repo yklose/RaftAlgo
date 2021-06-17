@@ -55,7 +55,7 @@ int main (void) {
 	// ACCEPT counter 
 	float accept_counter = 0;
 	float accept_not_counter = 0;
-	int num_nodes = 2;//1;
+	int num_nodes = 1;//1;
 
 	// Save IDs
 	int proposer_id = 0;
@@ -345,11 +345,14 @@ int main (void) {
 			difference = clock() - starttime;
 			msec = difference * 1000 / CLOCKS_PER_SEC;
 			// heartbeat send
-			if (heartbeat_send==false){
-				send_message(0x03, id, id);
-				heartbeat_send=true;
-			}
+			//if (heartbeat_send==false){
+			//	send_message(0x03, id, id);
+			//	heartbeat_send=true;
+			//}
 
+			setIDLE();
+			cc1200_cmd(SFRX);
+			setRX();
 			// read number of bytes in fifo
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
