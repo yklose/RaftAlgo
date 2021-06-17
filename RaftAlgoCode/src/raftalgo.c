@@ -344,75 +344,98 @@ int main (void) {
 			// set up timer
 			difference = clock() - starttime;
 			msec = difference * 1000 / CLOCKS_PER_SEC;
-			// heartbeat send
-			//if (heartbeat_send==false){
-			//	send_message(0x03, id, id);
-			//	heartbeat_send=true;
-			//}
 
-			//setIDLE();
-			//cc1200_cmd(SFRX);
-			//setRX();
-			cc1200_cmd(SNOP);
 			// read number of bytes in fifo
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
 			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
-				if (packet_len == 0){
-				// read packet len
-				cc1200_reg_read(0x3F, &packet_len);
-				// check if message is longer than expected
-				if (packet_len>max_packet_len){
-					packet_len = max_packet_len;
-					printf("Transmitted message is longer than max configured lengths\n");
-				}
-				// read the message TODO: abbruchbedingung! Falls packet kürzer
-				int k = 0;
-				while(k<packet_len){
-					cc1200_reg_read(NUM_RXBYTES,&numRX);
-					if (numRX>0){
-						cc1200_reg_read(0x3F, &fifo);
-						message[k] = (char)fifo;
-						k = k + 1;
+				printf("----------- PACKET detected -----------\n");
+				rssi_valid(RSSI0);
+				int rssi = read_rssi1(RSSI1);
+				printf("RSSI: %d\n", rssi);
+
+
+				if (packet_len == 0){ // NOTE: why do we need to check packet len?
+					cc1200_reg_read(0x3F, &packet_len);
+					// check if message is longer than expected
+					if (packet_len>max_packet_len){
+						packet_len = max_packet_len;
+						printf("Transmitted message is longer than max configured lengths\n");
 					}
+					// read the message TODO: abbruchbedingung! Falls packet kürzer
+					int k = 0;
+					while(k<packet_len){
+						cc1200_reg_read(NUM_RXBYTES,&numRX);
+						if (numRX>0){
+							cc1200_reg_read(0x3F, &fifo);
+							message[k] = (char)fifo;
+							k = k + 1;
+						}
+					}
+					message[k+1] = '\0';
+					printf("\nReceivedMessage: %s\n",message);
+	
+					// get message informations
+					int sender_id = get_tx_id_from_msg(message);
+					int receiver_id = get_rx_id_from_msg(message);
+					int checksum = get_checksum_from_msg(message);
+					char *sender_type = get_type_from_message(message);
+					int sender_type_int = get_int_type_from_msg(message);
+					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
+					if (checksum_correct==true){
+						printf("Sender Type: %s\n", sender_type);
+						printf("tx_id: %d\n", sender_id);
+						printf("rx_id: %d\n", receiver_id);
+					}
+					if (checksum_correct==true){
+						// Update local list // TODO: counter if lost connection!
+						bool in_local_list = id_in_list(network_ids, sender_id, num_nodes);
+						if (in_local_list == false){
+							// add sender_id to network_ids
+							int n=0;
+							for (n=0; n<num_nodes;++n){
+								if (network_ids[n]==0){
+									network_ids[n]=sender_id;
+									rssi_values[n]=rssi;
+									break;
+								}
+							}
+							printf("Update Local list - new id");
+						}
+						else{
+							int *rssi_values_new = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
+							printf("Update Local list - new RSSI\n");
+						}
+						printf("done update local list\n");
+						// evaluate message types
+						if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
+							printf("REQUEST FORWARD MESSAGE\n");
+							valid_packet = true;
+						}
+						if (strcmp(sender_type,"OK") == 0){
+							printf("OK MESSAGE\n");
+							valid_packet = true;
+						}
+					}
+					else{
+						printf("invalid message\n");
+					}
+					// go in IDLE mode to Reset FIFO
+					printf("\n\n");
+					setIDLE();
+					cc1200_cmd(SFRX);
+					packet_len = 0;
+					setRX();
+
+					// Reset Timer
+					printf("RESET TIMER\n");
+					// random timeout
+					//int timeout = 2000; //generate_random_timeout();
+					//starttime = clock();
+					break;
+						
 				}
-				message[k+1] = '\0';
-				printf("\nReceivedMessage: %s\n",message);
-
-				// get message informations
-				int sender_id = get_tx_id_from_msg(message);
-				int receiver_id = get_rx_id_from_msg(message);
-				int checksum = get_checksum_from_msg(message);
-				char *sender_type = get_type_from_message(message);
-				int sender_type_int = get_int_type_from_msg(message);
-				bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-				
-				if (checksum_correct==true){
-					printf("RECEIVED MESSAGE");
-					printf("Sender Type: %s\n", sender_type);
-					printf("tx_id: %d\n", sender_id);
-					printf("rx_id: %d\n", receiver_id);
-				}
-
-				if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
-							printf("RECEIVED REQUEST FORWARD\n");
-							// check if message is for your id
-
-							// add id to forwarder list
-				}
-
-				if (strcmp(sender_type,"OK") == 0){
-							printf("RECEIVED OK\n");
-							// check if message is for your id
-
-							// add id to forwarder list
-				}
-
-				}
-
-
-				
 			}
 		}
 	}
