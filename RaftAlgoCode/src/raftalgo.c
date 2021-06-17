@@ -324,6 +324,7 @@ int main (void) {
 	
 	}
 
+	int loop_counter = 0;
 	// Leader Loop
 	while (true){
 		// print current state
@@ -339,6 +340,8 @@ int main (void) {
 		int timeout = 2000; //generate_random_timeout();
 		valid_packet = false;
 		bool heartbeat_send = false;
+		bool broadcast_list_changed = false;
+		loop_counter++;
 		// RX loop
 		while (msec < timeout){
 			// set up timer
@@ -392,6 +395,7 @@ int main (void) {
 						// Update local list // TODO: counter if lost connection!
 						bool in_local_list = id_in_list(network_ids, sender_id, num_nodes);
 						if (in_local_list == false){
+							broadcast_list_changed = true;
 							// add sender_id to network_ids
 							int n=0;
 							for (n=0; n<num_nodes;++n){
@@ -433,11 +437,20 @@ int main (void) {
 					// random timeout
 					//int timeout = 2000; //generate_random_timeout();
 					//starttime = clock();
-					break;
-						
 				}
 			}
 		}
+		if ((heartbeat_send == false)){
+			send_message(0x03, id, id);
+			heartbeat_send = true;
+		}
+
+		// check if local list changed?
+		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
+			printf("broadcast new list....\n");
+			broadcast_list_changed = false;
+		}
+
 	}
 
 	// shutdown SPI
