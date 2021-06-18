@@ -13,6 +13,7 @@ void setRX();
 int read_rssi1(int rssi_add);
 void rssi_valid(int rssi_add);
 void initialize_spi();
+int update_msec(int starttime);
 // state functions
 bool state_open(int state);
 bool state_follower(int state);

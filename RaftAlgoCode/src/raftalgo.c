@@ -97,6 +97,7 @@ int main (void) {
 		clock_t starttime = clock();
 		clock_t difference = clock()-starttime;
 		msec = difference * 1000 / CLOCKS_PER_SEC;
+		update_msec(starttime);
 		int timeout = 2000; //generate_random_timeout();
 		valid_packet = false;
 		// RX loop
@@ -117,7 +118,7 @@ int main (void) {
 				printf("RSSI: %d\n", rssi);
 
 
-				if (packet_len == 0){ // NOTE: why do we need to check packet len?
+				if (packet_len == 0){ // NOTE: why do we need to check packet len? -> because otherwise longer packet
 					cc1200_reg_read(0x3F, &packet_len);
 					// check if message is longer than expected
 					if (packet_len>max_packet_len){
@@ -162,7 +163,7 @@ int main (void) {
 									break;
 								}
 							}
-							printf("Update Local list - new id");
+							printf("Update Local list - new id\n");
 						}
 						else{
 							int *rssi_values_new = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
