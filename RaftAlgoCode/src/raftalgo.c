@@ -83,6 +83,11 @@ int main (void) {
 	int list1[3] = {1, 2, 3};
 	int list2[3] = {2, 3, 4};
 	process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
+	printf("testing\n");
+	tester(1,40);
+	print_values();
+	tester(2,30);
+	print_values();
 
 
 	// Dauerschleife
@@ -94,18 +99,16 @@ int main (void) {
 		setRX();
 
 		// start clock
-		clock_t starttime = clock();
-		//clock_t difference = clock()-starttime;
-		//msec = difference * 1000 / CLOCKS_PER_SEC;
+		clock_t starttime = clock()
 		msec = update_msec(starttime);
+
 		int timeout = 2000; //generate_random_timeout();
 		valid_packet = false;
+
 		// RX loop
 		while (msec < timeout){
 
 			// set up timer
-			//difference = clock() - starttime;
-			//msec = difference * 1000 / CLOCKS_PER_SEC;
 			msec = update_msec(starttime);
 	
 			// read number of bytes in fifo

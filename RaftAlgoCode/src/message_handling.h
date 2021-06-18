@@ -8,7 +8,8 @@
 
 
 
-
+int print_values();
+void tester(int a, int b);
 
 
 
