@@ -25,7 +25,7 @@ int read_rssi1(int rssi_add) {
 
 int update_msec(int starttime){
         clock_t difference = clock()-starttime;
-	msec = difference * 1000 / CLOCKS_PER_SEC;
+	int msec = difference * 1000 / CLOCKS_PER_SEC;
         return msec;
 
 }

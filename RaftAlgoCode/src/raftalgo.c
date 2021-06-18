@@ -95,18 +95,19 @@ int main (void) {
 
 		// start clock
 		clock_t starttime = clock();
-		clock_t difference = clock()-starttime;
-		msec = difference * 1000 / CLOCKS_PER_SEC;
-		update_msec(starttime);
+		//clock_t difference = clock()-starttime;
+		//msec = difference * 1000 / CLOCKS_PER_SEC;
+		msec = update_msec(starttime);
 		int timeout = 2000; //generate_random_timeout();
 		valid_packet = false;
 		// RX loop
 		while (msec < timeout){
 
 			// set up timer
-			difference = clock() - starttime;
-			msec = difference * 1000 / CLOCKS_PER_SEC;
-
+			//difference = clock() - starttime;
+			//msec = difference * 1000 / CLOCKS_PER_SEC;
+			msec = update_msec(starttime);
+	
 			// read number of bytes in fifo
 			cc1200_reg_read(NUM_RXBYTES, &numRX);
 
