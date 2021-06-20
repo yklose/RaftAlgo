@@ -69,7 +69,7 @@ void handle_propose_message(void){
 void handle_accept_message(int sender_id){
     printf("ACCEPT OK MESSAGE\n");
     extern int num_nodes;
-    extern int follower_ids[num_nodes];
+    extern int follower_ids[];
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
         if (found == false){
@@ -100,7 +100,7 @@ void handle_accept_message(int sender_id){
 void handle_decline_message(int sender_id){
     printf("ACCEPT NOT MESSAGE\n");
     extern int num_nodes;
-    extern int follower_ids[num_nodes];
+    extern int follower_ids[];
     // increase decline counter
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
@@ -129,7 +129,6 @@ void handle_decline_message(int sender_id){
 
 void handle_leader_message(int sender_id){
     printf("LEADER MESSAGE\n");
-    extern int id;
     extern int leader_id;
     // set state to follower
     state = set_state_follower();
@@ -155,9 +154,8 @@ void handle_forward_ok_message(int sender_id){
 
 void read_incoming_packet_loop(void){
     // importing extern (global variables)
-    extern int state;
     extern int num_nodes;
-    extern int network_ids[num_nodes];
+    extern int network_ids[];
     // stay in loop if not leader
     while(state_leader(state)==false){
 		setRX();

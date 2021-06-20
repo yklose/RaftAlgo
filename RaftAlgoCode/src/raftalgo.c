@@ -36,7 +36,7 @@ void load_variables(void){
 	extern float accept_counter;
 	extern float accept_not_counter;
 	extern bool valid_packet;
-	extern int state;
+	//extern int state;
 
 
 	int id  = generate_random_id();     // random ID of node
