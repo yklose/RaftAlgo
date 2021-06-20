@@ -36,7 +36,7 @@ int get_int_type_from_msg(char *msg);
 int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg);
 int compute_checksum(int message_type, int tx_id, int rx_id);
 void update_rssi_list(int sender_id, int rssi_value);
-void update_network_ids(int sender_id, int rssi)
+void update_network_ids(int sender_id, int rssi);
 void process_list_broadcast(int* global_network_ids, int len_global_network_ids, int* network_ids,int len_network_ids, int id);
 // convert
 int convert_char_to_int(char *msg);
