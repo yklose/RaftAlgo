@@ -65,7 +65,7 @@ void handle_accept_message(int sender_id){
     extern int num_nodes;
     extern int follower_ids[num_nodes];
     if (state_proposer(state)){
-        bool found = id_in_list(follower_ids, sender_id, num_nodes);
+        bool found = id_in_list(follower_ids, sender_id);
         if (found == false){
             printf("INCREASE ACCEPT COUNTER\n");
             accept_counter = accept_counter + 1;
@@ -97,7 +97,7 @@ void handle_decline_message(int sender_id){
     extern int follower_ids[num_nodes];
     // increase decline counter
     if (state_proposer(state)){
-        bool found = id_in_list(follower_ids, sender_id, num_nodes);
+        bool found = id_in_list(follower_ids, sender_id);
         if (found == false){
             printf("INCREASE ACCEPT NOT COUNTER\n");
             accept_not_counter = accept_not_counter + 1;
