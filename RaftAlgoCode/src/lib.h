@@ -41,6 +41,6 @@ void process_list_broadcast(int* global_network_ids, int len_global_network_ids,
 // convert
 int convert_char_to_int(char *msg);
 // comparing
-bool id_in_list(int *follower_ids, int id, int num_nodes);
+bool id_in_list(int *id_list, int id);
 bool valid_message(int message_type, int tx_id, int rx_id, int checksum);
 #endif /* LIB_DOT_H */
