@@ -39,7 +39,7 @@ char *read_message(void){
     // read packet
     int k = 0;
     while(k<packet_len){
-        cc1200_reg_read(NUM_RXBYTES,&numRX);
+        cc1200_reg_read(0xD7,&numRX); // NUM RX BYTES = 0xD7
         if (numRX>0){
             cc1200_reg_read(0x3F, &fifo);
             message[k] = (char)fifo;
@@ -48,10 +48,10 @@ char *read_message(void){
     }
     message[k+1] = '\0';
     printf("\nReceivedMessage: %s\n",message);
-    return message;
+    return *message;
 }
 
-void handle_propose_message(void){
+void handle_propose_message(int sender_id, int proposer_id){
     printf("PROPOSE MESSAGE\n");
 
     if ((state_open(state))||(sender_id == proposer_id)){	
@@ -156,6 +156,7 @@ void read_incoming_packet_loop(void){
     // importing extern (global variables)
     extern int num_nodes;
     extern int network_ids[];
+    extern int proposer_id;
     // stay in loop if not leader
     while(state_leader(state)==false){
 		setRX();
@@ -191,7 +192,7 @@ void read_incoming_packet_loop(void){
 					}
 					if (checksum_correct==true){
 						// Update local list
-						bool in_local_list = id_in_list(netword_ids, sender_id);
+						bool in_local_list = id_in_list(network_ids, sender_id);
 						if (in_local_list == false){
 							update_network_ids(sender_id, rssi);
 							printf("Update Local list - new id\n");
@@ -202,27 +203,27 @@ void read_incoming_packet_loop(void){
 						}
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
-							handle_propose_message();
+							handle_propose_message(sender_id, proposer_id);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-							handle_accept_message();
+							handle_accept_message(sender_id);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-							handle_decline_message();
+							handle_decline_message(sender_id);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"LEADER") == 0){
-							handle_leader_message();
+							handle_leader_message(sender_id);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-							handle_list_broadcast_message();
+							handle_list_broadcast_message(sender_id);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"FORWARD_OK") == 0){
-                            handle_forward_ok_message();
+                            handle_forward_ok_message(sender_id);
                             valid_packet = true;
 						}
 					}
