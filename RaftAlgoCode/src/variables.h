@@ -1,7 +1,6 @@
 // Variables for Configuration
 #include "lib.h"
 
-#define GEN_NUM()  generate_random_id()
 
 // NUMBER OF NODES IN THE NETWORK
 int num_nodes = 6;
@@ -14,11 +13,10 @@ int fifo            = 0;		// variable for reading fifo
 char message[0x14];	// message string 
 
 // IDENTIFIER PARAMETERS
-int id              = GEN_NUM; //generate_random_id();     // random ID of node
 int proposer_id     = 0;                        // ID of the proposer
 int leader_id       = 0;                        // ID of the leader
-int follower_ids[6] = {id, 0};                  // IDs of nodes who follow you (proposer)
-int network_ids[6]  = {id, 0};                  // IDs of nodes that you can see 
+int follower_ids[6] = {0};                  // IDs of nodes who follow you (proposer)
+int network_ids[6]  = {0};                  // IDs of nodes that you can see 
 int rssi_values[6]  = {127,0};                  // RSSI Values of nodes of network IDs
 int global_network_ids[6] = {0};                // List of IDs the leader can see
 int forwarder_ids[6] = {0};                     // List of IDs the node will forward

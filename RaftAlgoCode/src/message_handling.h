@@ -8,6 +8,7 @@
 
 int print_values();
 void tester(int a, int b);
+void pass_id(int id_pass);
 
 char *read_message(void);
 void handle_propose_message(void);

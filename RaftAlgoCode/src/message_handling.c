@@ -12,7 +12,11 @@ int max_packet_len = 0x14;
 int numRX = 0;
 int fifo = 0;
 
+int id;
 
+void pass_id(int id_pass){
+    id = id_pass;
+}
 
 void tester(int a, int b){
     printf("done...\n");

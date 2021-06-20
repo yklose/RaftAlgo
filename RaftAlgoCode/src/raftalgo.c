@@ -22,7 +22,8 @@ void load_variables(void){
 	extern int max_packet_len;  
 	extern int fifo;           
 	extern char message[];	
-	extern int id;            
+	
+	//extern int id;            
 	extern int proposer_id; 
 	extern int leader_id;    
 	extern int follower_ids[];
@@ -36,6 +37,12 @@ void load_variables(void){
 	extern float accept_not_counter;
 	extern bool valid_packet;
 	extern int state;
+
+
+	int id  = generate_random_id();     // random ID of node
+	
+	pass_id(id);
+
 }
 
 
