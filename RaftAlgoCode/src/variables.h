@@ -33,4 +33,4 @@ float accept_not_counter = 0;
 bool valid_packet = false; // not here...
 
 // STATE VARIABLES
-int state = set_state_open();
+

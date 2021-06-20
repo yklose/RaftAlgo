@@ -13,9 +13,11 @@ int numRX = 0;
 int fifo = 0;
 
 int id;
+int state;
 
-void pass_id(int id_pass){
+void pass_id(int id_pass, int state_pass){
     id = id_pass;
+    state = state_pass;
 }
 
 void tester(int a, int b){

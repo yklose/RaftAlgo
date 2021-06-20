@@ -40,8 +40,8 @@ void load_variables(void){
 
 
 	int id  = generate_random_id();     // random ID of node
-	
-	pass_id(id);
+	int state = set_state_open();
+	pass_id(id, state);
 
 }
 
@@ -90,7 +90,7 @@ int main (void) {
 	print_values();
 
 	// loop for incoming packet
-	read_incoming_packet_loop(int id);
+	read_incoming_packet_loop();
 
 	/*
 	int loop_counter = 0;
