@@ -6,6 +6,7 @@
 
 #include "lib.h"
 #include "variables.h"
+#include "message_handling.h"
 #include <stdio.h>
 #include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
 #include "registers.h"  //Registers
