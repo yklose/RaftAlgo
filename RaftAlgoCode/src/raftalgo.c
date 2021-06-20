@@ -84,6 +84,7 @@ int main (void) {
 	// loop for incoming packet
 	read_incoming_packet_loop();
 
+	/*
 	int loop_counter = 0;
 	// Leader Loop
 	while (true){
@@ -212,6 +213,7 @@ int main (void) {
 		}
 
 	}
+	*/
 
 	// shutdown SPI
 	spi_shutdown();
