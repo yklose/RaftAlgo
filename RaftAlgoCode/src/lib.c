@@ -294,7 +294,8 @@ char *get_type_from_message(char *msg){
 	return message;
 }
 
-bool id_in_list(int *id_list, int id, int num_nodes){
+bool id_in_list(int *id_list, int id){
+        extern int num_nodes;
         int node;
         for(node=0;node<num_nodes;++node){
                 if(id == id_list[node]){
@@ -304,15 +305,34 @@ bool id_in_list(int *id_list, int id, int num_nodes){
         return false;
 }
 
-int *update_RSSI_list(int *rssi_values, int *network_ids, int sender_id, int rssi_value, int num_nodes){
+void update_rssi_list(int sender_id, int rssi){
+        // use global lists
+        extern int num_nodes;
+        extern int network_ids;
+        extern int rssi_values;
+        // update list
         int n;
         for (n=0; n<num_nodes;++n){
                 if (network_ids[n]==sender_id){
-                        rssi_values[n]=rssi_value;
+                        rssi_values[n]=rssi;
+                        break;
+                }
+        }      
+}
+
+void update_network_ids(int sender_id, int rssi){
+        // use global lists
+        extern int num_nodes;
+        extern int network_ids;
+        extern int rssi_values;
+        // add sender_id to network_ids
+        int n=0;
+        for (n=0; n<num_nodes;++n){
+                if (network_ids[n]==0){
+                        network_ids[n]=sender_id;
+                        rssi_values[n]=rssi;
                         break;
                 }
         }
-        return rssi_values;       
 }
-
 

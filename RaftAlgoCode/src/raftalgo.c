@@ -5,6 +5,7 @@
 /****************************************************************************/
 
 #include "lib.h"
+#include "variables.h"
 #include <stdio.h>
 #include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
 #include "registers.h"  //Registers
@@ -13,69 +14,60 @@
 
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
+void load_variables(void){
+	extern int num_nodes;
+	extern int numRX;		
+	extern int packet_len;      
+	extern int max_packet_len;  
+	extern int fifo;           
+	extern char message;	
+	extern int id;            
+	extern int proposer_id; 
+	extern int leader_id;    
+	extern int follower_ids;
+	extern int network_ids;
+	extern int rssi_values;
+	extern int global_network_ids;
+	extern int forwarder_ids;
+	extern int msec;
+	extern int timeout;
+	extern float accept_counter;
+	extern float accept_not_counter;
+	extern bool valid_packet;
+	extern int state;
+}
+
+
 int main (void) {
 
-	// set default values
-	int adr;
-	int val;
-	int numRX = 0;					// num of RX bytes in fifo
-	int packet_len = 0;				// length of the received packet
-	int max_packet_len = 0x14;		// maximum packet length allowed
-	int fifo = 0;					// variable for reading fifo
-	char message[max_packet_len];	// message string 
+	// load all variables
+	load_variables();
 
 	// first initialize
 	initialize_spi();
 	
 	// write registers
 	int cnt;
+	int adr;
+	int val;
 	for (cnt=0; cnt<MAX_REG; cnt++) cc1200_reg_write(RegSettings[cnt].adr, RegSettings[cnt].val);
 	for (cnt=0; cnt<MAX_EXT_REG; cnt++) cc1200_reg_write(ExtRegSettings[cnt].adr, ExtRegSettings[cnt].val);
+	cc1200_reg_write(PKT_CFG0, 0x01);			
+	cc1200_reg_write(PKT_LEN, max_packet_len);
 
-	// generate random ID
-	int id = generate_random_id();
+	// Print ID and random timeout
 	printf("RANDOM ID: %d\n\n", id);
-
-	// generate random countdown
-	int msec = 0;
-	int timeout = 2000; //generate_random_timeout();
 	printf("Random timeout: %d\n", timeout);
 
 	// set RX mode
-	cc1200_reg_write(PKT_CFG0, 0x01);				// variable packet len
-	cc1200_reg_write(PKT_LEN, max_packet_len);		// maximum packet len = 10 CHANGE!
 	setRX();
 	
-	// set state
-	int state = set_state_open();
+	// print state
 	if (state_open(state)){
 		printf("INITIAL STATE: OPEN\n");
 	}
 
-	// ACCEPT counter 
-	float accept_counter = 0;
-	float accept_not_counter = 0;
-	int num_nodes = 1;//1;
-
-	// Save IDs
-	int proposer_id = 0;
-	int leader_id = 0;
-
-	// Received_ids
-	int follower_ids[6] = {0};
-	follower_ids[0] = id;
-	bool valid_packet = false;
-
-	// Network and RSSI addresses (local)
-	int network_ids[6] = {0};
-	network_ids[0] = id;
-	int rssi_values[6] = {0};
-	rssi_values[0] = 127;
-	// Network addresses broadcasted by leader
-	int global_network_ids[6] = {0};
-	// Ids local node will forward
-	int forwarder_ids[6] = {0};
-
+	
 	// TESTING
 	char testmsg[18] = "511111112222222333";
 	int *test = get_broadcast_ids_from_msg(global_network_ids, testmsg);
@@ -89,245 +81,8 @@ int main (void) {
 	tester(2,30);
 	print_values();
 
-
-	// Dauerschleife
-	while(1){ 
-		// print current state
-		printf("Initialize Loop - STATE %x\n\n",state);
-
-		// set RX
-		setRX();
-
-		// start clock
-		clock_t starttime = clock()
-		msec = update_msec(starttime);
-
-		int timeout = 2000; //generate_random_timeout();
-		valid_packet = false;
-
-		// RX loop
-		while (msec < timeout){
-
-			// set up timer
-			msec = update_msec(starttime);
-	
-			// read number of bytes in fifo
-			cc1200_reg_read(NUM_RXBYTES, &numRX);
-
-			// if there is a packet detected and you are not the leader!
-			if(numRX>0){
-				printf("----------- PACKET detected -----------\n");
-				rssi_valid(RSSI0);
-				int rssi = read_rssi1(RSSI1);
-				printf("RSSI: %d\n", rssi);
-
-
-				if (packet_len == 0){ // NOTE: why do we need to check packet len? -> because otherwise longer packet
-					cc1200_reg_read(0x3F, &packet_len);
-					// check if message is longer than expected
-					if (packet_len>max_packet_len){
-						packet_len = max_packet_len;
-						printf("Transmitted message is longer than max configured lengths\n");
-					}
-					// read the message TODO: abbruchbedingung! Falls packet kürzer
-					int k = 0;
-					while(k<packet_len){
-						cc1200_reg_read(NUM_RXBYTES,&numRX);
-						if (numRX>0){
-							cc1200_reg_read(0x3F, &fifo);
-							message[k] = (char)fifo;
-							k = k + 1;
-						}
-					}
-					message[k+1] = '\0';
-					printf("\nReceivedMessage: %s\n",message);
-	
-					// get message informations
-					int sender_id = get_tx_id_from_msg(message);
-					int receiver_id = get_rx_id_from_msg(message);
-					int checksum = get_checksum_from_msg(message);
-					char *sender_type = get_type_from_message(message);
-					int sender_type_int = get_int_type_from_msg(message);
-					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-					if (checksum_correct==true){
-						printf("Sender Type: %s\n", sender_type);
-						printf("tx_id: %d\n", sender_id);
-						printf("rx_id: %d\n", receiver_id);
-					}
-					if (checksum_correct==true){
-						// Update local list
-						bool in_local_list = id_in_list(network_ids, sender_id, num_nodes);
-						if (in_local_list == false){
-							// add sender_id to network_ids
-							int n=0;
-							for (n=0; n<num_nodes;++n){
-								if (network_ids[n]==0){
-									network_ids[n]=sender_id;
-									rssi_values[n]=rssi;
-									break;
-								}
-							}
-							printf("Update Local list - new id\n");
-						}
-						else{
-							int *rssi_values_new = update_RSSI_list(rssi_values, network_ids, sender_id, rssi, num_nodes);
-							printf("Update Local list - new RSSI\n");
-						}
-						printf("done update local list\n");
-						// evaluate message types
-						if (strcmp(sender_type,"PROPOSE") == 0){
-							// Received PROPOSE: send Accept ok when open or follower (of this proposer), else not accept
-							printf("PROPOSE MESSAGE\n");
-							valid_packet = true;
-							if ((state_open(state))||(sender_id == proposer_id)){	
-								printf("SEND ACCEPT OK message\n");
-								state = set_state_follower();
-								send_message(0x01, id, sender_id);
-								proposer_id = sender_id;
-							}
-							else{
-								printf("SEND ACCEPT DECLINE message\n");
-								send_message(0x02, id, sender_id);
-							}
-						}
-
-						else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-							// Received ACCEPT OK: Proposers increase counter and maybe switch to LEADER
-							printf("ACCEPT OK MESSAGE\n");
-							valid_packet = true;
-							if (state_proposer(state)){
-								bool found = id_in_list(follower_ids, sender_id, num_nodes);
-								if (found == false){
-									printf("INCREASE ACCEPT COUNTER\n");
-									accept_counter = accept_counter + 1;
-									int n;
-									// add sender_id to follower_ids
-									for (n=0; n<num_nodes;++n){
-										if (follower_ids[n]==0){
-											follower_ids[n]=sender_id;
-											break;
-										}
-									}
-									printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
-								}
-								printf("partition of followers: %f\n",(accept_counter/num_nodes));
-								// check if majority is reached
-								if ((accept_counter/num_nodes)>0.5) { 
-									printf("Clear Majority - SET LEADER\n");
-									state = set_state_leader();
-									// send Leader msg (NOTE: outside the loop)
-									// reset old counter (not needed?)
-									accept_counter = 0;
-									accept_not_counter = 0;
-								}
-							}
-						}
-
-						else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-							// Received ACCEPT NOT: Proposers increase counter and maybe switch to OPEN 
-							printf("ACCEPT NOT MESSAGE\n");
-							valid_packet = true;
-							// increase decline counter
-							if (state_proposer(state)){
-								bool found = id_in_list(follower_ids, sender_id, num_nodes);
-								if (found == false){
-									printf("INCREASE ACCEPT NOT COUNTER\n");
-									accept_not_counter = accept_not_counter + 1;
-									int n;
-									// add sender_id to follower_ids
-									for (n=0; n<num_nodes;++n){
-										if (follower_ids[n]==0){
-											follower_ids[n]=sender_id;
-											break;
-										}
-									}
-									printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
-								}
-								// check if miniority is reached
-								if ((accept_not_counter/num_nodes)>0.5) { 
-									printf("Clear Minority - SET OPEN\n");
-									state = set_state_open();
-									accept_not_counter = 0;
-									accept_counter = 0;
-								}
-							}
-						}
-
-						else if (strcmp(sender_type,"LEADER") == 0){
-							// Received LEADER: All change to follower
-							printf("LEADER MESSAGE\n");
-							valid_packet = true;
-							state = set_state_follower();
-							// send ok message
-							send_message(0x04, id, sender_id);
-							//save leader id
-							leader_id = sender_id;
-						}
-						else if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-							printf("LIST_BROADCAST MESSAGE\n");
-							// update global list 
-							
-
-							// if ids in local list not in global, send request
-						}
-
-						else if (strcmp(sender_type,"FORWARD_OK") == 0){
-							printf("FORWARD_OK MESSAGE\n");
-							// check if message is for your id
-
-							// add id to forwarder list
-						}
-
-
-						//else if (strcmp(sender_type,"OK") == 0){
-							// Received OK: Leaders count listeners
-						//	printf("OK MESSAGE\n");
-						//	valid_packet = true;
-						//	if  (state_leader(state)){
-								// TODO: ADD TO LIST OF LISTENERS
-						//		printf("Listeners +1");
-						//	}
-							// do nothing (see how many are listening)
-						//}
-					}
-					else{
-						printf("invalid message\n");
-					}
-					// go in IDLE mode to Reset FIFO
-					printf("\n\n");
-					setIDLE();
-					cc1200_cmd(SFRX);
-					packet_len = 0;
-					setRX();
-
-					// Reset Timer
-					printf("RESET TIMER\n");
-					// random timeout
-					//int timeout = 2000; //generate_random_timeout();
-					//starttime = clock();
-					break;
-						
-				}
-				
-			}
-			if (state_leader(state)==true){
-				break;
-			}
-		}
-		// TIMER ABGELAUFEN (nur relevant für nicht leader!)
-		if ((state_leader(state)==false) && (valid_packet==false)){ 
-			printf("SEND PROPOSE\n");
-			state = set_state_proposer();
-			send_message(0x00, id, id);
-		}
-		// DEBUG deactivate! Otherwise keep!
-		accept_counter = 0;
-		accept_not_counter = 0;
-		if (state_leader(state)==true){
-			break;
-		}
-	
-	}
+	// loop for incoming packet
+	read_incoming_packet_loop();
 
 	int loop_counter = 0;
 	// Leader Loop
