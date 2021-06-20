@@ -1,18 +1,20 @@
 // Variables for Configuration
 #include "lib.h"
 
+#define GEN_NUM()  generate_random_id()
+
 // NUMBER OF NODES IN THE NETWORK
-int num_nodes = 1;
+int num_nodes = 6;
 
 // PACKET PARAMETERS (not here...)
 int numRX           = 0;		// num of RX bytes in fifo
 int packet_len      = 0;		// length of the received packet
 int max_packet_len  = 0x14;		// maximum packet length allowed
 int fifo            = 0;		// variable for reading fifo
-char message[max_packet_len];	// message string 
+char message[0x14];	// message string 
 
 // IDENTIFIER PARAMETERS
-int id              = generate_random_id();     // random ID of node
+int id              = GEN_NUM; //generate_random_id();     // random ID of node
 int proposer_id     = 0;                        // ID of the proposer
 int leader_id       = 0;                        // ID of the leader
 int follower_ids[6] = {id, 0};                  // IDs of nodes who follow you (proposer)

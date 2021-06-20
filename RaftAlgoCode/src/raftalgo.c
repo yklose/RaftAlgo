@@ -14,6 +14,7 @@
 
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
+
 void load_variables(void){
 	extern int num_nodes;
 	extern int numRX;		
@@ -82,7 +83,7 @@ int main (void) {
 	print_values();
 
 	// loop for incoming packet
-	read_incoming_packet_loop();
+	read_incoming_packet_loop(int id);
 
 	/*
 	int loop_counter = 0;
