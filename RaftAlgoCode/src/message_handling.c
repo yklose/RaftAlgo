@@ -28,8 +28,8 @@ int print_values(){
     printf("Test");
 }
 
-char *read_message(void){
-    char message[packet_len];
+char *read_message(){
+    char *message[20]; // TODO change!
     cc1200_reg_read(0x3F, &packet_len);
     // check if message is longer than expected
     if (packet_len>max_packet_len){
@@ -48,7 +48,7 @@ char *read_message(void){
     }
     message[k+1] = '\0';
     printf("\nReceivedMessage: %s\n",message);
-    return *message;
+    return message;
 }
 
 void handle_propose_message(int sender_id, int proposer_id){
