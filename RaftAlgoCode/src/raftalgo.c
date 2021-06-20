@@ -37,12 +37,6 @@ void load_variables(void){
 	extern float accept_not_counter;
 	extern bool valid_packet;
 	//extern int state;
-
-
-	int id  = generate_random_id();     // random ID of node
-	int state = set_state_open();
-	pass_id(id, state);
-
 }
 
 
@@ -50,6 +44,10 @@ int main (void) {
 
 	// load all variables
 	load_variables();
+
+	int id  = generate_random_id();     // random ID of node
+	int state = set_state_open();
+	pass_id(id, state);
 
 	// first initialize
 	initialize_spi();
