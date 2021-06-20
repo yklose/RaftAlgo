@@ -308,8 +308,8 @@ bool id_in_list(int *id_list, int id){
 void update_rssi_list(int sender_id, int rssi){
         // use global lists
         extern int num_nodes;
-        extern int network_ids[num_nodes];
-        extern int rssi_values[num_nodes];
+        extern int network_ids[];
+        extern int rssi_values[];
         // update list
         int n;
         for (n=0; n<num_nodes;++n){
@@ -323,8 +323,8 @@ void update_rssi_list(int sender_id, int rssi){
 void update_network_ids(int sender_id, int rssi){
         // use global lists
         extern int num_nodes;
-        extern int network_ids[num_nodes];
-        extern int rssi_values[num_nodes];
+        extern int network_ids[];
+        extern int rssi_values[];
         // add sender_id to network_ids
         int n=0;
         for (n=0; n<num_nodes;++n){
