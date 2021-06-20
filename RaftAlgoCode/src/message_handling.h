@@ -11,7 +11,7 @@ void tester(int a, int b);
 void pass_id(int id_pass, int state_pass);
 
 char *read_message(void);
-void handle_propose_message(void);
+void handle_propose_message(int sender_id, int proposer_id);
 void handle_accept_message(int sender_id);
 void handle_decline_message(int sender_id);
 void handle_leader_message(int sender_id);
