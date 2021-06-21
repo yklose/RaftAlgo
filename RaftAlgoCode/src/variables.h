@@ -6,11 +6,11 @@
 int num_nodes = 6;
 
 // PACKET PARAMETERS (not here...)
-int numRX           = 0;		// num of RX bytes in fifo
+//int numRX           = 0;		// num of RX bytes in fifo
 int packet_len      = 0;		// length of the received packet
 int max_packet_len  = 0x14;		// maximum packet length allowed
-int fifo            = 0;		// variable for reading fifo
-char message[0x14];	// message string 
+//int fifo            = 0;		// variable for reading fifo
+//char message[0x14];	// message string 
 
 // IDENTIFIER PARAMETERS
 int proposer_id     = 0;                        // ID of the proposer
@@ -22,15 +22,15 @@ int global_network_ids[6] = {0};                // List of IDs the leader can se
 int forwarder_ids[6] = {0};                     // List of IDs the node will forward
 
 // TIMING PARAMETERS
-int msec = 0; // not here...
+//int msec = 0; // not here...
 int timeout = 2000; //generate_random_timeout(); // not here..
 
 // COUNTERS (maybe also not here)
-float accept_counter     = 0;
-float accept_not_counter = 0;
+//float accept_counter     = 0;
+//float accept_not_counter = 0;
 
 // BOOLEAN CHECK VALUES
-bool valid_packet = false; // not here...
+//bool valid_packet = false; // not here...
 
 // STATE VARIABLES
 

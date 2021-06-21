@@ -4,21 +4,35 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include "lib.h"
 
 // Variables just for message handling
 int accept_not_counter = 0;
 int accept_counter = 0;
-int packet_len = 0;
-int max_packet_len = 0x14;
+extern int packet_len;
+extern int max_packet_len;
 int numRX = 0;
 int fifo = 0;
 
+// global variables
 int id;
 int state;
+extern int follower_ids[];
+extern int network_ids[];
+extern int leader_id;
+extern int proposer_id;
+extern int num_nodes;
 
-void pass_id(int id_pass, int state_pass){
+
+
+void pass_global_values(int id_pass, int state_pass){
     id = id_pass;
     state = state_pass;
+    //leader_id = leader_id_pass;
+    //proposer_id = proposer_id_pass;
+    //num_nodes = num_nodes_pass;
+    //*follower_ids = *follower_ids_pass;
+    //*network_ids = *network_ids_pass;
 }
 
 void tester(int a, int b){
@@ -28,6 +42,47 @@ void tester(int a, int b){
 int print_values(){
     printf("Test");
 }
+
+
+int update_msec(int starttime){
+        clock_t difference = clock()-starttime;
+        int msec = difference * 1000 / CLOCKS_PER_SEC;
+        return msec;
+
+}
+
+
+void update_rssi_list(int sender_id, int rssi){
+        // use global lists
+        extern int num_nodes;
+        extern int network_ids[];
+        extern int rssi_values[];
+        // update list
+        int n;
+        for (n=0; n<num_nodes;++n){
+                if (network_ids[n]==sender_id){
+                        rssi_values[n]=rssi;
+                        break;
+                }
+        }      
+}
+
+void update_network_ids(int sender_id, int rssi){
+        // use global lists
+        extern int num_nodes;
+        extern int network_ids[];
+        extern int rssi_values[];
+        // add sender_id to network_ids
+        int n=0;
+        for (n=0; n<num_nodes;++n){
+                if (network_ids[n]==0){
+                        network_ids[n]=sender_id;
+                        rssi_values[n]=rssi;
+                        break;
+                }
+        }
+}
+
 
 char *read_message(){
     char *message = malloc(20); // TODO change!
@@ -69,8 +124,8 @@ void handle_propose_message(int sender_id, int proposer_id){
 
 void handle_accept_message(int sender_id){
     printf("ACCEPT OK MESSAGE\n");
-    extern int num_nodes;
-    extern int follower_ids[];
+    //extern int num_nodes;
+    //extern int follower_ids[];
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
         if (found == false){
@@ -100,8 +155,8 @@ void handle_accept_message(int sender_id){
 
 void handle_decline_message(int sender_id){
     printf("ACCEPT NOT MESSAGE\n");
-    extern int num_nodes;
-    extern int follower_ids[];
+    //extern int num_nodes;
+    //extern int follower_ids[];
     // increase decline counter
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
@@ -130,7 +185,7 @@ void handle_decline_message(int sender_id){
 
 void handle_leader_message(int sender_id){
     printf("LEADER MESSAGE\n");
-    extern int leader_id;
+    //extern int leader_id;
     // set state to follower
     state = set_state_follower();
     // send ok message
@@ -155,9 +210,9 @@ void handle_forward_ok_message(int sender_id){
 
 void read_incoming_packet_loop(void){
     // importing extern (global variables)
-    extern int num_nodes;
-    extern int network_ids[];
-    extern int proposer_id;
+    //extern int num_nodes;
+    //extern int network_ids[];
+    //extern int proposer_id;
     // stay in loop if not leader
     while(state_leader(state)==false){
 		setRX();
@@ -169,11 +224,11 @@ void read_incoming_packet_loop(void){
 		// Loop while no timeout
 		while (msec < timeout){
 			msec = update_msec(starttime);
-			cc1200_reg_read(0xD7, &numRX); //NUM_RXBYTES = 0xD7
+			cc1200_reg_read(0x2FD7, &numRX); //NUM_RXBYTES = 0xD7
 			if(numRX>0){
 				printf("----------- PACKET detected -----------\n");
-				rssi_valid(0x72);  //RSSI0 = 0x72
-				int rssi = read_rssi1(0x71); //RSSI0 = 0x71
+				rssi_valid(0x2F72);  //RSSI0 = 0x72
+				int rssi = read_rssi1(0x2F71); //RSSI0 = 0x71
 				printf("RSSI: %d\n", rssi);
                 // process packet
 				if (packet_len == 0){ 

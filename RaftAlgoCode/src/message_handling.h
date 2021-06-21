@@ -4,11 +4,15 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-
+#include "lib.h"
 
 int print_values();
 void tester(int a, int b);
-void pass_id(int id_pass, int state_pass);
+//void pass_id(int id_pass, int state_pass);
+void pass_global_values(int id_pass, int state_pass);
+void update_network_ids(int sender_id, int rssi);
+void update_rssi_list(int sender_id, int rssi);
+int update_msec(int starttime);
 
 char *read_message(void);
 void handle_propose_message(int sender_id, int proposer_id);

@@ -17,26 +17,26 @@
 
 
 void load_variables(void){
-	extern int num_nodes;
-	extern int numRX;		
+	//extern int num_nodes;
+	//extern int numRX;		
 	extern int packet_len;      
 	extern int max_packet_len;  
-	extern int fifo;           
-	extern char message[];	
+	//extern int fifo;           
+	//extern char message[];	
 	
 	//extern int id;            
-	extern int proposer_id; 
-	extern int leader_id;    
-	extern int follower_ids[];
-	extern int network_ids[];
-	extern int rssi_values[];
-	extern int global_network_ids[];
-	extern int forwarder_ids[];
-	extern int msec;
-	extern int timeout;
-	extern float accept_counter;
-	extern float accept_not_counter;
-	extern bool valid_packet;
+	//extern int proposer_id; 
+	//extern int leader_id;    
+	//extern int follower_ids[];
+	//extern int network_ids[];
+	//extern int rssi_values[];
+	//extern int global_network_ids[];
+	//extern int forwarder_ids[];
+	//extern int msec;
+	//extern int timeout;
+	//extern float accept_counter;
+	//extern float accept_not_counter;
+	//extern bool valid_packet;
 	//extern int state;
 }
 
@@ -48,7 +48,8 @@ int main (void) {
 
 	int id  = generate_random_id();     // random ID of node
 	int state = set_state_open();
-	pass_id(id, state);
+	//pass_global_values(id, state, leader_id, proposer_id, num_nodes, follower_ids, network_ids);
+	//pass_id(id, state);
 
 	// first initialize
 	initialize_spi();
@@ -76,6 +77,7 @@ int main (void) {
 
 	
 	// TESTING
+	/*
 	char testmsg[18] = "511111112222222333";
 	int *test = get_broadcast_ids_from_msg(global_network_ids, testmsg);
 	printf("Liste: %d\n",test[1]);
@@ -87,7 +89,7 @@ int main (void) {
 	print_values();
 	tester(2,30);
 	print_values();
-
+	*/
 	// loop for incoming packet
 	read_incoming_packet_loop();
 
