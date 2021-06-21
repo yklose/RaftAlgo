@@ -3,6 +3,7 @@
 #include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 // Variables just for message handling
 int accept_not_counter = 0;
@@ -29,7 +30,7 @@ int print_values(){
 }
 
 char *read_message(){
-    char *message[20]; // TODO change!
+    char *message = malloc(20); // TODO change!
     cc1200_reg_read(0x3F, &packet_len);
     // check if message is longer than expected
     if (packet_len>max_packet_len){
@@ -176,7 +177,7 @@ void read_incoming_packet_loop(void){
 				printf("RSSI: %d\n", rssi);
                 // process packet
 				if (packet_len == 0){ 
-					char message[packet_len] = read_message();
+					char *message = read_message();
 					// get message informations
 					int sender_id = get_tx_id_from_msg(message);
 					int receiver_id = get_rx_id_from_msg(message);
