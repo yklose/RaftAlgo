@@ -95,7 +95,7 @@ char *read_message(){
     // read packet
     int k = 0;
     while(k<packet_len){
-        cc1200_reg_read(0xD7,&numRX); // NUM RX BYTES = 0xD7
+        cc1200_reg_read(0x2FD7,&numRX); // NUM RX BYTES = 0xD7
         if (numRX>0){
             cc1200_reg_read(0x3F, &fifo);
             message[k] = (char)fifo;
