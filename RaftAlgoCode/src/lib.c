@@ -23,13 +23,14 @@ int read_rssi1(int rssi_add) {
         return val;
 }
 
+/*
 int update_msec(int starttime){
         clock_t difference = clock()-starttime;
 	int msec = difference * 1000 / CLOCKS_PER_SEC;
         return msec;
 
 }
-
+*/
 void initialize_spi(){
         if(spi_init()){
     	        printf("ERROR: Initialization failed\n");
@@ -305,6 +306,7 @@ bool id_in_list(int *id_list, int id){
         return false;
 }
 
+/*
 void update_rssi_list(int sender_id, int rssi){
         // use global lists
         extern int num_nodes;
@@ -336,3 +338,4 @@ void update_network_ids(int sender_id, int rssi){
         }
 }
 
+*/
