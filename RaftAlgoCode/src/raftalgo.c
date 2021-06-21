@@ -49,7 +49,7 @@ int main (void) {
 	int id  = generate_random_id();     // random ID of node
 	int state = set_state_open();
 	//pass_global_values(id, state, leader_id, proposer_id, num_nodes, follower_ids, network_ids);
-	//pass_id(id, state);
+	pass_global_values(id, state);
 
 	// first initialize
 	initialize_spi();

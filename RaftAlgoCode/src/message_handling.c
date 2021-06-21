@@ -308,6 +308,7 @@ void read_incoming_packet_loop(void){
 		if ((state_leader(state)==false) && (valid_packet==false)){ 
 			printf("SEND PROPOSE\n");
 			state = set_state_proposer();
+			printf("ID: %d\n",id);
 			send_message(0x00, id, id);
 		}
 		// DEBUG deactivate! Otherwise keep!
