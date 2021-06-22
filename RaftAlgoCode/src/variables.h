@@ -3,7 +3,7 @@
 
 
 // NUMBER OF NODES IN THE NETWORK
-int num_nodes = 6;
+int num_nodes = 1;//6;
 
 // PACKET PARAMETERS (not here...)
 //int numRX           = 0;		// num of RX bytes in fifo
