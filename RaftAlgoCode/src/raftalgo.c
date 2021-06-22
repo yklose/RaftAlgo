@@ -20,9 +20,12 @@ void load_variables(void){
 	extern int packet_len;      
 	extern int max_packet_len;  
 	// initialize generated numbers
-	int id  = generate_random_id(); 
-	int state = set_state_open();
-	pass_global_values(id, state);
+	extern int id;
+	id  = generate_random_id(); 
+	extern int state;
+	state = set_state_open();
+	// print ID
+	printf("RANDOM ID: %d\n", id);
 }
 
 
@@ -47,12 +50,10 @@ int main (void) {
 	setRX();
 	
 	// starting configurations
+	extern int state;
 	if (state_open(state)){
-		printf("RANDOM ID: %d\n\n", id);
-		printf("Random timeout: %d\n", timeout);
 		printf("INITIAL STATE: OPEN\n\n");
 	}
-
 	// TESTING
 	/*
 	char testmsg[18] = "511111112222222333";

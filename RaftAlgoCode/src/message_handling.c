@@ -12,23 +12,24 @@ float accept_not_counter = 0;
 float accept_counter = 0;
 int numRX = 0;
 int fifo = 0;
-int id;
-int state;
+extern int id;
+extern int state;
 
 // extern variables
 extern int follower_ids[];
 extern int network_ids[];
+extern int rssi_values[];
 extern int leader_id;
 extern int proposer_id;
 extern int num_nodes;
 extern int packet_len;
 extern int max_packet_len;
 
-
+/*
 void pass_global_values(int id_pass, int state_pass){
     id = id_pass;
     state = state_pass;
-}
+}*/
 
 // try again in lib.c
 int update_msec(int starttime){
@@ -278,7 +279,6 @@ void read_incoming_packet_loop(void){
 		if ((state_leader(state)==false) && (valid_packet==false)){ 
 			printf("SEND PROPOSE\n");
 			state = set_state_proposer();
-			printf("ID: %d\n",id);
 			send_message(0x00, id, id);
 		}
 		// DEBUG deactivate! Otherwise keep!

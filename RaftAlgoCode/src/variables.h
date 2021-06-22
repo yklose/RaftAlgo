@@ -3,6 +3,8 @@
 
 // NUMBER OF NODES IN THE NETWORK
 int num_nodes = 1;//6;
+int id = 123;
+int state = 0;
 
 // PACKET PARAMETERS
 int packet_len      = 0;		// length of the received packet
