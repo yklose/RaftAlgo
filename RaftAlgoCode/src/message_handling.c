@@ -179,6 +179,15 @@ void handle_forward_ok_message(int sender_id){
     printf("FORWARD_OK MESSAGE\n");
     // check if message is for your id
     // add id to forwarder list
+}
+
+void handle_request_forward_message(int sender_id){
+
+
+}
+
+void handle_ok_message(int sender_id){
+
 
 }
 
@@ -291,4 +300,96 @@ void read_incoming_packet_loop(void){
     printf("Leaving Normal Loop - Entering Leader Loop...\n");
 }
 
+
+void leader_loop(){
+    int loop_counter = 0;
+	// Leader Loop
+	while (true){
+		// print current state
+		printf("Initialize Leader Loop \n\n");
+		// set RX
+		setRX();
+		// start clock
+		clock_t starttime = clock();
+        int msec = update_msec(starttime);
+		int timeout = 2000; //generate_random_timeout();
+		bool valid_packet = false;
+		bool heartbeat_send = false;
+		bool broadcast_list_changed = false;
+		loop_counter++;
+		// RX loop
+		while (msec < timeout){
+			// set up timer
+			msec = update_msec(starttime);
+			// read number of bytes in fifo
+			cc1200_reg_read(0x2FD7, &numRX);
+			// if there is a packet detected and you are not the leader!
+			if(numRX>0){
+				printf("----------- PACKET detected -----------\n");
+				rssi_valid(0x2F72);
+				int rssi = read_rssi1(0x2F71);
+				printf("RSSI: %d\n", rssi);
+				if (packet_len == 0){ // NOTE: why do we need to check packet len?
+					cc1200_reg_read(0x3F, &packet_len);
+					char *message = read_message();
+	
+					// get message informations
+					int sender_id = get_tx_id_from_msg(message);
+					int receiver_id = get_rx_id_from_msg(message);
+					int checksum = get_checksum_from_msg(message);
+					char *sender_type = get_type_from_message(message);
+					int sender_type_int = get_int_type_from_msg(message);
+					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
+					if (checksum_correct==true){
+						printf("Sender Type: %s\n", sender_type);
+						printf("tx_id: %d\n", sender_id);
+						printf("rx_id: %d\n", receiver_id);
+					}
+					if (checksum_correct==true){
+						// Update local list
+						bool in_local_list = id_in_list(network_ids, sender_id);
+						if (in_local_list == false){
+							update_network_ids(sender_id, rssi);
+							printf("Update Local list - new id\n");
+						}
+						else{
+							update_rssi_list(sender_id, rssi);
+							printf("Update Local list - new rssi\n");
+						}
+						// evaluate message types
+						if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
+							handle_request_forward_message(sender_id);
+                            valid_packet = true;
+						}
+						else if (strcmp(sender_type,"OK") == 0){
+							handle_ok_message(sender_id);
+                            valid_packet = true;
+						}
+					}
+					else{
+						printf("invalid message\n");
+					}
+					// go in IDLE mode to Reset FIFO
+					printf("\n\n");
+					setIDLE();
+					cc1200_cmd(SFRX);
+					packet_len = 0;
+					setRX();
+				}
+			}
+		}
+		if ((heartbeat_send == false)){
+			send_message(0x03, id, id);
+			heartbeat_send = true;
+		}
+
+		// check if local list changed?
+		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
+			printf("broadcast new list....\n");
+			broadcast_list_changed = false;
+		}
+
+	}
+
+}
 
