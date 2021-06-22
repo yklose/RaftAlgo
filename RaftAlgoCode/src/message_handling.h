@@ -6,9 +6,7 @@
 #include <string.h>
 #include "lib.h"
 
-int print_values();
-void tester(int a, int b);
-//void pass_id(int id_pass, int state_pass);
+
 void pass_global_values(int id_pass, int state_pass);
 void update_network_ids(int sender_id, int rssi);
 void update_rssi_list(int sender_id, int rssi);
@@ -22,7 +20,6 @@ void handle_leader_message(int sender_id);
 void handle_list_broadcast_message(int sender_id);
 void handle_forward_ok_message(int sender_id);
 void read_incoming_packet_loop(void);
-
 
 
 #endif /* MESSAGE_HANDLING_H */

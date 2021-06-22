@@ -8,36 +8,21 @@
 #include "variables.h"
 #include "message_handling.h"
 #include <stdio.h>
-#include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
-#include "registers.h"  //Registers
+#include <SPIv1.h> 
+#include "registers.h"  
 #include <unistd.h>
 #include <string.h>
 
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
-
 void load_variables(void){
-	//extern int num_nodes;
-	//extern int numRX;		
+	// load needed extern variables	
 	extern int packet_len;      
 	extern int max_packet_len;  
-	//extern int fifo;           
-	//extern char message[];	
-	
-	//extern int id;            
-	//extern int proposer_id; 
-	//extern int leader_id;    
-	//extern int follower_ids[];
-	//extern int network_ids[];
-	//extern int rssi_values[];
-	//extern int global_network_ids[];
-	//extern int forwarder_ids[];
-	//extern int msec;
-	//extern int timeout;
-	//extern float accept_counter;
-	//extern float accept_not_counter;
-	//extern bool valid_packet;
-	//extern int state;
+	// initialize generated numbers
+	int id  = generate_random_id(); 
+	int state = set_state_open();
+	pass_global_values(id, state);
 }
 
 
@@ -46,15 +31,10 @@ int main (void) {
 	// load all variables
 	load_variables();
 
-	int id  = generate_random_id();     // random ID of node
-	int state = set_state_open();
-	//pass_global_values(id, state, leader_id, proposer_id, num_nodes, follower_ids, network_ids);
-	pass_global_values(id, state);
-
 	// first initialize
 	initialize_spi();
 	
-	// write registers
+	// write registers from file
 	int cnt;
 	int adr;
 	int val;
@@ -63,19 +43,16 @@ int main (void) {
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
 
-	// Print ID and random timeout
-	printf("RANDOM ID: %d\n\n", id);
-	printf("Random timeout: %d\n", timeout);
-
 	// set RX mode
 	setRX();
 	
-	// print state
+	// starting configurations
 	if (state_open(state)){
-		printf("INITIAL STATE: OPEN\n");
+		printf("RANDOM ID: %d\n\n", id);
+		printf("Random timeout: %d\n", timeout);
+		printf("INITIAL STATE: OPEN\n\n");
 	}
 
-	
 	// TESTING
 	/*
 	char testmsg[18] = "511111112222222333";

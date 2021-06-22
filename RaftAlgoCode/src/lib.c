@@ -4,9 +4,8 @@
 /*                                                                          */
 /****************************************************************************/
 #include "lib.h"
-
 #include <stdio.h>
-#include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
+#include <SPIv1.h> 
 #include <unistd.h>
 #include <stdbool.h>
 

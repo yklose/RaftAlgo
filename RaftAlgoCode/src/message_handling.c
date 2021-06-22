@@ -1,62 +1,44 @@
 #include "message_handling.h"
+#include "lib.h" 
 #include <stdio.h>
 #include <SPIv1.h> // necessary, otherwise CC1200 prototype are not available
 #include <unistd.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "lib.h"
 
-// Variables just for message handling
-int accept_not_counter = 0;
-int accept_counter = 0;
-extern int packet_len;
-extern int max_packet_len;
-int numRX = 0;
-int fifo = 0;
 
 // global variables
+float accept_not_counter = 0;
+float accept_counter = 0;
+int numRX = 0;
+int fifo = 0;
 int id;
 int state;
+
+// extern variables
 extern int follower_ids[];
 extern int network_ids[];
 extern int leader_id;
 extern int proposer_id;
 extern int num_nodes;
-
+extern int packet_len;
+extern int max_packet_len;
 
 
 void pass_global_values(int id_pass, int state_pass){
     id = id_pass;
     state = state_pass;
-    //leader_id = leader_id_pass;
-    //proposer_id = proposer_id_pass;
-    //num_nodes = num_nodes_pass;
-    //*follower_ids = *follower_ids_pass;
-    //*network_ids = *network_ids_pass;
 }
 
-void tester(int a, int b){
-    printf("done...\n");
-}
-
-int print_values(){
-    printf("Test");
-}
-
-
+// try again in lib.c
 int update_msec(int starttime){
         clock_t difference = clock()-starttime;
         int msec = difference * 1000 / CLOCKS_PER_SEC;
         return msec;
-
 }
 
 
 void update_rssi_list(int sender_id, int rssi){
-        // use global lists
-        extern int num_nodes;
-        extern int network_ids[];
-        extern int rssi_values[];
         // update list
         int n;
         for (n=0; n<num_nodes;++n){
@@ -68,10 +50,6 @@ void update_rssi_list(int sender_id, int rssi){
 }
 
 void update_network_ids(int sender_id, int rssi){
-        // use global lists
-        extern int num_nodes;
-        extern int network_ids[];
-        extern int rssi_values[];
         // add sender_id to network_ids
         int n=0;
         for (n=0; n<num_nodes;++n){
@@ -124,8 +102,6 @@ void handle_propose_message(int sender_id, int proposer_id){
 
 void handle_accept_message(int sender_id){
     printf("ACCEPT OK MESSAGE\n");
-    //extern int num_nodes;
-    //extern int follower_ids[];
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
         if (found == false){
@@ -155,8 +131,6 @@ void handle_accept_message(int sender_id){
 
 void handle_decline_message(int sender_id){
     printf("ACCEPT NOT MESSAGE\n");
-    //extern int num_nodes;
-    //extern int follower_ids[];
     // increase decline counter
     if (state_proposer(state)){
         bool found = id_in_list(follower_ids, sender_id);
@@ -185,7 +159,6 @@ void handle_decline_message(int sender_id){
 
 void handle_leader_message(int sender_id){
     printf("LEADER MESSAGE\n");
-    //extern int leader_id;
     // set state to follower
     state = set_state_follower();
     // send ok message
@@ -209,18 +182,14 @@ void handle_forward_ok_message(int sender_id){
 }
 
 void read_incoming_packet_loop(void){
-    // importing extern (global variables)
-    //extern int num_nodes;
-    //extern int network_ids[];
-    //extern int proposer_id;
     // stay in loop if not leader
     while(state_leader(state)==false){
 		setRX();
-		clock_t starttime = clock();
-		int msec = update_msec(starttime);
-		int timeout = 2000; //generate_random_timeout();
-		bool valid_packet = false;
-        int packet_len = 0;
+		clock_t starttime   = clock();
+		int msec            = update_msec(starttime);
+		int timeout         = 2000; //generate_random_timeout();
+        int packet_len      = 0;
+		bool valid_packet   = false;
 		// Loop while no timeout
 		while (msec < timeout){
 			msec = update_msec(starttime);
@@ -255,7 +224,7 @@ void read_incoming_packet_loop(void){
 						}
 						else{
 							update_rssi_list(sender_id, rssi);
-							printf("Update Local list - new RSSI\n");
+							printf("Update Local list - new rssi\n");
 						}
 						// evaluate message types
 						if (strcmp(sender_type,"PROPOSE") == 0){
@@ -299,6 +268,7 @@ void read_incoming_packet_loop(void){
 					starttime = clock();
 					break;
 				}
+                printf("---------------------------------------\n");
 			}
 			if (state_leader(state)==true){
 				break;
@@ -320,3 +290,5 @@ void read_incoming_packet_loop(void){
 	}
     printf("Leaving Normal Loop - Entering Leader Loop...\n");
 }
+
+
