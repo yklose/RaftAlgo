@@ -231,6 +231,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
         int i;
         printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
         for (i=0; i<len_broadcast_network_ids;++i){
+                printf("msg[0]: %c\n", msg[0]);
                 printf("LEN msg: %d\n", strlen(msg));
                 int j;
                 
