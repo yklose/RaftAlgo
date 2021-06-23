@@ -245,19 +245,19 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
         }
 	// return broadcast_network_ids;
 
-        int i;
-	for (i=0; i<(len_network_ids); ++i){
-		printf("ID: %d\n", network_ids[i]);
-                int j;
+        int k;
+	for (k=0; k<(len_network_ids); ++k){
+		printf("ID: %d\n", network_ids[k]);
+                int l;
                 bool found = false;
-		for (j=0; j<(len_broadcast_network_ids); ++j){
-			if (network_ids[i]==broadcast_network_ids[j]){
+		for (l=0; l<(len_broadcast_network_ids); ++l){
+			if (network_ids[k]==broadcast_network_kds[l]){
 				found = true;
 			}
 		}
                 if (found == false){
                         printf("Not in list. SEND...\n");
-			send_message(6, id, network_ids[i]);
+			send_message(6, id, network_ids[k]);
                 }
                 else{
                         printf("already in list \n");
