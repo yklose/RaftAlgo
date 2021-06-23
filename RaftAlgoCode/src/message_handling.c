@@ -175,7 +175,8 @@ void handle_list_broadcast_message(char *msg){
     // if ids in local list not in global, send request
 	int num_ids = (LEN(msg)-4)/7;
 	printf("num_ids: %d", num_ids);
-
+	printf("num_ids: %d", strlen(msg));
+	printf("num_ids: %d", ((strlen(msg)-4)/7));
 	//process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
 }
 
@@ -324,7 +325,7 @@ void leader_loop(){
 
 		setIDLE();
 		cc1200_cmd(SFRX);
-		setRX();‚
+		setRX();
 		// start clock
 		clock_t starttime = clock();
         int msec = update_msec(starttime);
