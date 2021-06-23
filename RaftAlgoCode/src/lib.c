@@ -247,21 +247,25 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 
         int k;
 	for (k=0; k<(len_network_ids); ++k){
-		printf("ID: %d\n", network_ids[k]);
-                int l;
-                bool found = false;
-		for (l=0; l<(len_broadcast_network_ids); ++l){
-			if ((network_ids[k]==broadcast_network_ids[l])&&(network_ids[k]!=0)&&(broadcast_network_ids[l]!=0)){
-				found = true;
-			}
-		}
-                if (found == false){
-                        printf("Not in list. SEND...\n");
-			send_message(6, id, network_ids[k]);
+		
+                if (network_ids[k]!=0){
+                        printf("ID: %d\n", network_ids[k]);
+                        int l;
+                        bool found = false;
+                        for (l=0; l<(len_broadcast_network_ids); ++l){
+                                if ((network_ids[k]==broadcast_network_ids[l])){
+                                        found = true;
+                                }
+                        }
+                        if (found == false){
+                                printf("Not in list. SEND...\n");
+                                send_message(6, id, network_ids[k]);
+                        }
+                        else{
+                                printf("already in list \n");
+                        }
                 }
-                else{
-                        printf("already in list \n");
-                }
+                
         }
 
 }
