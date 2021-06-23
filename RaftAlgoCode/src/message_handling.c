@@ -174,15 +174,15 @@ void handle_list_broadcast_message(char *msg){
     // update global list 
     // if ids in local list not in global, send request
 	int num_ids = ((strlen(msg)-4)/7);
+	int len_broadcast_network_ids = num_ids
 	printf("num_ids: %d\n", num_ids);
 	int broadcast_network_ids[num_ids];
 	memset( broadcast_network_ids, 0, num_ids*7*sizeof(int) );
 	printf("Test 1\n");
 	printf("num_ids: %d\n", num_ids);
-	num_ids = ((strlen(msg)-4)/7);
-	printf("num_ids: %d\n", num_ids);
+	printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
 	// get_broadcast_ids_from_msg(broadcast_network_ids, msg, num_ids);
-	get_broadcast_ids_from_msg(msg, broadcast_network_ids, num_ids, network_ids, 2, id);
+	get_broadcast_ids_from_msg(msg, broadcast_network_ids, len_broadcast_network_ids, network_ids, 2, id);
 	printf("Test 2\n");
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 	
