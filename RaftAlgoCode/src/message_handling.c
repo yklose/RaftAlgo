@@ -180,9 +180,10 @@ void handle_list_broadcast_message(char *msg){
 	printf("num_ids: %d\n", num_ids);
 	int broadcast_network_ids[num_ids];
 	memset( broadcast_network_ids, 0, num_ids*7*sizeof(int) );
-	printf("Test 1\n");
 	printf("num_ids: %d\n", num_ids);
 	printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
+	printf("msg[0]: %c\n", msg[0]);
+	printf("LEN msg: %d\n", strlen(msg));
 	// get_broadcast_ids_from_msg(broadcast_network_ids, msg, num_ids);
 	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 2, network_ids, 2, id);
 	printf("Test 2\n");
