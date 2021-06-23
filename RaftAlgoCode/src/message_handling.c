@@ -390,12 +390,16 @@ void leader_loop(){
 		if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
 			heartbeat_send = true;
+			broadcast_list_changed = true;
+
 		}
 
 		// check if local list changed?
 		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
+			int id_test = 1111111;
+			send_message(0x05,id, id_test);
 		}
 
 	}
