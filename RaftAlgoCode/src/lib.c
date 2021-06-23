@@ -231,18 +231,14 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
         int i;
         printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
         for (i=0; i<len_broadcast_network_ids;++i){
-                printf("msg[0]: %c\n", msg[0]);
-                printf("LEN msg: %d\n", strlen(msg));
-                int j;
                 
+                int j;
                 char id[id_len];
-                printf("Test 1.3\n");
                 for (j=0; j<id_len; ++j){
 			int index = 1+j+i*id_len;
 			printf("index: %d\n", index);
                         id[j] = msg[index];
                 }
-                printf("Test 1.4\n");
 		int id_int = convert_char_to_int(id);
 		broadcast_network_ids[i] = id_int;
                 printf("Current ID: %d\n",broadcast_network_ids[i]);
@@ -255,7 +251,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                 int l;
                 bool found = false;
 		for (l=0; l<(len_broadcast_network_ids); ++l){
-			if (network_ids[k]==broadcast_network_ids[l]){
+			if ((network_ids[k]==broadcast_network_ids[l])&&(network_ids[k]!=0)){
 				found = true;
 			}
 		}
