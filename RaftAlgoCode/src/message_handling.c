@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
 // global variables
 float accept_not_counter = 0;
@@ -168,17 +169,19 @@ void handle_leader_message(int sender_id){
     leader_id = sender_id;
 }
 
-void handle_list_broadcast_message(int sender_id){
+void handle_list_broadcast_message(char *msg){
     printf("LIST_BROADCAST MESSAGE\n");
     // update global list 
     // if ids in local list not in global, send request
-
+	num_ids = (LEN(msg)-4)/7;
+	printf("num_ids: %d", num_ids);‚
 }
 
 void handle_forward_ok_message(int sender_id){
     printf("FORWARD_OK MESSAGE\n");
     // check if message is for your id
     // add id to forwarder list
+	process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
 }
 
 void handle_request_forward_message(int sender_id){
@@ -213,57 +216,61 @@ void read_incoming_packet_loop(void){
 				if (packet_len == 0){ 
 					char *message = read_message();
 					// get message informations
-					int sender_id = get_tx_id_from_msg(message);
-					int receiver_id = get_rx_id_from_msg(message);
-					int checksum = get_checksum_from_msg(message);
 					char *sender_type = get_type_from_message(message);
-					int sender_type_int = get_int_type_from_msg(message);
-					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                    // print information for valid packet
-					if (checksum_correct==true){
-						printf("Sender Type: %s\n", sender_type);
-						printf("tx_id: %d\n", sender_id);
-						printf("rx_id: %d\n", receiver_id);
-					}
-					if (checksum_correct==true){
-						// Update local list
-						bool in_local_list = id_in_list(network_ids, sender_id);
-						if (in_local_list == false){
-							update_network_ids(sender_id, rssi);
-							printf("Update Local list - new id\n");
+					if (strcmp(sender_type,"LIST_BROADCAST") != 0){
+						int sender_id = get_tx_id_from_msg(message);
+						int receiver_id = get_rx_id_from_msg(message);
+						int checksum = get_checksum_from_msg(message);
+						int sender_type_int = get_int_type_from_msg(message);
+						bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
+						// print information for valid packet
+						if (checksum_correct==true){
+							printf("Sender Type: %s\n", sender_type);
+							printf("tx_id: %d\n", sender_id);
+							printf("rx_id: %d\n", receiver_id);
+						}
+						if (checksum_correct==true){
+							// Update local list
+							bool in_local_list = id_in_list(network_ids, sender_id);
+							if (in_local_list == false){
+								update_network_ids(sender_id, rssi);
+								printf("Update Local list - new id\n");
+							}
+							else{
+								update_rssi_list(sender_id, rssi);
+								printf("Update Local list - new rssi\n");
+							}
+							// evaluate message types
+							if (strcmp(sender_type,"PROPOSE") == 0){
+								handle_propose_message(sender_id, proposer_id);
+								valid_packet = true;
+							}
+							else if (strcmp(sender_type,"ACCEPT_OK") == 0){
+								handle_accept_message(sender_id);
+								valid_packet = true;
+							}
+							else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
+								handle_decline_message(sender_id);
+								valid_packet = true;
+							}
+							else if (strcmp(sender_type,"LEADER") == 0){
+								handle_leader_message(sender_id);
+								valid_packet = true;
+							}
+							else if (strcmp(sender_type,"FORWARD_OK") == 0){
+								handle_forward_ok_message(sender_id);
+								valid_packet = true;
+							}
 						}
 						else{
-							update_rssi_list(sender_id, rssi);
-							printf("Update Local list - new rssi\n");
-						}
-						// evaluate message types
-						if (strcmp(sender_type,"PROPOSE") == 0){
-							handle_propose_message(sender_id, proposer_id);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-							handle_accept_message(sender_id);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-							handle_decline_message(sender_id);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"LEADER") == 0){
-							handle_leader_message(sender_id);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-							handle_list_broadcast_message(sender_id);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"FORWARD_OK") == 0){
-                            handle_forward_ok_message(sender_id);
-                            valid_packet = true;
+							printf("invalid message\n");
 						}
 					}
-					else{
-						printf("invalid message\n");
+					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
+						
+						handle_list_broadcast_message(message);
+						valid_packet = true;
+						
 					}
 					// go in IDLE mode to Reset FIFO
 					printf("\n\n");
