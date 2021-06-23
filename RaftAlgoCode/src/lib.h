@@ -33,7 +33,7 @@ int get_tx_id_from_msg(char *msg);
 int get_checksum_from_msg(char *msg);
 char *get_type_from_message(char *msg);
 int get_int_type_from_msg(char *msg);
-void get_broadcast_ids_from_msg(int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id);
+void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id);
 int compute_checksum(int message_type, int tx_id, int rx_id);
 //void update_rssi_list(int sender_id, int rssi_value);
 //void update_network_ids(int sender_id, int rssi);

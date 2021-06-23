@@ -216,7 +216,7 @@ int get_int_type_from_msg(char *msg){
 	return convert_char_to_int(type);
 }
 
-void get_broadcast_ids_from_msg(int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id){
+void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id){
         
         int id_len = 7;
         /*
