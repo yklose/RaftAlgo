@@ -184,7 +184,7 @@ void handle_list_broadcast_message(char *msg){
 	printf("msg[0]: %c\n", msg[0]);
 	printf("LEN msg: %d\n", strlen(msg));
 	// get_broadcast_ids_from_msg(broadcast_network_ids, msg, num_ids);
-	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 5, network_ids, 5, id);
+	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 2, network_ids, 2, id);
 	printf("Test 2\n");
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 	
