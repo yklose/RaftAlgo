@@ -218,6 +218,7 @@ int get_int_type_from_msg(char *msg){
 
 int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg, int num_ids){
         printf("Test 1.05\n");
+        int id_len = 7;
         /*
         int message_len = strlen(msg);
         int checksum_len = 3;
