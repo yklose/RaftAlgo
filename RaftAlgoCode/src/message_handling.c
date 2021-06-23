@@ -312,18 +312,19 @@ void read_incoming_packet_loop(void){
 
 void leader_loop(){
     int loop_counter = 0;
+	int id_test = 1111111;
+	send_message(0x03,id, id_test);
 	// Leader Loop
 	while (true){
 		// print current state
 		printf("Initialize Leader Loop \n\n");
 		//	TESTIG
-		int id_test = 1111111;
-		send_message(0x05,id, id_test);
+		
 
 
 		setIDLE();
 		cc1200_cmd(SFRX);
-		setRX();
+		setRX();‚
 		// start clock
 		clock_t starttime = clock();
         int msec = update_msec(starttime);
