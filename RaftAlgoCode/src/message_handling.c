@@ -316,6 +316,11 @@ void leader_loop(){
 	while (true){
 		// print current state
 		printf("Initialize Leader Loop \n\n");
+		//	TESTIG
+		int id_test = 1111111;
+		send_message(0x05,id, id_test);
+
+
 		// set RX
 		setRX();
 		// start clock
@@ -374,7 +379,7 @@ void leader_loop(){
 							handle_ok_message(sender_id);
                             valid_packet = true;
 						}
-						broadcast_list_changed = true; //just for testing!
+						
 					}
 					else{
 						printf("invalid message\n");
@@ -398,8 +403,7 @@ void leader_loop(){
 		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
-			int id_test = 1111111;
-			send_message(0x05,id, id_test);
+			
 		}
 
 	}
