@@ -229,9 +229,11 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 	//memset(output_ids, 0, sizeof output_ids);
         
         int i;
+        printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
         for (i=0; i<len_broadcast_network_ids;++i){
-                int j;
                 printf("Test 1.2\n");
+                int j;
+                
                 char id[id_len];
                 printf("Test 1.3\n");
                 for (j=0; j<id_len; ++j){
