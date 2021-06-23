@@ -1,9 +1,9 @@
-build/
-build/*
+#build/
+#build/*
 .DS_Store
 raftalgo
-CMakeFiles/
-CMake*
-Makefile
-cmake*
+#CMakeFiles/
+#CMake*
+#Makefile
+#cmake*
 src/choose*
