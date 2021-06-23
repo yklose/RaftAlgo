@@ -223,10 +223,13 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
         int num_ids = (message_len-checksum_len-1)/id_len;
 	//int output_ids[num_ids];
 	//memset(output_ids, 0, sizeof output_ids);
+        printf("Test 1.1\n");
         int i;
         for (i=0; i<num_ids;++i){
                 int j;
+                printf("Test 1.2\n");
                 char id[id_len];
+                printf("Test 1.3\n");
                 for (j=0; j<id_len; ++j){
 			int index = 1+j+i*id_len;
 			printf("index: %d\n", index);
