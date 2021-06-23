@@ -177,7 +177,7 @@ void handle_list_broadcast_message(char *msg){
 	printf("num_ids: %d\n", num_ids);
 	int broadcast_network_ids[num_ids];
 	memset( broadcast_network_ids, 0, num_ids*7*sizeof(int) );
-	get_broadcast_ids_from_msg(*broadcast_network_ids, *msg);
+	get_broadcast_ids_from_msg(broadcast_network_ids, msg);
 	process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 }
 
