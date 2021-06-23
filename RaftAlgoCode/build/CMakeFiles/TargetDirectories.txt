@@ -1,3 +1,0 @@
-/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/edit_cache.dir
-/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/rebuild_cache.dir
-/root/Beaglebone/PPL_git/RaftAlgo/RaftAlgoCode/build/CMakeFiles/raftalgo.dir
