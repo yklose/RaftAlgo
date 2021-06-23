@@ -176,11 +176,12 @@ void handle_list_broadcast_message(char *msg){
 
 	int num_ids = ((strlen(msg)-4)/7);
 	int len_broadcast_network_ids = num_ids;
-	int broadcast_network_ids[len_broadcast_network_ids] = {0};
+	//int broadcast_network_ids[len_broadcast_network_ids] = {0};
+	int broadcast_network_ids[2] = {0};
 	// get_broadcast_ids_from_msg(broadcast_network_ids, msg, num_ids);
-	get_broadcast_ids_from_msg(msg, broadcast_network_ids, len_broadcast_network_ids, network_ids, 2, id);
+	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 2, network_ids, 2, id);
+
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
-	
 }
 
 void handle_forward_ok_message(int sender_id){
