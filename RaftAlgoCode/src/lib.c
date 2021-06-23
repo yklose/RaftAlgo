@@ -251,7 +251,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                 int l;
                 bool found = false;
 		for (l=0; l<(len_broadcast_network_ids); ++l){
-			if (network_ids[k]==broadcast_network_kds[l]){
+			if (network_ids[k]==broadcast_network_ids[l]){
 				found = true;
 			}
 		}
