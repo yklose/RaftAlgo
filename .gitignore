@@ -7,3 +7,4 @@ CMake*
 Makefile
 cmake*
 src/choose*
+.vscode*
