@@ -175,13 +175,15 @@ void handle_list_broadcast_message(char *msg){
     // if ids in local list not in global, send request
 	int num_ids = (LEN(msg)-4)/7;
 	printf("num_ids: %d", num_ids);
+
+	//process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
 }
 
 void handle_forward_ok_message(int sender_id){
     printf("FORWARD_OK MESSAGE\n");
     // check if message is for your id
     // add id to forwarder list
-	process_list_broadcast(list1, LEN(list1), list2, LEN(list2), id);
+	
 }
 
 void handle_request_forward_message(int sender_id){
