@@ -216,8 +216,8 @@ int get_int_type_from_msg(char *msg){
 	return convert_char_to_int(type);
 }
 
-int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg, int num_ids){
-        printf("Test 1.05\n");
+void get_broadcast_ids_from_msg(int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id){
+        
         int id_len = 7;
         /*
         int message_len = strlen(msg);
@@ -227,9 +227,9 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg, int num_i
         */
 	//int output_ids[num_ids];
 	//memset(output_ids, 0, sizeof output_ids);
-        printf("Test 1.1\n");
+        
         int i;
-        for (i=0; i<num_ids;++i){
+        for (i=0; i<len_broadcast_network_ids;++i){
                 int j;
                 printf("Test 1.2\n");
                 char id[id_len];
@@ -243,7 +243,26 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg, int num_i
 		broadcast_network_ids[i] = id_int;
                 printf("Current ID: %d\n",broadcast_network_ids[i]);
         }
-	return broadcast_network_ids;
+	// return broadcast_network_ids;
+
+        int i;
+	for (i=0; i<(len_network_ids); ++i){
+		printf("ID: %d\n", network_ids[i]);
+                int j;
+                bool found = false;
+		for (j=0; j<(len_broadcast_network_ids); ++j){
+			if (network_ids[i]==broadcast_network_ids[j]){
+				found = true;
+			}
+		}
+                if (found == false){
+                        printf("Not in list. SEND...\n");
+			send_message(6, id, network_ids[i]);
+                }
+                else{
+                        printf("already in list \n");
+                }
+        }
 
 }
 
