@@ -1,5 +1,6 @@
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
+/*
 void choose_fowarder(int *request_ids, int *forwarder_ids, int *forwarder_rssis){
     // check for duplicates in forwarder_ids list, send FORWARD_OK message to chosen forwarder
     
@@ -34,3 +35,4 @@ void choose_fowarder(int *request_ids, int *forwarder_ids, int *forwarder_rssis)
         }
     } 
 }
+*/
