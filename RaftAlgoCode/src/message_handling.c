@@ -173,8 +173,8 @@ void handle_list_broadcast_message(char *msg){
     printf("LIST_BROADCAST MESSAGE\n");
     // update global list 
     // if ids in local list not in global, send request
-	num_ids = (LEN(msg)-4)/7;
-	printf("num_ids: %d", num_ids);‚
+	int num_ids = (LEN(msg)-4)/7;
+	printf("num_ids: %d", num_ids);
 }
 
 void handle_forward_ok_message(int sender_id){
