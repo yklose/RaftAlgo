@@ -321,12 +321,13 @@ void leader_loop(){
 		send_message(0x05,id, id_test);
 
 
-		// set RX
+		setIDLE();
+		cc1200_cmd(SFRX);
 		setRX();
 		// start clock
 		clock_t starttime = clock();
         int msec = update_msec(starttime);
-		int timeout = 2000; //generate_random_timeout();
+		int timeout = 150; //generate_random_timeout();
 		bool valid_packet = false;
 		bool heartbeat_send = false;
 		bool broadcast_list_changed = false;
@@ -339,11 +340,12 @@ void leader_loop(){
 			cc1200_reg_read(0x2FD7, &numRX);
 			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
-				printf("----------- PACKET detected -----------\n");
 				rssi_valid(0x2F72);
-				int rssi = read_rssi1(0x2F71);
-				printf("RSSI: %d\n", rssi);
-				if (packet_len == 0){ // NOTE: why do we need to check packet len?
+				if (packet_len == 0){ 
+                    printf("----------- PACKET detected -----------\n");
+                    int rssi = read_rssi1(0x2F71);
+                    printf("RSSI: %d\n", rssi);
+                    // read message
 					cc1200_reg_read(0x3F, &packet_len);
 					char *message = read_message();
 	
@@ -379,7 +381,6 @@ void leader_loop(){
 							handle_ok_message(sender_id);
                             valid_packet = true;
 						}
-						
 					}
 					else{
 						printf("invalid message\n");
@@ -396,17 +397,14 @@ void leader_loop(){
 		if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
 			heartbeat_send = true;
-
 		}
 
 		// check if local list changed?
 		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
-			
 		}
 
 	}
 
 }
-
