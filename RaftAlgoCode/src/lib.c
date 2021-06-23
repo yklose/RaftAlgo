@@ -244,6 +244,8 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                 printf("Current ID: %d\n",broadcast_network_ids[i]);
         }
 	// return broadcast_network_ids;
+        
+        network_ids[1] = 1234567 //JUST FOR TESTING!
 
         int k;
 	for (k=0; k<(len_network_ids); ++k){
