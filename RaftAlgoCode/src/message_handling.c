@@ -374,6 +374,7 @@ void leader_loop(){
 							handle_ok_message(sender_id);
                             valid_packet = true;
 						}
+						broadcast_list_changed = true; //just for testing!
 					}
 					else{
 						printf("invalid message\n");
@@ -390,7 +391,6 @@ void leader_loop(){
 		if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
 			heartbeat_send = true;
-			broadcast_list_changed = true;
 
 		}
 
