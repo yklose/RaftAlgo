@@ -241,6 +241,9 @@ int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
 }
 
 void process_list_broadcast(int* global_network_ids, int len_global_network_ids, int* network_ids,int len_network_ids, int id){
+        
+        
+        
         int i;
 	for (i=0; i<(len_network_ids); ++i){
 		printf("ID: %d\n", network_ids[i]);
@@ -252,7 +255,7 @@ void process_list_broadcast(int* global_network_ids, int len_global_network_ids,
 			}
 		}
                 if (found == false){
-                        printf("Not in list...\n");
+                        printf("Not in list. SEND...\n");
 			send_message(6, id, network_ids[i]);
                 }
                 else{
