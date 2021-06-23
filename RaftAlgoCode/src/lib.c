@@ -216,12 +216,14 @@ int get_int_type_from_msg(char *msg){
 	return convert_char_to_int(type);
 }
 
-int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg){
+int *get_broadcast_ids_from_msg(int *broadcast_network_ids, char *msg, int num_ids){
         printf("Test 1.05\n");
+        /*
         int message_len = strlen(msg);
         int checksum_len = 3;
         int id_len = 7;
         int num_ids = (message_len-checksum_len-1)/id_len;
+        */
 	//int output_ids[num_ids];
 	//memset(output_ids, 0, sizeof output_ids);
         printf("Test 1.1\n");
