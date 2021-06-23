@@ -241,6 +241,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 			printf("index: %d\n", index);
                         id[j] = msg[index];
                 }
+                printf("Test 1.4\n");
 		int id_int = convert_char_to_int(id);
 		broadcast_network_ids[i] = id_int;
                 printf("Current ID: %d\n",broadcast_network_ids[i]);
