@@ -221,12 +221,12 @@ void send_list_message(int *network_ids, int num_nodes){
                         strcat( msg, buffer );
                 }
                 else if (j==num_ids_to_send+1){
-                        char* buffer[1];
+                        char buffer[1];
                         sprintf(buffer, "%d", 0x00);
                         strcat( msg, buffer );
                 }
                 else {
-                        char* buffer[7];
+                        char buffer[7];
                         sprintf(buffer, "%d", network_ids[j]);
                         strcat( msg, buffer );
                 }
