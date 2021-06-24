@@ -216,7 +216,7 @@ void send_list_message(int *network_ids, int num_nodes){
         for (j=0; j<num_ids_to_send+2; ++j) {
                 
                 if (j==num_ids_to_send){
-                        char* buffer[3];
+                        char buffer[3];
                         sprintf(buffer, "%d", checksum);
                         strcat( msg, buffer );
                 }
