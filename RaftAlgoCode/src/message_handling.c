@@ -317,6 +317,8 @@ void read_incoming_packet_loop(void){
 
 void leader_loop(){
     int loop_counter = 0;
+
+	// JUST FOR TESTING
 	int id_test = 1111111;
 	send_message(0x05,id, id_test);
 	// Leader Loop
@@ -372,6 +374,7 @@ void leader_loop(){
 						bool in_local_list = id_in_list(network_ids, sender_id);
 						if (in_local_list == false){
 							update_network_ids(sender_id, rssi);
+							broadcast_list_changed = true;
 							printf("Update Local list - new id\n");
 						}
 						else{
@@ -409,6 +412,7 @@ void leader_loop(){
 		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
+			send_list_message(network_ids, num_nodes);
 		}
 
 	}

@@ -138,12 +138,33 @@ bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
         int sum = message_type + tx_id + rx_id;
         return (sum%modulus == checksum);       
 }
+bool valid_list_message(int message_type, int *network_ids, int num_ids, int checksum){
+        int modulus = 999;
+        int sum = message_type;
+        int i;
+        for (i=0; i<num_ids; ++i) {
+                sum = sum + network_ids[i];
+                printf("ADD %d to list_checksum\n", network_ids[i])
+        }
+        return (sum%modulus == checksum);       
+}
 
 int compute_checksum(int message_type, int tx_id, int rx_id){
         int modulus = 999;
         int sum = message_type + tx_id + rx_id;
         return (sum%modulus);     
-}       
+}    
+
+int compute_list_checksum(int message_type, int *network_ids, int num_ids){
+        int modulus = 999;
+        int sum = message_type;
+        int i;
+        for (i=0; i<num_ids; ++i) {
+                sum = sum + network_ids[i];
+                printf("ADD %d to list_checksum\n", network_ids[i])
+        }
+        return (sum%modulus);     
+}  
 
 void send_message(int message_type, int tx_id, int rx_id){
 
@@ -151,6 +172,66 @@ void send_message(int message_type, int tx_id, int rx_id){
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
 	sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00); 
+	printf("TransmitMessageString: %s\n", msg);
+	setIDLE();
+	cc1200_cmd(SFTX);
+	cc1200_reg_write(0x3F, strlen(msg));
+	int j;
+	for (j=0; j<strlen(msg); ++j){
+        	cc1200_cmd(SNOP);
+        	cc1200_reg_write(0x3F, msg[j]);
+        	cc1200_cmd(SNOP);
+	}
+	int numTx;
+	cc1200_reg_read(0x2FD6, &numTx);
+	setTX();
+        while((get_status_cc1200()==TX) || (numTx != 0)){
+                cc1200_cmd(SNOP);
+                cc1200_reg_read(0x2FD6, & numTx);
+        }
+	printf("DONE TRANSMITTING\n\n");
+	setIDLE();
+}
+
+void send_list_message(int *network_ids, int num_nodes){
+        
+        int i;
+        int num_ids_to_send = 0;
+        for (i=0; i<num_nodes; ++i) {
+                if network_ids[i] != 0 {
+                        ++num_ids_to_send;
+                }
+        }
+
+	//char msg[] = "HelloWorld0";
+        int message_type = 0x05;
+        int msg_len = (num_ids_to_send*7)+1+4;
+	char msg[40]; // char msg[msg_len];
+        int checksum = compute_list_checksum(message_type, network_ids, num_ids_to_send);
+
+        char* msg_type = "5";
+        strcpy( msg, msg_type );
+
+        int j;
+        for (j=0; j<num_ids_to_send+2; ++j) {
+                
+                if (j==num_ids_to_send){
+                        char* buffer[3];
+                        sprintf(buffer, "%d", checksum);
+                        strcat( msg, buffer );
+                }
+                else if (j==num_ids_to_send+1){
+                        char* buffer[1];
+                        sprintf(buffer, "%d", 0x00);
+                        strcat( msg, buffer );
+                }
+                else {
+                        char* buffer[7];
+                        sprintf(buffer, "%d", network_ids[j]);
+                        strcat( msg, buffer );
+                }
+                
+        } 	
 	printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
 	cc1200_cmd(SFTX);
