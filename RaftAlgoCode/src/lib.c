@@ -198,7 +198,7 @@ void send_list_message(int *network_ids, int num_nodes){
         int i;
         int num_ids_to_send = 0;
         for (i=0; i<num_nodes; ++i) {
-                if network_ids[i] != 0 {
+                if (network_ids[i] != 0) {
                         ++num_ids_to_send;
                 }
         }
