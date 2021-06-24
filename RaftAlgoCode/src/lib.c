@@ -236,10 +236,10 @@ void send_list_message(int *network_ids, int num_nodes){
 	setIDLE();
 	cc1200_cmd(SFTX);
 	cc1200_reg_write(0x3F, strlen(msg));
-	int j;
-	for (j=0; j<strlen(msg); ++j){
+	int k;
+	for (k=0; k<strlen(msg); ++k){
         	cc1200_cmd(SNOP);
-        	cc1200_reg_write(0x3F, msg[j]);
+        	cc1200_reg_write(0x3F, msg[k]);
         	cc1200_cmd(SNOP);
 	}
 	int numTx;
