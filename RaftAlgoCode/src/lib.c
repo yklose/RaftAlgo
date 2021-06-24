@@ -144,7 +144,7 @@ bool valid_list_message(int message_type, int *network_ids, int num_ids, int che
         int i;
         for (i=0; i<num_ids; ++i) {
                 sum = sum + network_ids[i];
-                printf("ADD %d to list_checksum\n", network_ids[i])
+                printf("ADD %d to list_checksum\n", network_ids[i]);
         }
         return (sum%modulus == checksum);       
 }
