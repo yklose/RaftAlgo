@@ -210,7 +210,7 @@ void send_list_message(int *network_ids, int num_nodes){
         printf("send-list_msg\n");
         int i;
         int num_ids_to_send = 0;
-        for (i=0; i<num_nodes; ++i) {
+        for (i=0; i<5; ++i) {  //TESTING 5=num_nodes
                 if (network_ids[i] != 0) {
                         ++num_ids_to_send;
                         printf("IDs: %d\n", network_ids[i]);
