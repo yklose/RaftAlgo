@@ -219,7 +219,7 @@ void send_list_message(int *network_ids, int num_nodes){
 
 	//char msg[] = "HelloWorld0";
         int message_type = 0x05;
-        int msg_len = (num_ids_to_send*7)+1+4;
+        int msg_len = (num_ids_to_send*7)+1+4+2;
 
         char msg[msg_len];
 	memset(msg, 0, sizeof msg);
