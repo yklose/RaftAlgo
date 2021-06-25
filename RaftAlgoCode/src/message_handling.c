@@ -414,6 +414,7 @@ void leader_loop(){
 		}
 		if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
+			printf("HEARTBEAT\n");
 			heartbeat_send = true;
 		}
 
