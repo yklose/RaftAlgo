@@ -271,11 +271,11 @@ void read_incoming_packet_loop(void){
 								// TESTING
 								printf("LEADER MESSAGE\n");
 								state = set_state_follower();
-								send_message(0x04, 2345678, sender_id);
+								//send_message(0x04, 2345678, sender_id);
 								
 								// TESTING END
 								leader_id = sender_id;
-								//handle_leader_message(sender_id);
+								handle_leader_message(sender_id);
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"FORWARD_OK") == 0){
