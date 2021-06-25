@@ -359,7 +359,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                         }
                         if (found == false){
                                 printf(" (Not in list. SEND...)\n");
-                                send_message(6, id, network_ids[k]);
+                                send_message(0x07, id, network_ids[k]);
                         }
                         else{
                                 printf(" (already in list) \n");
