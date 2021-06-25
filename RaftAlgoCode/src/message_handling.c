@@ -271,11 +271,11 @@ void read_incoming_packet_loop(void){
 								// TESTING
 								printf("LEADER MESSAGE\n");
 								state = set_state_follower();
-								//send_message(0x04, 1234567, sender_id);
+								send_message(0x04, 2345678, sender_id);
 								
 								// TESTING END
 								leader_id = sender_id;
-								handle_leader_message(sender_id);
+								//handle_leader_message(sender_id);
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"FORWARD_OK") == 0){
@@ -335,7 +335,8 @@ void leader_loop(){
 	cc1200_cmd(SFRX);
 	packet_len = 0;
 	setRX();
-	send_list_message(network_ids, num_nodes);
+	bool broadcast_list_changed = true;
+	// send_list_message(network_ids, num_nodes);
 	// JUST FOR TESTING
 	// printf("broadcast new list....\n");
 	// send_list_message(network_ids, num_nodes);		
@@ -356,7 +357,7 @@ void leader_loop(){
 		int timeout = 500; //generate_random_timeout();
 		bool valid_packet = false;
 		bool heartbeat_send = false;
-		bool broadcast_list_changed = false;
+	
 		int packet_len = 0;
 		loop_counter++;
 		// RX loop
@@ -439,6 +440,8 @@ void leader_loop(){
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
 		}
+
+
 
 	}
 
