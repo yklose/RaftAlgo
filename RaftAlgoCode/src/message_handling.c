@@ -319,7 +319,6 @@ void read_incoming_packet_loop(void){
 		}
 	}
     printf("Leaving Normal Loop - Entering Leader Loop...\n");
-	free(message);
 }
 
 
