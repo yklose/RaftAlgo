@@ -7,11 +7,10 @@
 
 /****************************************************************************/
 /*                                                                          */
-/* Update:                                                                  */
-/*                                                                          */
-/*
-send_message & checksum & valid_msg gibt es jetzt auch für list_broadcast messenges
-Testen? Ging noch nicht - Leader empfängt keine Nachrichten 
+/* TODO: 
+- max packet len
+- sender_type error
+- handel request rorward
 */
 /****************************************************************************/
 
