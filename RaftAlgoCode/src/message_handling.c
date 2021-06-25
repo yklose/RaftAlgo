@@ -326,10 +326,13 @@ void read_incoming_packet_loop(void){
 
 void leader_loop(){
     int loop_counter = 0;
-
+	setIDLE();
+	cc1200_cmd(SFRX);
+	packet_len = 0;
+	setRX();
 	// JUST FOR TESTING
-	printf("broadcast new list....\n");
-	send_list_message(network_ids, num_nodes);		
+	// printf("broadcast new list....\n");
+	// send_list_message(network_ids, num_nodes);		
 	// Leader Loop
 	while (true){
 		// print current state
