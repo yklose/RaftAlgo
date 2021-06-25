@@ -19,9 +19,11 @@ void load_variables(void){
 	// load needed extern variables	
 	extern int packet_len;      
 	extern int max_packet_len;  
+	extern network_ids[];
 	// initialize generated numbers
 	extern int id;
 	id  = generate_random_id(); 
+	network_ids[0] = id;
 	extern int state;
 	state = set_state_open();
 	// print ID
