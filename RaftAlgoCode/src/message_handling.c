@@ -69,7 +69,9 @@ char *read_message(){
     cc1200_reg_read(0x3F, &packet_len);
     // check if message is longer than expected
     if (packet_len>max_packet_len){
+		printf("packet_len: %d\n", packet_len);
         packet_len = max_packet_len;
+		
         printf("Transmitted message is longer than max configured lengths\n");
     }
     // read packet
