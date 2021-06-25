@@ -53,7 +53,7 @@ void initialize_spi(){
 
 int generate_random_timeout(){
 	srand(time(NULL));
-	int max = 500;
+	int x = 500;
 	return rand() % max;
 }
 
@@ -219,7 +219,11 @@ void send_list_message(int *network_ids, int num_nodes){
 	//char msg[] = "HelloWorld0";
         int message_type = 0x05;
         int msg_len = (num_ids_to_send*7)+1+4;
-	char msg[40]; // char msg[msg_len];
+
+        char msg[msg_len];
+	memset(msg, 0, sizeof msg);
+
+	//char msg[40]; // char msg[msg_len];
         int checksum = compute_list_checksum(message_type, network_ids, num_ids_to_send);
 
         char* msg_type = "5";
