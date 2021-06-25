@@ -273,6 +273,7 @@ void send_list_message(int *network_ids, int num_nodes){
 int convert_char_to_int(char *msg){
 	int msg_int;
         sscanf(msg, "%d", &msg_int);
+        printf("msg_int: %d\n", msg_int);
         return msg_int;
 }
 
@@ -311,7 +312,7 @@ int get_checksum_from_msg(char *msg){
 int get_int_type_from_msg(char *msg){
         char type[1];
         type[0] = msg[0];
-        printf("msg0: %c", msg[0]);
+        printf("msg0: %c\n", msg[0]);
 	return convert_char_to_int(type);
 }
 
