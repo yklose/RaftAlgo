@@ -330,6 +330,7 @@ void leader_loop(){
 	cc1200_cmd(SFRX);
 	packet_len = 0;
 	setRX();
+	send_list_message(network_ids, num_nodes);
 	// JUST FOR TESTING
 	// printf("broadcast new list....\n");
 	// send_list_message(network_ids, num_nodes);		
@@ -382,13 +383,11 @@ void leader_loop(){
 					
 					
 					
-					//if (checksum_correct==true){
-						printf("Sender Type: %d\n", sender_type_int);
+					if (checksum_correct==true){
+						printf("Sender Type: %c\n", sender_type);
 						printf("tx_id: %d\n", sender_id);
 						printf("rx_id: %d\n", receiver_id);
-						printf("checksum: %d\n", checksum);
-	
-					//}
+					}
 					if (checksum_correct==true){
 						// Update local list
 						bool in_local_list = id_in_list(network_ids, sender_id);
