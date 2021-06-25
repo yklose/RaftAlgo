@@ -369,6 +369,7 @@ void leader_loop(){
                     printf("RSSI: %d\n", rssi);
                     // read message
 					cc1200_reg_read(0x3F, &packet_len);
+					printf("packet_len: %d\n", packet_len);
 					char *message = read_message();
 	
 					// get message informations
