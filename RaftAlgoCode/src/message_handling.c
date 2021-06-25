@@ -383,9 +383,10 @@ void leader_loop(){
 					
 					
 					//if (checksum_correct==true){
-						printf("Sender Type: %s\n", sender_type);
+						printf("Sender Type: %d\n", sender_type_int);
 						printf("tx_id: %d\n", sender_id);
 						printf("rx_id: %d\n", receiver_id);
+						printf("checksum: %d\n", checksum);
 	
 					//}
 					if (checksum_correct==true){
