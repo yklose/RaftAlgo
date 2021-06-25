@@ -355,7 +355,7 @@ void leader_loop(){
 			cc1200_reg_read(0x2FD7, &numRX);
 			// if there is a packet detected and you are not the leader!
 			if(numRX>0){
-				print('Test1!\n');
+				print("Test1!\n");
 				rssi_valid(0x2F72);
 				if (packet_len == 0){ 
                     printf("----------- PACKET detected -----------\n");
