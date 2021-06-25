@@ -264,11 +264,11 @@ void read_incoming_packet_loop(void){
 								// TESTING
 								printf("LEADER MESSAGE\n");
 								state = set_state_follower();
-								send_message(0x04, 1234567, sender_id);
-								leader_id = sender_id;
+								//send_message(0x04, 1234567, sender_id);
+								
 								// TESTING END
-
-								// handle_leader_message(sender_id);
+								leader_id = sender_id;
+								handle_leader_message(sender_id);
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"FORWARD_OK") == 0){
@@ -326,8 +326,8 @@ void leader_loop(){
     int loop_counter = 0;
 
 	// JUST FOR TESTING
-	// int id_test = 1111111;
-	// send_message(0x05,id, id_test);
+	printf("broadcast new list....\n");
+	send_list_message(network_ids, num_nodes);		
 	// Leader Loop
 	while (true){
 		// print current state
