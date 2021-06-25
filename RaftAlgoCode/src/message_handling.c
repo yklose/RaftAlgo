@@ -371,12 +371,12 @@ void leader_loop(){
 					// cc1200_reg_read(0x3F, &packet_len);
 					// printf("packet_len: %d\n", packet_len);
 					char *message = read_message();
-	
+
 					// get message informations
+					char *sender_type = get_type_from_message(message);
 					int sender_id = get_tx_id_from_msg(message);
 					int receiver_id = get_rx_id_from_msg(message);
 					int checksum = get_checksum_from_msg(message);
-					char *sender_type = get_type_from_message(message);
 					int sender_type_int = get_int_type_from_msg(message);
 					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
 					
