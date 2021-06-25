@@ -351,7 +351,7 @@ void leader_loop(){
 		bool valid_packet = false;
 		bool heartbeat_send = false;
 		bool broadcast_list_changed = false;
-		packet_len = 0;
+		int packet_len = 0;
 		loop_counter++;
 		// RX loop
 		while (msec < timeout){
