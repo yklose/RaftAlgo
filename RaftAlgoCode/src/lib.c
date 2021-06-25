@@ -3,6 +3,19 @@
 /* Useful functions receiving/sending packets with CC1200                   */
 /*                                                                          */
 /****************************************************************************/
+
+
+/****************************************************************************/
+/*                                                                          */
+/* Update:                                                                  */
+/*                                                                          */
+/*
+send_message & checksum & valid_msg gibt es jetzt auch für list_broadcast messenges
+Testen? Ging noch nicht - Leader empfängt keine Nachrichten 
+*/
+/****************************************************************************/
+
+
 #include "lib.h"
 #include <stdio.h>
 #include <SPIv1.h> 
