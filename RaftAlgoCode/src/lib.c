@@ -207,7 +207,7 @@ void send_message(int message_type, int tx_id, int rx_id){
 }
 
 void send_list_message(int *network_ids, int num_nodes){
-        
+        printf("send-list_msg\n");
         int i;
         int num_ids_to_send = 0;
         for (i=0; i<num_nodes; ++i) {
