@@ -379,11 +379,15 @@ void leader_loop(){
 					char *sender_type = get_type_from_message(message);
 					int sender_type_int = get_int_type_from_msg(message);
 					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-					if (checksum_correct==true){
+					
+					
+					
+					//if (checksum_correct==true){
 						printf("Sender Type: %s\n", sender_type);
 						printf("tx_id: %d\n", sender_id);
 						printf("rx_id: %d\n", receiver_id);
-					}
+	
+					//}
 					if (checksum_correct==true){
 						// Update local list
 						bool in_local_list = id_in_list(network_ids, sender_id);
