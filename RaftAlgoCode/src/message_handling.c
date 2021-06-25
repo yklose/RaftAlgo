@@ -54,7 +54,8 @@ void update_rssi_list(int sender_id, int rssi){
 void update_network_ids(int sender_id, int rssi){
         // add sender_id to network_ids
         int n=0;
-        for (n=0; n<num_nodes;++n){
+        for (n=0; n<5;++n){  //TESTING 5 = num_nodes
+			printf("Network IDs N. %d", n);
                 if (network_ids[n]==0){
                         network_ids[n]=sender_id;
 						printf("Update network id %d at %d\n",sender_id, n);
