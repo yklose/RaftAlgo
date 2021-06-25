@@ -319,6 +319,7 @@ void read_incoming_packet_loop(void){
 		}
 	}
     printf("Leaving Normal Loop - Entering Leader Loop...\n");
+	free(message);
 }
 
 
@@ -342,7 +343,7 @@ void leader_loop(){
 		// start clock
 		clock_t starttime = clock();
         int msec = update_msec(starttime);
-		int timeout = 150; //generate_random_timeout();
+		int timeout = 500; //generate_random_timeout();
 		bool valid_packet = false;
 		bool heartbeat_send = false;
 		bool broadcast_list_changed = false;
