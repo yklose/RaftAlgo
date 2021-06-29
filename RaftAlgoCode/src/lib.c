@@ -147,6 +147,13 @@ bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
         int sum = message_type + tx_id + rx_id;
         return (sum%modulus == checksum);       
 }
+
+bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
+        int modulus = 999;
+        int sum = message_type + forwarder_id + tx_id + rssi;
+        return (sum%modulus == checksum);       
+}
+
 bool valid_list_message(int message_type, int *network_ids, int num_ids, int checksum){
         int modulus = 999;
         int sum = message_type;

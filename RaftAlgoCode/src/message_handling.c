@@ -271,8 +271,7 @@ void read_incoming_packet_loop(void){
 						handle_list_broadcast_message(message);
 						valid_packet = true;
 					}
-
-					if (strcmp(sender_type,"LIST_BROADCAST") != 0){
+					else {
 						int sender_id = get_tx_id_from_msg(message);
 						int receiver_id = get_rx_id_from_msg(message);
 						int checksum = get_checksum_from_msg(message);
@@ -418,44 +417,50 @@ void leader_loop(){
 
 					// get message informations
 					char *sender_type = get_type_from_message(message);
-					int sender_id = get_tx_id_from_msg(message);
-					int receiver_id = get_rx_id_from_msg(message);
-					int checksum = get_checksum_from_msg(message);
-					int sender_type_int = get_int_type_from_msg(message);
-					bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-					
-					
-					
-					if (checksum_correct==true){
-						printf("Sender Type: %s\n", sender_type);
-						printf("tx_id: %d\n", sender_id);
-						printf("rx_id: %d\n", receiver_id);
+
+                    // TODO: checksum
+                    if (strcmp(sender_type,"FORWARD_REQUEST") == 0){
+						handle_list_broadcast_message(message);
+						valid_packet = true;
 					}
-					if (checksum_correct==true){
-						// Update local list
-						bool in_local_list = id_in_list(network_ids, sender_id);
-						if (in_local_list == false){
-							update_network_ids(sender_id, rssi);
-							broadcast_list_changed = true;
-							printf("Update Local list - new id\n");
-						}
-						else{
-							update_rssi_list(sender_id, rssi);
-							printf("Update Local list - new rssi\n");
-						}
-						// evaluate message types
-						if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
-							handle_request_forward_message(message);
-                            valid_packet = true;
-						}
-						else if (strcmp(sender_type,"OK") == 0){
-							handle_ok_message(sender_id);
-                            valid_packet = true;
-						}
-					}
-					else{
-						printf("invalid message\n");
-					}
+                    else {
+
+                        int sender_id = get_tx_id_from_msg(message);
+                        int receiver_id = get_rx_id_from_msg(message);
+                        int checksum = get_checksum_from_msg(message);
+                        int sender_type_int = get_int_type_from_msg(message);
+                        bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
+                        
+                        
+                        
+                        if (checksum_correct==true){
+                            printf("Sender Type: %s\n", sender_type);
+                            printf("tx_id: %d\n", sender_id);
+                            printf("rx_id: %d\n", receiver_id);
+                        }
+                        if (checksum_correct==true){
+                            // Update local list
+                            bool in_local_list = id_in_list(network_ids, sender_id);
+                            if (in_local_list == false){
+                                update_network_ids(sender_id, rssi);
+                                broadcast_list_changed = true;
+                                printf("Update Local list - new id\n");
+                            }
+                            else{
+                                update_rssi_list(sender_id, rssi);
+                                printf("Update Local list - new rssi\n");
+                            }
+                            // evaluate message types
+                            
+                            if (strcmp(sender_type,"OK") == 0){
+                                handle_ok_message(sender_id);
+                                valid_packet = true;
+                            }
+                        }
+                        else{
+                            printf("invalid message\n");
+                        }
+                    }
 					// go in IDLE mode to Reset FIFO
 					printf("\n\n");
 					setIDLE();
