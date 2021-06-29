@@ -263,6 +263,14 @@ void read_incoming_packet_loop(void){
 					// get message informations
 					char *sender_type = get_type_from_message(message);
                     printf("Sender Type: %s\n", sender_type);
+
+                
+                    // TODO: check checksum!
+					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
+						handle_list_broadcast_message(message);
+						valid_packet = true;
+					}
+
 					if (strcmp(sender_type,"LIST_BROADCAST") != 0){
 						int sender_id = get_tx_id_from_msg(message);
 						int receiver_id = get_rx_id_from_msg(message);
@@ -319,10 +327,7 @@ void read_incoming_packet_loop(void){
 							printf("invalid message\n");
 						}
 					}
-					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-						handle_list_broadcast_message(message);
-						valid_packet = true;
-					}
+                    
 					// go in IDLE mode to Reset FIFO
 					printf("\n\n");
 					setIDLE();
