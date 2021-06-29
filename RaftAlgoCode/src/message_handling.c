@@ -420,7 +420,7 @@ void leader_loop(){
 
                     // TODO: checksum
                     if (strcmp(sender_type,"FORWARD_REQUEST") == 0){
-						handle_list_broadcast_message(message);
+						handle_request_forward_message(message);
 						valid_packet = true;
 					}
                     else {

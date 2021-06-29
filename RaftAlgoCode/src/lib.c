@@ -405,7 +405,8 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                         }
                         if (found == false){
                                 printf(" (Not in list. SEND... with RSSI: %d )\n", rssi_values[k]);
-                                send_message(0x07, id, network_ids[k]);
+                                //send_message(0x07, id, network_ids[k]);
+                                send_request_message(network_ids[k], id, rssi_values[k])
                         }
                         else{
                                 printf(" (already in list) \n");
