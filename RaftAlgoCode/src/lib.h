@@ -28,7 +28,9 @@ int generate_random_id();
 int generate_random_timout();
 // message interaction
 void send_message(int message_type, int tx_id, int rx_id);
+void send_request_message(int forwarder_id, int tx_id, int rssi)
 void send_list_message(int *network_ids, int num_nodes);
+
 int get_rx_id_from_msg(char *msg);
 int get_tx_id_from_msg(char *msg);
 int get_checksum_from_msg(char *msg);

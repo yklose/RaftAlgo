@@ -178,6 +178,43 @@ int compute_list_checksum(int message_type, int *network_ids, int num_ids){
         return (sum%modulus);     
 }  
 
+int compute_request_checksum(int message_type, int forwarder_id, int tx_id, int rssi){
+        int modulus = 999;
+        int sum = message_type + forwarder_id + tx_id + rssi;
+        return (sum%modulus);     
+}   
+
+void send_request_message(int forwarder_id, int tx_id, int rssi){
+        char msg[20];
+        int checksum = compute_request_checksum(0x07, forwarder_id, tx_id, rssi);
+        if (rssi > 99):
+                sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00); 
+        else if (rssi > 9):
+                sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,checksum, 0x00); 
+        else:
+                sprintf(msg, "%d%d%%d%dd%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,checksum, 0x00); 
+        // print message string
+        printf("TransmitMessageString: %s\n", msg);
+	setIDLE();
+	cc1200_cmd(SFTX);
+	cc1200_reg_write(0x3F, strlen(msg));
+	int j;
+	for (j=0; j<strlen(msg); ++j){
+        	cc1200_cmd(SNOP);
+        	cc1200_reg_write(0x3F, msg[j]);
+        	cc1200_cmd(SNOP);
+	}
+	int numTx;
+	cc1200_reg_read(0x2FD6, &numTx);
+	setTX();
+        while((get_status_cc1200()==TX) || (numTx != 0)){
+                cc1200_cmd(SNOP);
+                cc1200_reg_read(0x2FD6, & numTx);
+        }
+	printf("DONE TRANSMITTING\n\n");
+	setIDLE();
+}
+
 void send_message(int message_type, int tx_id, int rx_id){
 
 	//char msg[] = "HelloWorld0";
@@ -334,7 +371,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                 char id[id_len];
                 for (j=0; j<id_len; ++j){
 			int index = 1+j+i*id_len;
-			printf("index: %d\n", index);
+			//printf("index: %d\n", index);
                         id[j] = msg[index];
                 }
 		int id_int = convert_char_to_int(id);
