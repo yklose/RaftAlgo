@@ -315,7 +315,7 @@ int get_int_type_from_msg(char *msg){
 }
 
 void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id){
-        
+        extern int rssi_values[];
         int id_len = 7;
         /*
         int message_len = strlen(msg);
@@ -358,7 +358,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                                 }
                         }
                         if (found == false){
-                                printf(" (Not in list. SEND...)\n");
+                                printf(" (Not in list. SEND... with RSSI: %d )\n", rssi_values[k]);
                                 send_message(0x07, id, network_ids[k]);
                         }
                         else{
@@ -370,10 +370,13 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 
 }
 
-void process_list_broadcast(int* global_network_ids, int len_global_network_ids, int* network_ids,int len_network_ids, int id){
-        
-        
-        
+void process_list_broadcast(void){
+        extern int global_network_ids[];
+        extern int network_ids[];
+        extern int rssi_values[];
+        extern int id;
+        int len_global_network_ids = 2;
+        int len_network_ids = 2;
         int i;
 	for (i=0; i<(len_network_ids); ++i){
 		printf("ID: %d\n", network_ids[i]);
@@ -385,7 +388,7 @@ void process_list_broadcast(int* global_network_ids, int len_global_network_ids,
 			}
 		}
                 if (found == false){
-                        printf("Not in list. SEND...\n");
+                        printf("Not in list. SEND... with RSSI: %d\n", rssi_values[i]);
 			send_message(6, id, network_ids[i]);
                 }
                 else{

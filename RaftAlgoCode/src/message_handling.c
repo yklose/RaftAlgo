@@ -181,12 +181,12 @@ void handle_list_broadcast_message(char *msg){
     // update global list 
     // if ids in local list not in global, send request
 
-	int num_ids = ((strlen(msg)-4)/7);
+	int num_ids = ((strlen(msg)-4)/7); //TODO: 7 to extern variable!
 	int len_broadcast_network_ids = num_ids;
 	//int broadcast_network_ids[len_broadcast_network_ids] = {0};
-	int broadcast_network_ids[2] = {0};
+	int broadcast_network_ids[2] = {0}; // TODO: no hard coding
 	// get_broadcast_ids_from_msg(broadcast_network_ids, msg, num_ids);
-	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 2, network_ids, 2, id);
+	get_broadcast_ids_from_msg(msg, broadcast_network_ids, 2, network_ids, 2, id); // TODO: no hard coding
 
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 }
