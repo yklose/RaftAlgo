@@ -208,7 +208,6 @@ void handle_request_forward_message(char *msg){
     // Get forwarder ID
     int j;
     for (j=0; j<id_len; ++j){
-        //printf("index: %d\n", index);
         forwarder_id[j] = msg[1+j];
     }
     int forwarder_id_int = convert_char_to_int(forwarder_id);
@@ -216,7 +215,6 @@ void handle_request_forward_message(char *msg){
     // Get sender ID
     int k;
     for (k=0; k<id_len; ++k){
-        //printf("index: %d\n", index);
         sender_id[k] = msg[1+id_len+k];
     }
     int sender_id_int = convert_char_to_int(sender_id);
@@ -224,11 +222,13 @@ void handle_request_forward_message(char *msg){
     // Get RSSI
     int l;
     for (l=0; l<rssi_len; ++l){
-        //printf("index: %d\n", index);
         rssi[l] = msg[1+id_len+id_len+l];
     }
     int rssi_int = convert_char_to_int(rssi);
     printf("RSSI of Forwarder: %d\n", rssi_int);
+    // TODO: ADD to potential new forwarder
+    // later decide
+
 
 
 

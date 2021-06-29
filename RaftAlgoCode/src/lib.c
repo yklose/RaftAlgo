@@ -9,8 +9,8 @@
 /*                                                                          */
 /* TODO: 
 - max packet len
-- sender_type error
-- handel request forward
+- sender_type error (DONE)
+- handel request forward (PROGRESS)
 */
 /****************************************************************************/
 
@@ -112,9 +112,6 @@ int set_state_proposer(){
 }
 
 int set_state_leader(){
-	//LEADER STATE
-
-	//LEADER STATE
 	return 0x03;
 }
 
@@ -156,7 +153,7 @@ bool valid_list_message(int message_type, int *network_ids, int num_ids, int che
         int i;
         for (i=0; i<num_ids; ++i) {
                 sum = sum + network_ids[i];
-                printf("ADD %d to list_checksum\n", network_ids[i]);
+                //printf("ADD %d to list_checksum\n", network_ids[i]);
         }
         return (sum%modulus == checksum);       
 }
