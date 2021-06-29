@@ -10,7 +10,7 @@
 /* TODO: 
 - max packet len
 - sender_type error
-- handel request rorward
+- handel request forward
 */
 /****************************************************************************/
 

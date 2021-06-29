@@ -199,6 +199,7 @@ void handle_forward_ok_message(int sender_id){
 }
 
 void handle_request_forward_message(int sender_id){
+    printf("REQUEST FORWARD MESSAGE \n");
 
 
 }
@@ -231,6 +232,7 @@ void read_incoming_packet_loop(void){
 					char *message = read_message();
 					// get message informations
 					char *sender_type = get_type_from_message(message);
+                    printf("Sender Type: %s\n", sender_type);
 					if (strcmp(sender_type,"LIST_BROADCAST") != 0){
 						int sender_id = get_tx_id_from_msg(message);
 						int receiver_id = get_rx_id_from_msg(message);
@@ -288,10 +290,8 @@ void read_incoming_packet_loop(void){
 						}
 					}
 					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-						
 						handle_list_broadcast_message(message);
 						valid_packet = true;
-						
 					}
 					// go in IDLE mode to Reset FIFO
 					printf("\n\n");
@@ -390,7 +390,7 @@ void leader_loop(){
 					
 					
 					if (checksum_correct==true){
-						printf("Sender Type: %c\n", sender_type);
+						printf("Sender Type: %s\n", sender_type);
 						printf("tx_id: %d\n", sender_id);
 						printf("rx_id: %d\n", receiver_id);
 					}
