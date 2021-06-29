@@ -205,6 +205,7 @@ void handle_request_forward_message(char *msg){
     int rssi_len = 3;
     char forwarder_id[7]; // TODO: id len
     char sender_id[7];
+    char rssi[3];
     // Get forwarder ID
     int j;
     for (j=0; j<id_len; ++j){
