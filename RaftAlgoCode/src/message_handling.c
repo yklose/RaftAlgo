@@ -428,17 +428,17 @@ void leader_loop(){
 				}
 			}
 		}
-		if ((heartbeat_send == false)){
-			send_message(0x03, id, id);
-			printf("HEARTBEAT\n");
-			heartbeat_send = true;
-		}
-
+	
 		// check if local list changed?
 		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
+		}
+        else if ((heartbeat_send == false)){
+			send_message(0x03, id, id);
+			printf("HEARTBEAT\n");
+			heartbeat_send = true;
 		}
 
 
