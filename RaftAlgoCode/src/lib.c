@@ -150,7 +150,7 @@ bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
 
 bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
         int modulus = 999;
-        int sum = message_type + forwarder_id + tx_id + rssi;
+        int sum = 0x07 + forwarder_id + tx_id + rssi;
         return (sum%modulus == checksum);       
 }
 
@@ -182,15 +182,15 @@ int compute_list_checksum(int message_type, int *network_ids, int num_ids){
         return (sum%modulus);     
 }  
 
-int compute_request_checksum(int message_type, int forwarder_id, int tx_id, int rssi){
+int compute_request_checksum(int forwarder_id, int tx_id, int rssi){
         int modulus = 999;
-        int sum = message_type + forwarder_id + tx_id + rssi;
+        int sum = 0x07 + forwarder_id + tx_id + rssi;
         return (sum%modulus);     
 }   
 
 void send_request_message(int forwarder_id, int tx_id, int rssi){
         char msg[20];
-        int checksum = compute_request_checksum(0x07, forwarder_id, tx_id, rssi);
+        int checksum = compute_request_checksum(forwarder_id, tx_id, rssi);
         if (rssi > 99){
                 sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00); 
         }
