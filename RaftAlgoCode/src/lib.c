@@ -339,9 +339,10 @@ int get_checksum_from_msg(char *msg){
 	int checksum_len = 3;
 	char checksum[checksum_len];
         int message_len = strlen(msg);
+        printf("message len: %d", message_len);
 	int i;
 	for (i=0; i<checksum_len; ++i){
-		checksum[i] = msg[message_len-checksum_len-1];
+		checksum[i] = msg[message_len-checksum_len-1+i];
 	}
 	return convert_char_to_int(checksum);
 }
