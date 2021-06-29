@@ -443,7 +443,7 @@ void leader_loop(){
 						}
 						// evaluate message types
 						if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
-							handle_request_forward_message(sender_id);
+							handle_request_forward_message(message);
                             valid_packet = true;
 						}
 						else if (strcmp(sender_type,"OK") == 0){
