@@ -279,6 +279,9 @@ void read_incoming_packet_loop(void){
 						bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
                         printf("Checksum: %d\n", checksum);
 						// print information for valid packet
+                        printf("Sender Type: %s\n", sender_type);
+                        printf("tx_id: %d\n", sender_id);
+                        printf("rx_id: %d\n", receiver_id);
 						if (checksum_correct==true){
 							printf("Sender Type: %s\n", sender_type);
 							printf("tx_id: %d\n", sender_id);
@@ -295,6 +298,7 @@ void read_incoming_packet_loop(void){
 								update_rssi_list(sender_id, rssi);
 								printf("Update Local list - new rssi\n");
 							}
+
 							// evaluate message types
 							if (strcmp(sender_type,"PROPOSE") == 0){
 								handle_propose_message(sender_id, proposer_id);
