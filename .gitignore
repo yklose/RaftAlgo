@@ -3,8 +3,6 @@ build/*
 .DS_Store
 raftalgo
 CMakeFiles/
-CMake*
 Makefile
-cmake*
 src/choose*
 .vscode*
