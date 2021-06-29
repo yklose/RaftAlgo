@@ -419,7 +419,7 @@ void leader_loop(){
 					char *sender_type = get_type_from_message(message);
 
                     // TODO: checksum
-                    if (strcmp(sender_type,"FORWARD_REQUEST") == 0){
+                    if (strcmp(sender_type,"REQUEST_FORWARD") == 0){
 						handle_request_forward_message(message);
 						valid_packet = true;
 					}
