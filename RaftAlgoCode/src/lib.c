@@ -154,9 +154,12 @@ bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
         return (sum%modulus == checksum);       
 }
 
-bool valid_list_message(int message_type, int *network_ids, int num_ids, int checksum){
+bool valid_list_message(int num_ids, int checksum){
+        extern int network_ids[];
+        int num_ids = sizeof(network_ids)/sizeof(network_ids[0]);
+        printf("Num ids: %d", num_ids);
         int modulus = 999;
-        int sum = message_type;
+        int sum = 0x05;
         int i;
         for (i=0; i<num_ids; ++i) {
                 sum = sum + network_ids[i];
@@ -250,7 +253,6 @@ void send_message(int message_type, int tx_id, int rx_id){
 }
 
 void send_list_message(int *network_ids, int num_nodes){
-        printf("send-list_msg\n");
         int i;
         int num_ids_to_send = 0;
         for (i=0; i<5; ++i) {  //TESTING 5=num_nodes
@@ -346,7 +348,6 @@ int get_checksum_from_msg(char *msg){
 	int checksum_len = 3;
 	char checksum[checksum_len];
         int message_len = strlen(msg);
-        printf("message len: %d", message_len);
 	int i;
 	for (i=0; i<checksum_len; ++i){
 		checksum[i] = msg[message_len-checksum_len-1+i];

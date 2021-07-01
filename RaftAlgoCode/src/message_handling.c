@@ -170,9 +170,7 @@ void handle_leader_message(int sender_id){
     printf("LEADER MESSAGE\n");
     // set state to follower
     state = set_state_follower();
-    // send ok message
-    send_message(0x04, id, sender_id);
-    //save leader id
+    // save leader id
     leader_id = sender_id;
 }
 
@@ -268,6 +266,8 @@ void read_incoming_packet_loop(void){
                 
                     // TODO: check checksum!
 					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
+                        int checksum = get_checksum_from_msg(message);
+                        bool checksum_correct = valid_list_message(3, checksum);
 						handle_list_broadcast_message(message);
 						valid_packet = true;
 					}
@@ -311,13 +311,6 @@ void read_incoming_packet_loop(void){
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"LEADER") == 0){
-								// TESTING
-								printf("LEADER MESSAGE\n");
-								state = set_state_follower();
-								//send_message(0x04, 2345678, sender_id);
-								
-								// TESTING END
-								leader_id = sender_id;
 								handle_leader_message(sender_id);
 								valid_packet = true;
 							}
@@ -413,8 +406,6 @@ void leader_loop(){
                     int rssi = read_rssi1(0x2F71);
                     printf("RSSI: %d\n", rssi);
                     // read message
-					// cc1200_reg_read(0x3F, &packet_len);
-					// printf("packet_len: %d\n", packet_len);
 					char *message = read_message();
 
 					// get message informations
@@ -431,9 +422,7 @@ void leader_loop(){
                         int receiver_id = get_rx_id_from_msg(message);
                         int checksum = get_checksum_from_msg(message);
                         int sender_type_int = get_int_type_from_msg(message);
-                        printf("Arguments: %d, %d, %d, with checksum: %d", sender_type_int, sender_id, receiver_id, checksum);
                         bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                        
                         
                         
                         if (checksum_correct==true){
