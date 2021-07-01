@@ -155,9 +155,9 @@ bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
 }
 
 bool valid_list_message(int num_ids, int checksum){
-        extern int network_ids[];
-        size_t num_ids_new = sizeof(network_ids)/sizeof(network_ids[0]);
-        printf("Num ids: %d", num_ids_new);
+        extern int network_ids[];       
+        int num_nodes = num_valid_ids_in_list(network_ids);
+        printf("Num NEW GENERATED ids: %d\n", num_ids_new);
         int modulus = 999;
         int sum = 0x05;
         int i;
@@ -166,6 +166,18 @@ bool valid_list_message(int num_ids, int checksum){
                 //printf("ADD %d to list_checksum\n", network_ids[i]);
         }
         return (sum%modulus == checksum);       
+}
+
+int num_valid_ids_in_list(int *array){
+        int i;
+        int num_valid_nodes = 0;
+        //extern int num_nodes; // testin purpose 5
+        for (i=0; i<5; ++i) {
+                if (network_ids[i] != 0) {
+                        ++num_valid_nodes;
+                }
+        }
+        return num_valid_nodes;
 }
 
 int compute_checksum(int message_type, int tx_id, int rx_id){
