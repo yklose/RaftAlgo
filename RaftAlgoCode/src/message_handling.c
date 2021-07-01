@@ -431,6 +431,7 @@ void leader_loop(){
                         int receiver_id = get_rx_id_from_msg(message);
                         int checksum = get_checksum_from_msg(message);
                         int sender_type_int = get_int_type_from_msg(message);
+                        printf("Arguments: %d, %d, %d, with checksum: %d", sender_type_int, sender_id, receiver_id, checksum);
                         bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
                         
                         
