@@ -312,11 +312,11 @@ void read_incoming_packet_loop(void){
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-								handle_accept_message(sender_id);
+								handle_accept_message(sender_id, receiver_id);
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-								handle_decline_message(sender_id);
+								handle_decline_message(sender_id, receiver_id);
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"LEADER") == 0){
