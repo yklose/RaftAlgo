@@ -47,6 +47,6 @@ int convert_char_to_int(char *msg);
 // comparing
 bool id_in_list(int *id_list, int id);
 bool valid_message(int message_type, int tx_id, int rx_id, int checksum);
-bool valid_list_message(int num_ids, int checksum);
+bool valid_list_message(int checksum);
 bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum);
 #endif /* LIB_DOT_H */

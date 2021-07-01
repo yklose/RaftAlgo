@@ -154,16 +154,14 @@ bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
         return (sum%modulus == checksum);       
 }
 
-bool valid_list_message(int num_ids, int checksum){
+bool valid_list_message(int checksum){
         extern int network_ids[];       
-        int num_ids_new = num_valid_ids_in_list(network_ids);
-        printf("Num NEW GENERATED ids: %d\n", num_ids_new);
+        int num_ids = num_valid_ids_in_list(network_ids);
         int modulus = 999;
         int sum = 0x05;
         int i;
         for (i=0; i<num_ids; ++i) {
                 sum = sum + network_ids[i];
-                //printf("ADD %d to list_checksum\n", network_ids[i]);
         }
         return (sum%modulus == checksum);       
 }

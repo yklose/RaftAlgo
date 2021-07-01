@@ -109,59 +109,63 @@ void handle_propose_message(int sender_id, int proposer_id){
     }
 }
 
-void handle_accept_message(int sender_id){
+void handle_accept_message(int sender_id, int receiver_id){
     printf("ACCEPT OK MESSAGE\n");
-    if (state_proposer(state)){
-        bool found = id_in_list(follower_ids, sender_id);
-        if (found == false){
-            printf("INCREASE ACCEPT COUNTER\n");
-            accept_counter = accept_counter + 1;
-            int n;
-            // add sender_id to follower_ids
-            for (n=0; n<num_nodes;++n){
-                if (follower_ids[n]==0){
-                    follower_ids[n]=sender_id;
-                    break;
+    if (receiver_id == id){
+        if (state_proposer(state)){
+            bool found = id_in_list(follower_ids, sender_id);
+            if (found == false){
+                printf("INCREASE ACCEPT COUNTER\n");
+                accept_counter = accept_counter + 1;
+                int n;
+                // add sender_id to follower_ids
+                for (n=0; n<num_nodes;++n){
+                    if (follower_ids[n]==0){
+                        follower_ids[n]=sender_id;
+                        break;
+                    }
                 }
+                printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
             }
-            printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
-        }
-        printf("partition of followers: %f\n",(accept_counter/num_nodes));
-        // check if majority is reached
-        if ((accept_counter/num_nodes)>0.5) { 
-            printf("Clear Majority - SET LEADER\n");
-            state = set_state_leader();
-            accept_counter = 0;
-            accept_not_counter = 0;
+            printf("partition of followers: %f\n",(accept_counter/num_nodes));
+            // check if majority is reached
+            if ((accept_counter/num_nodes)>0.5) { 
+                printf("Clear Majority - SET LEADER\n");
+                state = set_state_leader();
+                accept_counter = 0;
+                accept_not_counter = 0;
+            }
         }
     }
 }
 
 
-void handle_decline_message(int sender_id){
+void handle_decline_message(int sender_id, int receiver_id){
     printf("ACCEPT NOT MESSAGE\n");
     // increase decline counter
-    if (state_proposer(state)){
-        bool found = id_in_list(follower_ids, sender_id);
-        if (found == false){
-            printf("INCREASE ACCEPT NOT COUNTER\n");
-            accept_not_counter = accept_not_counter + 1;
-            int n;
-            // add sender_id to follower_ids
-            for (n=0; n<num_nodes;++n){
-                if (follower_ids[n]==0){
-                    follower_ids[n]=sender_id;
-                    break;
+    if (receiver_id == id){
+        if (state_proposer(state)){
+            bool found = id_in_list(follower_ids, sender_id);
+            if (found == false){
+                printf("INCREASE ACCEPT NOT COUNTER\n");
+                accept_not_counter = accept_not_counter + 1;
+                int n;
+                // add sender_id to follower_ids
+                for (n=0; n<num_nodes;++n){
+                    if (follower_ids[n]==0){
+                        follower_ids[n]=sender_id;
+                        break;
+                    }
                 }
+                printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
             }
-            printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
-        }
-        // check if miniority is reached
-        if ((accept_not_counter/num_nodes)>0.5) { 
-            printf("Clear Minority - SET OPEN\n");
-            state = set_state_open();
-            accept_not_counter = 0;
-            accept_counter = 0;
+            // check if miniority is reached
+            if ((accept_not_counter/num_nodes)>0.5) { 
+                printf("Clear Minority - SET OPEN\n");
+                state = set_state_open();
+                accept_not_counter = 0;
+                accept_counter = 0;
+            }
         }
     }
 }
@@ -261,31 +265,36 @@ void read_incoming_packet_loop(void){
 					char *message = read_message();
 					// get message informations
 					char *sender_type = get_type_from_message(message);
+                    int checksum = get_checksum_from_msg(message);
                     printf("Sender Type: %s\n", sender_type);
 
-                
-                    // TODO: check checksum!
+                    // Look for datatype 2 (list broadcast)
 					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
-                        int checksum = get_checksum_from_msg(message);
-                        bool checksum_correct = valid_list_message(3, checksum);
-						handle_list_broadcast_message(message);
-						valid_packet = true;
+                        bool checksum_correct = valid_list_message(checksum);
+                        if (checksum_correct==true){
+						    handle_list_broadcast_message(message);
+						    valid_packet = true;
+                        }
+                        else{
+                            printf("invalid message\n");
+                        }
 					}
+
+                    // Look for datatype 1 (Propose, Accept, Decline, Leader, Forward ok)
 					else {
 						int sender_id = get_tx_id_from_msg(message);
 						int receiver_id = get_rx_id_from_msg(message);
-						int checksum = get_checksum_from_msg(message);
 						int sender_type_int = get_int_type_from_msg(message);
 						bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
                         printf("Checksum: %d\n", checksum);
 						// print information for valid packet
-            
 						if (checksum_correct==true){
 							printf("Sender Type: %s\n", sender_type);
 							printf("tx_id: %d\n", sender_id);
 							printf("rx_id: %d\n", receiver_id);
 						}
 						if (checksum_correct==true){
+
 							// Update local list
 							bool in_local_list = id_in_list(network_ids, sender_id);
 							if (in_local_list == false){
@@ -324,7 +333,7 @@ void read_incoming_packet_loop(void){
 						}
 					}
                     
-					// go in IDLE mode to Reset FIFO
+					// go in IDLE mode to Reset FIFO (in function)
 					printf("\n\n");
 					setIDLE();
 					cc1200_cmd(SFRX);
@@ -349,9 +358,11 @@ void read_incoming_packet_loop(void){
 			state = set_state_proposer();
 			send_message(0x00, id, id);
 		}
-		// DEBUG deactivate! Otherwise keep!
+		// DEBUG deactivate! Otherwise keep! (function for reset variables)
 		accept_counter = 0;
 		accept_not_counter = 0;
+        proposer_id = 0;                       
+        leader_id = 0;
 		if (state_leader(state)==true){
 			break;
 		}
