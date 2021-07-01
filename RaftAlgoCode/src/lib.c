@@ -210,7 +210,7 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
                 if (checksum > 99){
                         sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
                 }
-                if (checksum > 9){
+                else if (checksum > 9){
                         sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,0x00, checksum, 0x00);
                 }
                 else{
@@ -221,7 +221,7 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
                 if (checksum > 99){
                         sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,checksum, 0x00); 
                 }
-                if (checksum > 9){
+                else if (checksum > 9){
                         sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi , 0x00, checksum, 0x00); 
                 }
                 else{
@@ -232,7 +232,7 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
                 if (checksum > 99){
                         sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,checksum, 0x00); 
                 }
-                if (checksum > 9){
+                else if (checksum > 9){
                         sprintf(msg, "%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,0x00, checksum, 0x00); 
                 }
                 else{
@@ -271,7 +271,7 @@ void send_message(int message_type, int tx_id, int rx_id){
                 printf("1\n");
                 sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00);
         }
-        if (checksum > 9){
+        else if (checksum > 9){
                 printf("2\n");
                 sprintf(msg, "%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, checksum, 0x00);
         }
