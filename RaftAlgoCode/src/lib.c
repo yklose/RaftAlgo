@@ -173,7 +173,7 @@ int num_valid_ids_in_list(int *array){
         int num_valid_nodes = 0;
         //extern int num_nodes; // testin purpose 5
         for (i=0; i<5; ++i) {
-                if (network_ids[i] != 0) {
+                if (array[i] != 0) {
                         ++num_valid_nodes;
                 }
         }
