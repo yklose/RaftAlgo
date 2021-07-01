@@ -156,8 +156,8 @@ bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
 
 bool valid_list_message(int num_ids, int checksum){
         extern int network_ids[];
-        size_t num_ids = sizeof(network_ids)/sizeof(network_ids[0]);
-        printf("Num ids: %d", num_ids);
+        size_t num_ids_new = sizeof(network_ids)/sizeof(network_ids[0]);
+        printf("Num ids: %d", num_ids_new);
         int modulus = 999;
         int sum = 0x05;
         int i;
