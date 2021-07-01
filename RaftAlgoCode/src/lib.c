@@ -144,6 +144,7 @@ void setTX() {
 
 bool valid_message(int message_type, int tx_id, int rx_id, int checksum){
         int modulus = 999;
+        printf("Arguments: %d, %d, %d, %d\n", message_type, tx_id, rx_id, checksum);
         int sum = message_type + tx_id + rx_id;
         return (sum%modulus == checksum);       
 }
