@@ -200,19 +200,44 @@ int compute_request_checksum(int forwarder_id, int tx_id, int rssi){
         int modulus = 999;
         int sum = 0x07 + forwarder_id + tx_id + rssi;
         return (sum%modulus);     
-}   
+}  
+
 
 void send_request_message(int forwarder_id, int tx_id, int rssi){
         char msg[20];
         int checksum = compute_request_checksum(forwarder_id, tx_id, rssi);
         if (rssi > 99){
-                sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00); 
+                if (checksum > 99){
+                        sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
+                }
+                if (checksum > 9){
+                        sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,0x00, checksum, 0x00);
+                }
+                else{
+                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,0x00, 0x00, checksum, 0x00);
+                }
         }
         else if (rssi > 9){
-                sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,checksum, 0x00); 
+                if (checksum > 99){
+                        sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,checksum, 0x00); 
+                }
+                if (checksum > 9){
+                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi , 0x00, checksum, 0x00); 
+                }
+                else{
+                        sprintf(msg, "%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,0x00, 0x00, checksum, 0x00); 
+                }
         }
         else {
-                sprintf(msg, "%d%d%%d%dd%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,checksum, 0x00); 
+                if (checksum > 99){
+                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,checksum, 0x00); 
+                }
+                if (checksum > 9){
+                        sprintf(msg, "%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,0x00, checksum, 0x00); 
+                }
+                else{
+                        sprintf(msg, "%d%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi , 0x00, 0x00, checksum, 0x00); 
+                }
         }
         // print message string
         printf("TransmitMessageString: %s\n", msg);
