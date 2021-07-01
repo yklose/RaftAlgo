@@ -287,13 +287,8 @@ void read_incoming_packet_loop(void){
 						int receiver_id = get_rx_id_from_msg(message);
 						int sender_type_int = get_int_type_from_msg(message);
 						bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                        printf("Checksum: %d\n", checksum);
-						// print information for valid packet
-						//if (checksum_correct==true){
-                        printf("Sender Type: %s\n", sender_type);
                         printf("tx_id: %d\n", sender_id);
                         printf("rx_id: %d\n", receiver_id);
-						//}
 						if (checksum_correct==true){
 
 							// Update local list
