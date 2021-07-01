@@ -266,13 +266,17 @@ void send_message(int message_type, int tx_id, int rx_id){
 	//char msg[] = "HelloWorld0";
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
+        printf("SEND checksum: %d\n", checksum);
         if (checksum > 99){
+                printf("1\n");
                 sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00);
         }
         if (checksum > 9){
+                printf("2\n");
                 sprintf(msg, "%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, checksum, 0x00);
         }
         else{
+                printf("3\n");
                 sprintf(msg, "%d%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
         } 
 	printf("TransmitMessageString: %s\n", msg);
