@@ -238,6 +238,7 @@ void handle_request_forward_message(char *msg){
 }
 
 void handle_ok_message(int sender_id){
+    // handle ok messages
 
 
 }
