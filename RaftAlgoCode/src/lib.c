@@ -156,7 +156,7 @@ bool valid_request_message(int forwarder_id, int tx_id, int rssi, int checksum){
 
 bool valid_list_message(int num_ids, int checksum){
         extern int network_ids[];       
-        int num_nodes = num_valid_ids_in_list(network_ids);
+        int num_ids_new = num_valid_ids_in_list(network_ids);
         printf("Num NEW GENERATED ids: %d\n", num_ids_new);
         int modulus = 999;
         int sum = 0x05;
