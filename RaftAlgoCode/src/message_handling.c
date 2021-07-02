@@ -26,6 +26,11 @@ extern int num_nodes;
 extern int packet_len;
 extern int max_packet_len;
 
+// later extern
+int potential_sender_ids[6] = {0};
+int potential_forwarder_ids[6] = {0};
+int potential_forwarder_rssi[6] = {0};
+
 /*
 void pass_global_values(int id_pass, int state_pass){
     id = id_pass;
@@ -68,6 +73,18 @@ void update_network_ids(int sender_id, int rssi){
         }
 }
 
+void update_potential_lists(int sender_id, int forwarder_id, int rssi){
+        int n=0;
+        for (n=0; n<6;++n){  //TESTING 5 = num_nodes
+                if (potential_forwarder_ids[n]==0){
+                        potential_forwarder_ids[n]=forwarder_id;
+                        potential_forwarder_rssi[n]=rssi;
+                        potential_sender_ids[n]=sender_id;
+                        printf("Add to potential list (Toforward, rssi, sender) : %d, %d, %d\n", potential_forwarder_ids[n], potential_forwarder_rssi[n], potential_sender_ids[n]);
+                        break;
+                }
+        }
+}
 
 char *read_message(){
     char *message = malloc(20); // TODO change!
@@ -231,6 +248,9 @@ void handle_request_forward_message(char *msg){
     printf("RSSI of Forwarder: %d\n", rssi_int);
     // TODO: ADD to potential new forwarder
     // later decide
+    update_potential_lists(sender_id_int, forwarder_id_int, rssi_int);
+
+
 
 
 
