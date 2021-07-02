@@ -231,10 +231,10 @@ void choose_forwarder(){
             int j;
             for (j=i; j<6; ++j){
                 if (potential_forwarder_ids[j] == current_forward_id){
+                    used[j] = true;
                     if (potential_forwarder_rssi[j] > current_forwarder_rssi){
                         current_winner = potential_sender_ids[j];
                         current_forwarder_rssi = potential_forwarder_rssi[j];
-                        used[j] = true;
                     }
                 }
             }
@@ -243,6 +243,9 @@ void choose_forwarder(){
             send_message(0x06, current_winner, current_forward_id);
         }
     }
+    potential_forwarder_ids[] = {0};
+    potential_forwarder_rssi[] = {0};
+    potential_sender_ids[] = {0};
 }
 
 void handle_request_forward_message(char *msg){
