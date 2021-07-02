@@ -249,13 +249,39 @@ void handle_request_forward_message(char *msg){
     // TODO: ADD to potential new forwarder
     // later decide
     update_potential_lists(sender_id_int, forwarder_id_int, rssi_int);
-
-
-
-
-
+    update_potential_lists(2222222, forwarder_id_int, 20); 
+    update_potential_lists(3333333, 5555555, 45);
 
 }
+
+void choose_forwarder(){
+    int i;
+    int current_forward_id; 
+    int current_forwarder_rssi; 
+    int current_winner;
+    int used[6] = {false};
+    for (i=0; i<6; ++i){
+        if (used[i]==false){
+            current_forward_id = potential_forwarder_ids[i];
+            current_forwarder_rssi = potential_forwarder_rssi[i];
+            current_winner = potential_sender_ids[i];
+            int j;
+            for (j=i; j<6; ++j){
+                if (potential_forwarder_ids[j] == current_forward_id){
+                    if (potential_forwarder_rssi[j] > current_forwarder_rssi){
+                        current_winner = potential_sender_ids[j];
+                        current_forwarder_rssi = potential_forwarder_rssi[j];
+                        used[i] = true;
+                    }
+                }
+            }
+            // send 
+            send_message(0x06, current_winner, current_forward_id);
+        }
+    }
+}
+
+
 
 void handle_ok_message(int sender_id){
     // handle ok messages
@@ -388,6 +414,7 @@ void read_incoming_packet_loop(void){
 }
 
 
+
 void leader_loop(){
     int loop_counter = 0;
 	setIDLE();
@@ -492,11 +519,15 @@ void leader_loop(){
 		}
 	
 		// check if local list changed?
-		if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
+        if (potential_forwarder_ids[0] != 0){
+            choose_forwarder();
+			printf("SELECTED FORWARDER\n");
+		}
+		else if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
-		}
+		}   
         else if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
 			printf("HEARTBEAT\n");
