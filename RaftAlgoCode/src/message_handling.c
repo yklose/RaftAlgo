@@ -252,6 +252,8 @@ void handle_request_forward_message(char *msg){
     update_potential_lists(2222222, forwarder_id_int, 20); 
     update_potential_lists(3333333, 5555555, 45);
 
+    choose_forwarder();
+
 }
 
 void choose_forwarder(){
@@ -276,6 +278,7 @@ void choose_forwarder(){
                 }
             }
             // send 
+            printf("Chose forwarder\n");
             send_message(0x06, current_winner, current_forward_id);
         }
     }
