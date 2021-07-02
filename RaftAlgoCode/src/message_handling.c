@@ -430,7 +430,7 @@ void leader_loop(){
                         int checksum = get_checksum_from_msg(message);
                         int sender_type_int = get_int_type_from_msg(message);
                         bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                        
+                        printf("Checksum: %d\n", checksum);
                         
                         if (checksum_correct==true){
                             printf("Sender Type: %s\n", sender_type);
