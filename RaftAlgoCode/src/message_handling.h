@@ -18,7 +18,7 @@ void handle_accept_message(int sender_id, int receiver_id);
 void handle_decline_message(int sender_id, int receiver_id);
 void handle_leader_message(int sender_id);
 void handle_list_broadcast_message(char *msg);
-void handle_forward_ok_message(int sender_id);
+void handle_forward_ok_message(int sender_id, int receiver_id);
 void read_incoming_packet_loop(void);
 
 
