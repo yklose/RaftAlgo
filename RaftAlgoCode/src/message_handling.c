@@ -224,7 +224,7 @@ void choose_forwarder(){
     int current_winner;
     int used[6] = {false};
     for (i=0; i<6; ++i){
-        if (used[i]==false){
+        if ((used[i]==false)&&(potential_forwarder_ids[i]!=0)){
             current_forward_id = potential_forwarder_ids[i];
             current_forwarder_rssi = potential_forwarder_rssi[i];
             current_winner = potential_sender_ids[i];
@@ -234,7 +234,7 @@ void choose_forwarder(){
                     if (potential_forwarder_rssi[j] > current_forwarder_rssi){
                         current_winner = potential_sender_ids[j];
                         current_forwarder_rssi = potential_forwarder_rssi[j];
-                        used[i] = true;
+                        used[j] = true;
                     }
                 }
             }
