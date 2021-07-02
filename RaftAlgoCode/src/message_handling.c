@@ -217,6 +217,13 @@ void handle_forward_ok_message(int sender_id){
 	
 }
 
+void delete_list(int *array, int lenght){
+    int j;
+    for (j=0; j<lenght; ++j){
+        array[j] = 0;
+    }
+}
+
 void choose_forwarder(){
     int i;
     int current_forward_id; 
@@ -243,10 +250,12 @@ void choose_forwarder(){
             send_message(0x06, current_winner, current_forward_id);
         }
     }
-    potential_forwarder_ids[] = {0};
-    potential_forwarder_rssi[] = {0};
-    potential_sender_ids[] = {0};
+    delete_list(potential_forwarder_ids, 6);
+    delete_list(potential_forwarder_rssi, 6);
+    delete_list(potential_sender_ids, 6);
 }
+
+
 
 void handle_request_forward_message(char *msg){
     printf("REQUEST FORWARD MESSAGE \n");
