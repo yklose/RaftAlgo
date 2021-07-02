@@ -226,7 +226,7 @@ void handle_list_broadcast_message(char *msg){
 void handle_forward_ok_message(int receiver_id, int forwarder_id){
     printf("FORWARD_OK MESSAGE\n");
     if (id == receiver_id){
-        update_forwarder_ids(forwarder_id)
+        update_forwarder_ids(forwarder_id);
     }
     // check if message is for your id
     // add id to forwarder list
