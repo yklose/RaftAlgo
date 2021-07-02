@@ -20,6 +20,7 @@ extern int state;
 extern int follower_ids[];
 extern int network_ids[];
 extern int rssi_values[];
+extern int forwarder_ids[];
 extern int leader_id;
 extern int proposer_id;
 extern int num_nodes;
@@ -70,6 +71,18 @@ void update_network_ids(int sender_id, int rssi){
                         rssi_values[n]=rssi;
                         break;
                 }
+        }
+}
+
+void update_forwarder_ids(int forwarder){
+        // add sender_id to network_ids
+        int n=0;
+        for (n=0; n<5;++n){  //TESTING 5 = num_nodes
+            if (forwarder_ids[n]==0){
+                    forwarder_ids[n]=forwarder;
+                    printf("HAVE TO FORWARD: %d\n", forwarder_ids[n]);
+                    break;
+            }
         }
 }
 
@@ -210,8 +223,11 @@ void handle_list_broadcast_message(char *msg){
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 }
 
-void handle_forward_ok_message(int sender_id){
+void handle_forward_ok_message(int receiver_id, int forwarder_id){
     printf("FORWARD_OK MESSAGE\n");
+    if (id == receiver_id){
+        update_forwarder_ids(forwarder_id)
+    }
     // check if message is for your id
     // add id to forwarder list
 	
@@ -384,7 +400,7 @@ void read_incoming_packet_loop(void){
 								valid_packet = true;
 							}
 							else if (strcmp(sender_type,"FORWARD_OK") == 0){
-								handle_forward_ok_message(sender_id);
+								handle_forward_ok_message(sender_id, receiver_id);
 								valid_packet = true;
 							}
 						}
