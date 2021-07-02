@@ -268,6 +268,7 @@ void read_incoming_packet_loop(void){
 					char *sender_type = get_type_from_message(message);
                     int checksum = get_checksum_from_msg(message);
                     printf("Sender Type: %s\n", sender_type);
+                    printf("Checksum: %d\n", checksum);
 
                     // Look for datatype 2 (list broadcast)
 					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
