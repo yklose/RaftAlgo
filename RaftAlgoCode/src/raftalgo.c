@@ -21,8 +21,10 @@ void load_variables(void){
 	extern int max_packet_len;  
 	extern network_ids[];
 	// initialize generated numbers
+	cc1200_reg_write(RNDGEN, 0x01); //activate random numbers
 	extern int id;
-	id  = generate_random_id(); 
+	//id  = generate_random_id(); 
+	cc1200_reg_read(0x80, & id);
 	network_ids[0] = id;
 	extern int state;
 	state = set_state_open();
@@ -47,6 +49,8 @@ int main (void) {
 	for (cnt=0; cnt<MAX_EXT_REG; cnt++) cc1200_reg_write(ExtRegSettings[cnt].adr, ExtRegSettings[cnt].val);
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
+	
+	
 
 	// set RX mode
 	setRX();
