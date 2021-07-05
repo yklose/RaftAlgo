@@ -264,7 +264,7 @@ void choose_forwarder(){
             }
             // send 
             printf("Chose forwarder\n");
-            send_message(0x06, current_winner, current_forward_id);
+            send_message(0x06, current_forward_id, current_winner);
         }
     }
     delete_list(potential_forwarder_ids, 6);
