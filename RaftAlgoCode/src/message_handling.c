@@ -391,6 +391,7 @@ void read_incoming_packet_loop(void){
                             // Forward Messages and Broadcast to to_forward node
                             if ((msg_to_forward==true)||(msg_from_forward==true)||(receiver_id==sender_id)){
                                 if (msg_for_me == false){
+                                    printf("FOWARD MESSAGE\n");
                                     send_message(sender_type_int, sender_id, receiver_id);
                                 }
                             }
