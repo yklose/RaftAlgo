@@ -387,6 +387,7 @@ void read_incoming_packet_loop(void){
                             bool msg_for_me = (receiver_id == id);
                             bool msg_to_forward = id_in_list(forwarder_ids, receiver_id);
                             bool msg_from_forward = id_in_list(forwarder_ids, sender_id);
+                            printf("for me %d, to_forward %d, from_forward %d", msg_for_me,msg_to_forward,msg_from_forward);
 
                             // Forward Messages and Broadcast to to_forward node
                             if ((msg_to_forward==true)||(msg_from_forward==true)||(receiver_id==sender_id)){
