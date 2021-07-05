@@ -223,9 +223,10 @@ void handle_list_broadcast_message(char *msg){
 	// process_list_broadcast(broadcast_network_ids, LEN(broadcast_network_ids), network_ids, 2, id);
 }
 
-void handle_forward_ok_message(int receiver_id, int forwarder_id){
+void handle_forward_ok_message(int forwarder_id, int receiver_id){
     printf("FORWARD_OK MESSAGE\n");
     if (id == receiver_id){
+        printf("UPDATE FORWARDER IDS\n");
         update_forwarder_ids(forwarder_id);
     }
 
