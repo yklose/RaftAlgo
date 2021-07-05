@@ -47,6 +47,11 @@ int main (void) {
 	for (cnt=0; cnt<MAX_EXT_REG; cnt++) cc1200_reg_write(ExtRegSettings[cnt].adr, ExtRegSettings[cnt].val);
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
+	
+	
+
+	// set RX mode
+	setRX();
 	// initialize generated numbers
 	cc1200_reg_write(RNDGEN, 0xFF); //activate random numbers
 	cc1200_cmd(SNOP);
@@ -56,10 +61,6 @@ int main (void) {
 	printf("RANDOM ID: %d\n", id);
 	printf("RSSI: %d\n", rssi);
 	printf("XOR ID: %d\n", id^rssi);
-	
-
-	// set RX mode
-	setRX();
 
 	// starting configurations
 	extern int state;
