@@ -21,12 +21,8 @@ void load_variables(void){
 	extern int max_packet_len;  
 	extern network_ids[];
 	// initialize generated numbers
-	printf("Test 1");
-	cc1200_reg_write(RNDGEN, 0x01); //activate random numbers
 	extern int id;
-	//id  = generate_random_id(); 
-	printf("Test 2");
-	cc1200_reg_read(RNDGEN, & id);
+	id  = generate_random_id(); 
 	network_ids[0] = id;
 	extern int state;
 	state = set_state_open();
@@ -51,7 +47,12 @@ int main (void) {
 	for (cnt=0; cnt<MAX_EXT_REG; cnt++) cc1200_reg_write(ExtRegSettings[cnt].adr, ExtRegSettings[cnt].val);
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
-	
+	// initialize generated numbers
+
+	cc1200_reg_write(0x2F80, 0x01); //activate random numbers
+	cc1200_cmd(SNOP);
+	cc1200_reg_read(RNDGEN, &id);
+	printf("RANDOM ID: %d\n", id);
 	
 
 	// set RX mode
