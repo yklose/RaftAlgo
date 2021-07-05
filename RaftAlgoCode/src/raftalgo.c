@@ -22,11 +22,11 @@ void load_variables(void){
 	extern network_ids[];
 	// initialize generated numbers
 	printf("Test 1");
-	cc1200_reg_write(RNDGEN, 0x01); //activate random numbers
+	//cc1200_reg_write(RNDGEN, 0x01); //activate random numbers
 	extern int id;
 	//id  = generate_random_id(); 
 	printf("Test 2");
-	cc1200_reg_read(0x80, & id);
+	//cc1200_reg_read(0x80, & id);
 	network_ids[0] = id;
 	extern int state;
 	state = set_state_open();
