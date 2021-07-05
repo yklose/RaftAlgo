@@ -398,7 +398,7 @@ void read_incoming_packet_loop(void){
                                 }
                             }
 
-                            if ((msg_for_me==true)){
+                            if ((msg_for_me==true)||(broadcast==true)){
                                 // evaluate message types
                                 if (strcmp(sender_type,"PROPOSE") == 0){
                                     handle_propose_message(sender_id, proposer_id);
