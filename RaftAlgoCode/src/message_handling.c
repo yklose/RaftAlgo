@@ -228,6 +228,7 @@ void handle_forward_ok_message(int receiver_id, int forwarder_id){
     if (id == receiver_id){
         update_forwarder_ids(forwarder_id);
     }
+
     // check if message is for your id
     // add id to forwarder list
 	
@@ -382,27 +383,41 @@ void read_incoming_packet_loop(void){
 								printf("Update Local list - new rssi\n");
 							}
 
-							// evaluate message types
-							if (strcmp(sender_type,"PROPOSE") == 0){
-								handle_propose_message(sender_id, proposer_id);
-								valid_packet = true;
-							}
-							else if (strcmp(sender_type,"ACCEPT_OK") == 0){
-								handle_accept_message(sender_id, receiver_id);
-								valid_packet = true;
-							}
-							else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
-								handle_decline_message(sender_id, receiver_id);
-								valid_packet = true;
-							}
-							else if (strcmp(sender_type,"LEADER") == 0){
-								handle_leader_message(sender_id);
-								valid_packet = true;
-							}
-							else if (strcmp(sender_type,"FORWARD_OK") == 0){
-								handle_forward_ok_message(sender_id, receiver_id);
-								valid_packet = true;
-							}
+                            // Check if message is for me or for forwarder
+                            bool msg_for_me = (receiver_id == id);
+                            bool msg_to_forward = id_in_list(forwarder_ids, receiver_id);
+                            bool msg_from_forward = id_in_list(forwarder_ids, sender_id);
+
+                            // Forward Messages and Broadcast to to_forward node
+                            if ((msg_to_forward==true)||(msg_from_forward==true)||(receiver_id==sender_id)){
+                                if (msg_for_me == false){
+                                    send_message(sender_type_int, sender_id, receiver_id);
+                                }
+                            }
+
+                            if ((msg_for_me==true)){
+                                // evaluate message types
+                                if (strcmp(sender_type,"PROPOSE") == 0){
+                                    handle_propose_message(sender_id, proposer_id);
+                                    valid_packet = true;
+                                }
+                                else if (strcmp(sender_type,"ACCEPT_OK") == 0){
+                                    handle_accept_message(sender_id, receiver_id);
+                                    valid_packet = true;
+                                }
+                                else if (strcmp(sender_type,"ACCEPT_NOT") == 0){
+                                    handle_decline_message(sender_id, receiver_id);
+                                    valid_packet = true;
+                                }
+                                else if (strcmp(sender_type,"LEADER") == 0){
+                                    handle_leader_message(sender_id);
+                                    valid_packet = true;
+                                }
+                                else if (strcmp(sender_type,"FORWARD_OK") == 0){
+                                    handle_forward_ok_message(sender_id, receiver_id);
+                                    valid_packet = true;
+                                }
+                            }
 						}
 						else{
 							printf("invalid message\n");
