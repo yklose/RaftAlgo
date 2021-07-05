@@ -48,11 +48,14 @@ int main (void) {
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
 	// initialize generated numbers
-	//cc1200_reg_write(RNDGEN, 0x01); //activate random numbers
 	cc1200_reg_write(RNDGEN, 0xFF); //activate random numbers
 	cc1200_cmd(SNOP);
 	cc1200_reg_read(RNDGEN, &id);
+	rssi_valid(0x2F72);  //RSSI0 = 0x72
+	int rssi = read_rssi1(0x2F71);
 	printf("RANDOM ID: %d\n", id);
+	printf("RSSI: %d\n", rssi);
+	printf("XOR ID: %d\n", id^rssi);
 	
 
 	// set RX mode
