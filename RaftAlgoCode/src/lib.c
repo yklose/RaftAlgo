@@ -278,9 +278,9 @@ int time_to_wait(){
 }
 
 void send_message(int message_type, int tx_id, int rx_id){
-       int time_to_wait = time_to_wait();
-        printf("time_to_wait: %d\n", time_to_wait);
-        sleep(time_to_wait);
+       int time = time_to_wait();
+        printf("time_to_wait: %d\n", time);
+        sleep(time);
 	//char msg[] = "HelloWorld0";
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
