@@ -60,7 +60,7 @@ int main (void) {
 	int rssi = read_rssi1(0x2F71);
 	printf("RANDOM ID: %d\n", id);
 	printf("RSSI: %d\n", rssi);
-	printf("XOR ID: %d\n", id^rssi);
+	printf("XOR ID: %d\n", id*rssi);
 
 	// starting configurations
 	extern int state;

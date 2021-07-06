@@ -15,6 +15,8 @@
 - delete network ids in large intervals
 - if not heard from forwarder in large interval, delete forwarder list as well
 - change checksum from char to int 256! 
+- when to choose forwarder
+- when to delete ids
 */
 /****************************************************************************/
 
