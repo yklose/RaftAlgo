@@ -266,11 +266,19 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
 	setIDLE();
 }
 
-void send_message(int message_type, int tx_id, int rx_id){
-        srand(time(NULL));
+int time_to_wait(){
         extern int num_nodes;
-	int max = 10*num_nodes;
-        int time_to_wait = rand() % max;
+        cc1200_reg_write(0x2F80, 0xFF); //activate random numbers
+	cc1200_cmd(SNOP);
+        int rnd_int
+	cc1200_reg_read(0x2F80, &rnd_int);
+	rssi_valid(0x2F72);  //RSSI0 = 0x72
+	int rssi = read_rssi1(0x2F71);
+	return (id^rssi)%10*(num_nodes);
+}
+
+void send_message(int message_type, int tx_id, int rx_id){
+       int time_to_wait = time_to_wait();
         printf("time_to_wait: %d\n", time_to_wait);
         sleep(time_to_wait);
 	//char msg[] = "HelloWorld0";
