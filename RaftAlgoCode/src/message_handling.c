@@ -338,12 +338,14 @@ void read_incoming_packet_loop(void){
 			msec = update_msec(starttime);
 			cc1200_reg_read(0x2FD7, &numRX); //NUM_RXBYTES = 0xD7
 			if(numRX>0){
+                
 				printf("----------- PACKET detected -----------\n");
 				rssi_valid(0x2F72);  //RSSI0 = 0x72
 				int rssi = read_rssi1(0x2F71); //RSSI0 = 0x71
 				printf("RSSI: %d\n", rssi);
                 // process packet
 				if (packet_len == 0){ 
+                    printf("CLOCK: %d",clock());
 					char *message = read_message();
 					// get message informations
 					char *sender_type = get_type_from_message(message);

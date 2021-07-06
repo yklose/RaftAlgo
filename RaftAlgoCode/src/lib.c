@@ -299,6 +299,7 @@ void send_message(int message_type, int tx_id, int rx_id){
         }
 	printf("DONE TRANSMITTING\n\n");
 	setIDLE();
+        printf("CLOCK: %d",clock());
 }
 
 void send_list_message(int *network_ids, int num_nodes){
