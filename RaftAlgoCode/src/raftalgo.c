@@ -52,6 +52,7 @@ int main (void) {
 
 	// set RX mode
 	setRX();
+	"""
 	// initialize generated numbers
 	cc1200_reg_write(RNDGEN, 0xFF); //activate random numbers
 	cc1200_cmd(SNOP);
@@ -61,7 +62,7 @@ int main (void) {
 	printf("RANDOM ID: %d\n", id);
 	printf("RSSI: %d\n", rssi);
 	printf("XOR ID: %d\n", id*rssi);
-
+	"""
 	// starting configurations
 	extern int state;
 	if (state_open(state)){
