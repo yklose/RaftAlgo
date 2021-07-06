@@ -206,6 +206,8 @@ void handle_leader_message(int sender_id){
     state = set_state_follower();
     // save leader id
     leader_id = sender_id;
+    send_message(0x04,leader_id,id);
+
 }
 
 void handle_list_broadcast_message(char *msg){
