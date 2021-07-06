@@ -392,7 +392,7 @@ void read_incoming_packet_loop(void){
                             printf("for me %d, to_forward %d, from_forward %d, broadcast %d\n", msg_for_me,msg_to_forward,msg_from_forward, broadcast);
 
                             // Forward Messages and Broadcast to to_forward node
-                            if ((msg_to_forward==true)||(msg_from_forward==true))||(receiver_id==sender_id)){
+                            if ((msg_to_forward==true)||(msg_from_forward==true)||(receiver_id==sender_id)){
                                 if ((msg_for_me == false)&&(forwarder_ids[0]!=0)){
                                     printf("FORWARD MESSAGE\n");
                                     send_message(sender_type_int, sender_id, receiver_id);
