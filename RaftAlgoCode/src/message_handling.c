@@ -437,6 +437,7 @@ void read_incoming_packet_loop(void){
 					cc1200_cmd(SFRX);
 					packet_len = 0;
 					setRX();
+                    printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
 
 					// Reset Timer
 					printf("RESET TIMER\n");
