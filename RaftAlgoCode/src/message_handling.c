@@ -345,7 +345,7 @@ void read_incoming_packet_loop(void){
 				printf("RSSI: %d\n", rssi);
                 // process packet
 				if (packet_len == 0){ 
-                    printf("CLOCK: %d",clock());
+                    printf("CLOCK: %d",clock()* 1000/CLOCKS_PER_SEC);
 					char *message = read_message();
 					// get message informations
 					char *sender_type = get_type_from_message(message);
