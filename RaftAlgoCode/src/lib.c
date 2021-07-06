@@ -7,16 +7,9 @@
 
 /****************************************************************************/
 /*                                                                          */
-/* TODO: 
-- max packet len (HARD CODED)
-- sender_type error (DONE)
-- handel request forward (DONE)
-- accept and decline have to match id/receiver (DONE)
-- delete network ids in large intervals
-- if not heard from forwarder in large interval, delete forwarder list as well
-- change checksum from char to int 256! 
-- when to choose forwarder
-- when to delete ids
+/* TODO:
+- checksum in list broadcast, problem: aufnfüllen von nullen
+- ids mit hardware zwei ints concat
 */
 /****************************************************************************/
 
