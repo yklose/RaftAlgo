@@ -277,6 +277,9 @@ void send_message(int message_type, int tx_id, int rx_id){
 	//char msg[] = "HelloWorld0";
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
+
+        sprintf(msg, "%d%d%d%d%d%03d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
+        /*
         if (checksum > 99){
                 sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00);
         }
@@ -286,6 +289,7 @@ void send_message(int message_type, int tx_id, int rx_id){
         else{
                 sprintf(msg, "%d%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
         } 
+        */
 	printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
 	cc1200_cmd(SFTX);
@@ -335,7 +339,7 @@ void send_list_message(int *network_ids, int num_nodes){
                 
                 if (j==num_ids_to_send){
                         char buffer[3];
-                        sprintf(buffer, "%d", checksum);
+                        sprintf(buffer, "%03d", checksum);
                         strcat( msg, buffer );
                 }
                 else if (j==num_ids_to_send+1){
