@@ -60,7 +60,7 @@ int main (void) {
 	cc1200_reg_read(RNDGEN, &int_id1);
 	int int_id2;
 	cc1200_reg_read(RNDGEN, &int_id2);
-	extern char string_id[6];
+	char string_id[6];
 	sprintf(string_id, "%03d%03d", int_id1,int_id2);
 	printf("ID: %s", string_id);
 	
