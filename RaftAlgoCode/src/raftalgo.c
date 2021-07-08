@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <string.h>
 
+
 #define LEN(x)  (sizeof(x) / sizeof((x)[0]))
 
 void load_variables(void){
@@ -22,6 +23,7 @@ void load_variables(void){
 	extern network_ids[];
 	// initialize generated numbers
 	extern int id;
+
 	id  = generate_random_id(); 
 	network_ids[0] = id;
 	extern int state;
@@ -48,21 +50,20 @@ int main (void) {
 	cc1200_reg_write(PKT_CFG0, 0x01);			
 	cc1200_reg_write(PKT_LEN, max_packet_len);
 	
-	
-
 	// set RX mode
 	setRX();
-	/*
+	
 	// initialize generated numbers
 	cc1200_reg_write(RNDGEN, 0xFF); //activate random numbers
 	cc1200_cmd(SNOP);
-	cc1200_reg_read(RNDGEN, &id);
-	rssi_valid(0x2F72);  //RSSI0 = 0x72
-	int rssi = read_rssi1(0x2F71);
-	printf("RANDOM ID: %d\n", id);
-	printf("RSSI: %d\n", rssi);
-	printf("XOR ID: %d\n", id*rssi);
-	*/
+	int int_id1;
+	cc1200_reg_read(RNDGEN, &int_id1);
+	int int_id2;
+	cc1200_reg_read(RNDGEN, &int_id2);
+	extern char string_id[6];
+	sprintf(string_id, "%03d%03d", int_id1,int_id2);
+	printf("ID: %s", string_id);
+	
 	// starting configurations
 	extern int state;
 	if (state_open(state)){
