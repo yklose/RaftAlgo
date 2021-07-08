@@ -278,7 +278,7 @@ void send_message(int message_type, int tx_id, int rx_id){
 	char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
 
-        sprintf(msg, "%d%d%d%d%d%03d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
+        sprintf(msg, "%d%d%d%03d%d",message_type, tx_id, rx_id, checksum, 0x00);
         /*
         if (checksum > 99){
                 sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00);
