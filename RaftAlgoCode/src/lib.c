@@ -383,7 +383,7 @@ int convert_char_to_int(char *msg){
 
 
 int get_tx_id_from_msg(char *msg){
-	int id_len = 7;
+	extern int id_len;
 	char id[id_len];
 	int i;
 	for (i=0; i<id_len; ++i){
@@ -393,7 +393,7 @@ int get_tx_id_from_msg(char *msg){
 }
 
 int get_rx_id_from_msg(char *msg){
-        int id_len = 7;
+        extern int id_len;
         char id[id_len];
         int i;
         for (i=0; i<id_len; ++i){
@@ -403,7 +403,7 @@ int get_rx_id_from_msg(char *msg){
 }
 
 int get_checksum_from_msg(char *msg){
-        int id_len = 7;
+        extern int id_len;
 	int checksum_len = 3;
 	char checksum[checksum_len];
         int message_len = strlen(msg);
@@ -422,7 +422,7 @@ int get_int_type_from_msg(char *msg){
 
 void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_broadcast_network_ids, int* network_ids,int len_network_ids, int id){
         extern int rssi_values[];
-        int id_len = 7;
+        extern int id_len;
         /*
         int message_len = strlen(msg);
         int checksum_len = 3;
