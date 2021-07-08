@@ -4,6 +4,7 @@
 // NUMBER OF NODES IN THE NETWORK
 int num_nodes = 1;//6;
 int id = 123;
+char string_id[6] = {0};
 int state = 0;
 
 // PACKET PARAMETERS
