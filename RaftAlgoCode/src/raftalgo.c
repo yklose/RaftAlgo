@@ -23,9 +23,8 @@ void load_variables(void){
 	extern network_ids[];
 	// initialize generated numbers
 	extern int id;
-	extern char string_id[];
-	id  = generate_random_id(); 
-	network_ids[0] = id;
+	//id  = generate_random_id(); 
+	//network_ids[0] = id;
 	extern int state;
 	state = set_state_open();
 	// print ID
@@ -60,8 +59,11 @@ int main (void) {
 	cc1200_reg_read(RNDGEN, &int_id1);
 	int int_id2;
 	cc1200_reg_read(RNDGEN, &int_id2);
+	char string_id[6];
 	sprintf(string_id, "%03d%03d", int_id1,int_id2);
 	printf("ID: %s\n", string_id);
+	id = convert_char_to_int(string_id);
+	network_ids[0] = id;
 	
 	// starting configurations
 	extern int state;
