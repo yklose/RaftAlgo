@@ -680,19 +680,19 @@ void leader_loop(){
             choose_forwarder();
 			printf("SELECTED FORWARDER\n");
 		}
-		else if ((broadcast_list_changed == true)&&(loop_counter%3==0)){
+		else if ((broadcast_list_changed == true)&&(loop_counter%5==0)){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
-            if ((loop_counter%30)==0){
-                printf("reset all lists\n");
-                for (i = 0; i<6; ++i){
-                    network_ids[i] = 0;
-                    rssi_values[i] = 0;
-                }
-                network_ids[0] = id;
-                rssi_values[0] = 127;
+            //if ((loop_counter%30)==0){
+            printf("reset all lists\n");
+            for (i = 0; i<6; ++i){
+                network_ids[i] = 0;
+                rssi_values[i] = 0;
             }
+            network_ids[0] = id;
+            rssi_values[0] = 127;
+            //}
 		}   
         else if ((heartbeat_send == false)){
 			send_message(0x03, id, id);
