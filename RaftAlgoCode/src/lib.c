@@ -51,8 +51,8 @@ void initialize_spi(){
 
 int generate_random_timeout(){
 	srand(time(NULL));
-	int max = 2000;
-	return rand() % max;
+	int max = 1000;
+	return (1000 + (rand() % max));
 }
 
 int generate_random_id(){
