@@ -21,6 +21,7 @@
 #include <stdbool.h>
 
 extern int debug;
+extern int id;
 
 void rssi_valid(int rssi_add) {
         int val;
@@ -52,9 +53,13 @@ void initialize_spi(){
 }
 
 int generate_random_timeout(){
-	srand(time(NULL));
-	int max = 1000;
-	return (1000 + (rand() % max));
+        cc1200_reg_write(0x2F80, 0xFF); //activate random numbers
+	cc1200_cmd(SNOP);
+        int rnd_int;
+	cc1200_reg_read(0x2F80, &rnd_int);
+	rssi_valid(0x2F72);  //RSSI0 = 0x72
+	int rssi = read_rssi1(0x2F71);
+	return (1000 + (rnd_int*rssi)%1000);
 }
 
 int generate_random_id(){
