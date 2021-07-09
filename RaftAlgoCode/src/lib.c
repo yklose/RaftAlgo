@@ -588,7 +588,7 @@ char *get_type_from_message(char *msg){
 bool id_in_list(int *id_list, int id){
         extern int num_nodes;
         int node;
-        for(node=0;node<5;++node){ //TESTING 5=num_nodes
+        for(node=0;node<num_nodes;++node){ //TESTING 5=num_nodes
                 if(id == id_list[node]){
                         return true;
                 }

@@ -62,7 +62,8 @@ void update_rssi_list(int sender_id, int rssi){
 void update_network_ids(int sender_id, int rssi){
         // add sender_id to network_ids
         int n=0;
-        for (n=0; n<5;++n){  //TESTING 5 = num_nodes
+        extern int num_nodes;
+        for (n=0; n<num_nodes;++n){  //TESTING 5 = num_nodes
 			//printf("Network IDs N. %d", n);
 				if (network_ids[n]==sender_id){
                         break;
@@ -694,6 +695,7 @@ void leader_loop(){
 
         if ((loop_counter%30)==0){
             printf("reset all lists\n");
+            int i;
             for (i = 0; i<6; ++i){
                 network_ids[i] = 0;
                 rssi_values[i] = 0;
