@@ -334,6 +334,7 @@ void read_incoming_packet_loop(void){
 		int timeout         = 2000; //generate_random_timeout();
         int packet_len      = 0;
 		bool valid_packet   = false;
+        int heart_beat      = 0;
 		// Loop while no timeout
 		while (msec < timeout){
 			msec = update_msec(starttime);
@@ -419,6 +420,7 @@ void read_incoming_packet_loop(void){
                                 else if (strcmp(sender_type,"LEADER") == 0){
                                     handle_leader_message(sender_id);
                                     valid_packet = true;
+                                    heart_beat = 0;
                                 }
                                 else if (strcmp(sender_type,"FORWARD_OK") == 0){
                                     handle_forward_ok_message(sender_id, receiver_id);
@@ -439,6 +441,7 @@ void read_incoming_packet_loop(void){
 					setRX();
                     printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
 
+                    heart_beat += msec;
 					// Reset Timer
 					printf("RESET TIMER\n");
 					timeout = 2000; //generate_random_timeout();
@@ -450,10 +453,14 @@ void read_incoming_packet_loop(void){
 			if (state_leader(state)==true){
 				break;
 			}
+            if (state_follower(state)==true)&&(heart_beat>1000)){
+                state = set_state_open();
+            }
+
 		}
 		// TIMER ABGELAUFEN (nur relevant für nicht leader!)
 		if ((state_leader(state)==false) && (valid_packet==false)){ 
-			printf("SEND PROPOSE\n");
+            printf("SEND PROPOSE\n");
 			state = set_state_proposer();
 			send_message(0x00, id, id);
 		}
