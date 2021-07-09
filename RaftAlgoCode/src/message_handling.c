@@ -680,7 +680,7 @@ void leader_loop(){
 				}
 			}
 		}
-	
+        printf("list broadcast changed: %d\n", broadcast_list_changed);
 		// check if local list changed?
         if (potential_forwarder_ids[0] != 0){
             choose_forwarder();
