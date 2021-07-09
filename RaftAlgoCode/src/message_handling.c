@@ -484,7 +484,12 @@ void read_incoming_packet_loop(void){
 		accept_not_counter = 0;
         proposer_id = 0;                       
         leader_id = 0;
-        follower_ids[6] = {0};
+        //RESET follower ids
+        int i;
+        for (i = 0; i<6; ++i){
+            follower_ids[i] = 0;
+        }
+        
 
 		if (state_leader(state)==true){
 			break;
