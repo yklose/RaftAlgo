@@ -2,7 +2,7 @@
 #include "lib.h"
 
 // NUMBER OF NODES IN THE NETWORK
-int num_nodes = 1;//6;
+int num_nodes = 3;//6;
 int id = 123;
 int state = 0;
 

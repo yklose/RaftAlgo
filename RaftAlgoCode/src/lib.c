@@ -204,6 +204,8 @@ int compute_request_checksum(int forwarder_id, int tx_id, int rssi){
 void send_request_message(int forwarder_id, int tx_id, int rssi){
         char msg[20];
         int checksum = compute_request_checksum(forwarder_id, tx_id, rssi);
+        sprintf(msg, "%d%d%d%03d%03d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
+        /*
         if (rssi > 99){
                 if (checksum > 99){
                         sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
@@ -237,6 +239,7 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
                         sprintf(msg, "%d%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi , 0x00, 0x00, checksum, 0x00); 
                 }
         }
+        */
         // print message string
         printf("TransmitMessageString: %s\n", msg);
 	setIDLE();
@@ -323,7 +326,7 @@ void send_list_message(int *network_ids, int num_nodes){
 
 	//char msg[] = "HelloWorld0";
         int message_type = 0x05;
-        int msg_len = (num_ids_to_send*7)+1+4+2;
+        int msg_len = (num_ids_to_send*6)+1+4+2;
 
         char msg[msg_len];
 	memset(msg, 0, sizeof msg);
@@ -348,7 +351,7 @@ void send_list_message(int *network_ids, int num_nodes){
                         strcat( msg, buffer );
                 }
                 else {
-                        char buffer[7];
+                        char buffer[6];
                         sprintf(buffer, "%d", network_ids[j]);
                         strcat( msg, buffer );
                 }

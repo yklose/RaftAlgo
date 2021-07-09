@@ -215,7 +215,7 @@ void handle_list_broadcast_message(char *msg){
     // update global list 
     // if ids in local list not in global, send request
 
-	int num_ids = ((strlen(msg)-4)/7); //TODO: 7 to extern variable!
+	int num_ids = ((strlen(msg)-4)/6); //TODO: 7 to extern variable!
 	int len_broadcast_network_ids = num_ids;
 	//int broadcast_network_ids[len_broadcast_network_ids] = {0};
 	int broadcast_network_ids[2] = {0}; // TODO: no hard coding
@@ -279,11 +279,10 @@ void choose_forwarder(){
 
 void handle_request_forward_message(char *msg){
     printf("REQUEST FORWARD MESSAGE \n");
-    
-    int id_len = 7; // TODO
+    extern int id_len; // TODO
     int rssi_len = 3;
-    char forwarder_id[7]; // TODO: id len
-    char sender_id[7];
+    char forwarder_id[6]; // TODO: id len
+    char sender_id[6];
     char rssi[3];
     // Get forwarder ID
     int j;
