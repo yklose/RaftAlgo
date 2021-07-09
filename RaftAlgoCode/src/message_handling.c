@@ -710,6 +710,7 @@ void leader_loop(){
 
             printf("net1: %d\n",network_ids[0]);
             printf("net2: %d\n",network_ids[1]);
+            broadcast_list_changed = true;
         }
 
 
