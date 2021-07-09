@@ -141,7 +141,7 @@ void handle_propose_message(int sender_id, int proposer_id){
             send_message(0x02, id, sender_id);
         }
         else{
-            printf("Too many decline msg, set open...\n")
+            printf("Too many decline msg, set open...\n");
             state = set_state_open();
             decline_counter = 0;
         }
