@@ -65,11 +65,14 @@ void update_network_ids(int sender_id, int rssi){
         extern int num_nodes;
         for (n=0; n<num_nodes;++n){  //TESTING 5 = num_nodes
 			//printf("Network IDs N. %d", n);
+                printf("n: %d\n",n);
 				if (network_ids[n]==sender_id){
-                        break;
+                    printf("break \n",n);
+                    break;
                 }
                 if (network_ids[n]==0){
                         network_ids[n]=sender_id;
+                        printf("update \n",n);
                         if (debug == true){
 						    printf("Update network id %d at %d\n",sender_id, n);
                         }
@@ -697,10 +700,10 @@ void leader_loop(){
 
         if ((loop_counter%30)==0){
             printf("reset all lists\n");
-            int i;
-            for (i = 0; i<6; ++i){
-                network_ids[i] = 0;
-                rssi_values[i] = 0;
+            int j;
+            for (j = 0; j<6; ++j){
+                network_ids[j] = 0;
+                rssi_values[j] = 0;
             }
             network_ids[0] = id;
             rssi_values[0] = 127;
