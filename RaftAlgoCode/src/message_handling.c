@@ -525,7 +525,7 @@ void leader_loop(){
 		// start clock
 		clock_t starttime = clock();
         int msec = update_msec(starttime);
-		int timeout = 500; //generate_random_timeout();
+		int timeout = 300; //generate_random_timeout();
 		bool valid_packet = false;
 		bool heartbeat_send = false;
 	
