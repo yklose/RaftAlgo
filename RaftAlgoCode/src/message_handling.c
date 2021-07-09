@@ -10,7 +10,7 @@
 
 // global variables
 float accept_not_counter = 0;
-float accept_counter = 0;
+float accept_counter = 1;
 int numRX = 0;
 int fifo = 0;
 extern int id;
@@ -162,7 +162,7 @@ void handle_accept_message(int sender_id, int receiver_id){
             if ((accept_counter/num_nodes)>0.5) { 
                 printf("Clear Majority - SET LEADER\n");
                 state = set_state_leader();
-                accept_counter = 0;
+                accept_counter = 1;
                 accept_not_counter = 0;
             }
         }
@@ -194,7 +194,7 @@ void handle_decline_message(int sender_id, int receiver_id){
                 printf("Clear Minority - SET OPEN\n");
                 state = set_state_open();
                 accept_not_counter = 0;
-                accept_counter = 0;
+                accept_counter = 1;
             }
         }
     }
@@ -458,7 +458,7 @@ void read_incoming_packet_loop(void){
 			send_message(0x00, id, id);
 		}
 		// DEBUG deactivate! Otherwise keep! (function for reset variables)
-		accept_counter = 0;
+		accept_counter = 1;
 		accept_not_counter = 0;
         proposer_id = 0;                       
         leader_id = 0;
