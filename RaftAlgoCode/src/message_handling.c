@@ -68,7 +68,9 @@ void update_network_ids(int sender_id, int rssi){
                 }
                 if (network_ids[n]==0){
                         network_ids[n]=sender_id;
-						printf("Update network id %d at %d\n",sender_id, n);
+                        if (debug == true){
+						    printf("Update network id %d at %d\n",sender_id, n);
+                        }
                         rssi_values[n]=rssi;
                         break;
                 }
@@ -94,7 +96,9 @@ void update_potential_lists(int sender_id, int forwarder_id, int rssi){
                         potential_forwarder_ids[n]=forwarder_id;
                         potential_forwarder_rssi[n]=rssi;
                         potential_sender_ids[n]=sender_id;
-                        printf("Add to potential list (Toforward, rssi, sender) : %d, %d, %d\n", potential_forwarder_ids[n], potential_forwarder_rssi[n], potential_sender_ids[n]);
+                        if (debug == true){
+                            printf("Add to potential list (Toforward, rssi, sender) : %d, %d, %d\n", potential_forwarder_ids[n], potential_forwarder_rssi[n], potential_sender_ids[n]);
+                        }
                         break;
                 }
         }
@@ -105,10 +109,13 @@ char *read_message(){
     cc1200_reg_read(0x3F, &packet_len);
     // check if message is longer than expected
     if (packet_len>max_packet_len){
-		printf("packet_len: %d\n", packet_len);
+        if (debug == true){
+		    printf("packet_len: %d\n", packet_len);
+            printf("Transmitted message is longer than max configured lengths\n");
+        }
         packet_len = max_packet_len;
 		
-        printf("Transmitted message is longer than max configured lengths\n");
+        
     }
     // read packet
     int k = 0;
@@ -121,7 +128,9 @@ char *read_message(){
         }
     }
     message[k+1] = '\0';
-    printf("\nReceivedMessage: %s\n",message);
+    if (debug == true){
+        printf("\nReceivedMessage: %s\n",message);
+    }
     return message;
 }
 
@@ -154,7 +163,9 @@ void handle_accept_message(int sender_id, int receiver_id){
         if (state_proposer(state)){
             bool found = id_in_list(follower_ids, sender_id);
             if (found == false){
-                printf("INCREASE ACCEPT COUNTER\n");
+                if (debug == true){
+                    printf("INCREASE ACCEPT COUNTER\n");
+                }
                 accept_counter = accept_counter + 1;
                 int n;
                 // add sender_id to follower_ids
@@ -164,7 +175,9 @@ void handle_accept_message(int sender_id, int receiver_id){
                         break;
                     }
                 }
-                printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
+                if (debug == true){
+                    printf("Anzahl ACCEPT Nachrichten: %f\n",accept_counter);
+                }
             }
             printf("partition of followers: %f\n",(accept_counter/num_nodes));
             // check if majority is reached
@@ -186,7 +199,9 @@ void handle_decline_message(int sender_id, int receiver_id){
         if (state_proposer(state)){
             bool found = id_in_list(follower_ids, sender_id);
             if (found == false){
-                printf("INCREASE ACCEPT NOT COUNTER\n");
+                if (debug == true){
+                    printf("INCREASE ACCEPT NOT COUNTER\n");
+                }
                 accept_not_counter = accept_not_counter + 1;
                 int n;
                 // add sender_id to follower_ids
@@ -196,7 +211,9 @@ void handle_decline_message(int sender_id, int receiver_id){
                         break;
                     }
                 }
-                printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
+                if (debug == true){
+                    printf("Anzahl ACCEPT NOT Nachrichten: %f\n",accept_not_counter);
+                }
             }
             // check if miniority is reached
             if ((accept_not_counter/num_nodes)>0.5) { 
@@ -237,7 +254,9 @@ void handle_list_broadcast_message(char *msg){
 void handle_forward_ok_message(int forwarder_id, int receiver_id){
     printf("FORWARD_OK MESSAGE\n");
     if (id == receiver_id){
-        printf("UPDATE FORWARDER IDS\n");
+        if (debug == true){
+            printf("UPDATE FORWARDER IDS\n");
+        }
         update_forwarder_ids(forwarder_id);
     }
 
@@ -299,21 +318,27 @@ void handle_request_forward_message(char *msg){
         forwarder_id[j] = msg[1+j];
     }
     int forwarder_id_int = convert_char_to_int(forwarder_id);
-    printf("Forwarder ID: %d\n", forwarder_id_int);
+    if (debug == true){
+        printf("Forwarder ID: %d\n", forwarder_id_int);
+    }
     // Get sender ID
     int k;
     for (k=0; k<id_len; ++k){
         sender_id[k] = msg[1+id_len+k];
     }
     int sender_id_int = convert_char_to_int(sender_id);
-    printf("Sender ID: %d\n", sender_id_int);
+    if (debug == true){
+        printf("Sender ID: %d\n", sender_id_int);
+    }
     // Get RSSI
     int l;
     for (l=0; l<rssi_len; ++l){
         rssi[l] = msg[1+id_len+id_len+l];
     }
     int rssi_int = convert_char_to_int(rssi);
-    printf("RSSI of Forwarder: %d\n", rssi_int);
+    if (debug == true){
+        printf("RSSI of Forwarder: %d\n", rssi_int);
+    }
     // TODO: ADD to potential new forwarder
     // later decide
     update_potential_lists(sender_id_int, forwarder_id_int, rssi_int);
@@ -349,20 +374,25 @@ void read_incoming_packet_loop(void){
 			msec = update_msec(starttime);
 			cc1200_reg_read(0x2FD7, &numRX); //NUM_RXBYTES = 0xD7
 			if(numRX>0){
-                
-				printf("----------- PACKET detected -----------\n");
+                if (debug == true){
+				    printf("----------- PACKET detected -----------\n");
+                }
 				rssi_valid(0x2F72);  //RSSI0 = 0x72
 				int rssi = read_rssi1(0x2F71); //RSSI0 = 0x71
 				printf("RSSI: %d\n", rssi);
                 // process packet
 				if (packet_len == 0){ 
-                    printf("CLOCK - receive: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    if (debug == true){
+                        printf("CLOCK - receive: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    }
 					char *message = read_message();
 					// get message informations
 					char *sender_type = get_type_from_message(message);
                     int checksum = get_checksum_from_msg(message);
-                    printf("Sender Type: %s\n", sender_type);
-                    printf("Checksum: %d\n", checksum);
+                    if (debug == true){
+                        printf("Sender Type: %s\n", sender_type);
+                        printf("Checksum: %d\n", checksum);
+                    }
 
                     // Look for datatype 2 (list broadcast)
 					if (strcmp(sender_type,"LIST_BROADCAST") == 0){
@@ -382,21 +412,27 @@ void read_incoming_packet_loop(void){
 						int receiver_id = get_rx_id_from_msg(message);
 						int sender_type_int = get_int_type_from_msg(message);
 						bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                        printf("sender_type_int: %d\n", sender_type_int);
-                        printf("checksum: %d\n", checksum);
-                        printf("tx_id: %d\n", sender_id);
-                        printf("rx_id: %d\n", receiver_id);
+                        if (debug == true){
+                            printf("sender_type_int: %d\n", sender_type_int);
+                            printf("checksum: %d\n", checksum);
+                            printf("tx_id: %d\n", sender_id);
+                            printf("rx_id: %d\n", receiver_id);
+                        }
 						if (checksum_correct==true){
 
 							// Update local list
 							bool in_local_list = id_in_list(network_ids, sender_id);
 							if (in_local_list == false){
 								update_network_ids(sender_id, rssi);
-								printf("Update Local list - new id\n");
+                                if (debug == true){
+								    printf("Update Local list - new id\n");
+                                }
 							}
 							else{
 								update_rssi_list(sender_id, rssi);
-								printf("Update Local list - new rssi\n");
+                                if (debug == true){
+								    printf("Update Local list - new rssi\n");
+                                }
 							}
 
                             // Check if message is for me or for forwarder
@@ -404,7 +440,9 @@ void read_incoming_packet_loop(void){
                             bool msg_to_forward = id_in_list(forwarder_ids, receiver_id);
                             bool msg_from_forward = id_in_list(forwarder_ids, sender_id);
                             bool broadcast = (receiver_id==sender_id);
-                            printf("for me %d, to_forward %d, from_forward %d, broadcast %d\n", msg_for_me,msg_to_forward,msg_from_forward, broadcast);
+                            if (debug == true){
+                                printf("for me %d, to_forward %d, from_forward %d, broadcast %d\n", msg_for_me,msg_to_forward,msg_from_forward, broadcast);
+                            }
 
                             // Forward Messages and Broadcast to to_forward node
                             if ((msg_to_forward==true)||(msg_from_forward==true)||(receiver_id==sender_id)){
@@ -450,7 +488,9 @@ void read_incoming_packet_loop(void){
 					cc1200_cmd(SFRX);
 					packet_len = 0;
 					setRX();
-                    printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    if (debug == true){
+                        printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    }
 
                     heart_beat += msec;
 					// Reset Timer
@@ -458,14 +498,20 @@ void read_incoming_packet_loop(void){
 					timeout = generate_random_timeout();
 					starttime = clock();
 
-                    printf("HEARTBEAT: %d\n", heart_beat);
+                    if (debug == true){
+                        printf("HEARTBEAT: %d\n", heart_beat);
+                    }
                     if ((state_follower(state)==true)&&(heart_beat>1000)){
-                        printf("SET OPEN\n");
+                        if (debug == true){
+                            printf("SET OPEN\n");
+                        }
                         state = set_state_open();
                     }
 					break;
 				}
-                printf("---------------------------------------\n");
+                if (debug == true){
+                    printf("---------------------------------------\n");
+                }
 			}
 			if (state_leader(state)==true){
 				break;
@@ -542,10 +588,14 @@ void leader_loop(){
 				
 				rssi_valid(0x2F72);
 				if (packet_len == 0){ 
-                    printf("CLOCK - receive: %d\n",clock()* 1000/CLOCKS_PER_SEC);
-                    printf("----------- PACKET detected -----------\n");
+                    if (debug == true){
+                        printf("CLOCK - receive: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                        printf("----------- PACKET detected -----------\n");
+                    }
                     int rssi = read_rssi1(0x2F71);
-                    printf("RSSI: %d\n", rssi);
+                    if (debug == true){
+                        printf("RSSI: %d\n", rssi);
+                    }
                     // read message
 					char *message = read_message();
 
@@ -564,12 +614,16 @@ void leader_loop(){
                         int checksum = get_checksum_from_msg(message);
                         int sender_type_int = get_int_type_from_msg(message);
                         bool checksum_correct = valid_message(sender_type_int, sender_id, receiver_id, checksum);
-                        printf("Checksum: %d\n", checksum);
+                        if (debug == true){
+                            printf("Checksum: %d\n", checksum);
+                        }
                         
                         if (checksum_correct==true){
-                            printf("Sender Type: %s\n", sender_type);
-                            printf("tx_id: %d\n", sender_id);
-                            printf("rx_id: %d\n", receiver_id);
+                            if (debug == true){
+                                printf("Sender Type: %s\n", sender_type);
+                                printf("tx_id: %d\n", sender_id);
+                                printf("rx_id: %d\n", receiver_id);
+                            }
                         }
                         if (checksum_correct==true){
                             // Update local list
@@ -577,11 +631,15 @@ void leader_loop(){
                             if (in_local_list == false){
                                 update_network_ids(sender_id, rssi);
                                 broadcast_list_changed = true;
-                                printf("Update Local list - new id\n");
+                                if (debug == true){
+                                    printf("Update Local list - new id\n");
+                                }
                             }
                             else{
                                 update_rssi_list(sender_id, rssi);
-                                printf("Update Local list - new rssi\n");
+                                if (debug == true){
+                                    printf("Update Local list - new rssi\n");
+                                }
                             }
                             // evaluate message types
                             
@@ -600,7 +658,9 @@ void leader_loop(){
 					cc1200_cmd(SFRX);
 					packet_len = 0;
 					setRX();
-                    printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    if (debug == true){
+                        printf("CLOCK - END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+                    }
 				}
 			}
 		}

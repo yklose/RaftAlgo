@@ -189,7 +189,10 @@ int compute_list_checksum(int message_type, int *network_ids, int num_ids){
         int i;
         for (i=0; i<num_ids; ++i) {
                 sum = sum + network_ids[i];
-                printf("ADD %d to list_checksum\n", network_ids[i]);
+                if (debug == true){
+                        printf("ADD %d to list_checksum\n", network_ids[i]);
+                }
+                
         }
         return (sum%modulus);     
 }  
@@ -241,7 +244,9 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
         }
         */
         // print message string
-        printf("TransmitMessageString: %s\n", msg);
+        if (debug == true){
+                printf("TransmitMessageString: %s\n", msg);
+        }
 	setIDLE();
 	cc1200_cmd(SFTX);
 	cc1200_reg_write(0x3F, strlen(msg));
@@ -258,7 +263,9 @@ void send_request_message(int forwarder_id, int tx_id, int rssi){
                 cc1200_cmd(SNOP);
                 cc1200_reg_read(0x2FD6, & numTx);
         }
-	printf("DONE TRANSMITTING\n\n");
+        if (debug == true){
+	        printf("DONE TRANSMITTING\n\n");
+        }
 	setIDLE();
 }
 
@@ -274,11 +281,13 @@ int time_to_wait(){
 }
 
 void send_message(int message_type, int tx_id, int rx_id){
-       int time = time_to_wait();
-        printf("time_to_wait: %d\n", time);
+        int time = time_to_wait();
+        if (debug == true){
+                printf("time_to_wait: %d\n", time);
+        }
         sleep(time/1000);
-	//char msg[] = "HelloWorld0";
-	char msg[20];
+        //char msg[] = "HelloWorld0";
+        char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
 
         sprintf(msg, "%d%d%d%03d%d",message_type, tx_id, rx_id, checksum, 0x00);
@@ -293,7 +302,9 @@ void send_message(int message_type, int tx_id, int rx_id){
                 sprintf(msg, "%d%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
         } 
         */
-	printf("TransmitMessageString: %s\n", msg);
+        if (debug == true){
+	        printf("TransmitMessageString: %s\n", msg);
+        }
 	setIDLE();
 	cc1200_cmd(SFTX);
 	cc1200_reg_write(0x3F, strlen(msg));
@@ -310,7 +321,9 @@ void send_message(int message_type, int tx_id, int rx_id){
                 cc1200_cmd(SNOP);
                 cc1200_reg_read(0x2FD6, & numTx);
         }
-	printf("DONE TRANSMITTING\n\n");
+        if (debug == true){
+	        printf("DONE TRANSMITTING\n\n");
+        }
 	setIDLE();
 }
 
@@ -320,7 +333,9 @@ void send_list_message(int *network_ids, int num_nodes){
         for (i=0; i<5; ++i) {  //TESTING 5=num_nodes
                 if (network_ids[i] != 0) {
                         ++num_ids_to_send;
-                        printf("IDs: %d\n", network_ids[i]);
+                        if (debug == true){
+                                printf("IDs: %d\n", network_ids[i]);
+                        }
                 }
         }
 
@@ -357,7 +372,9 @@ void send_list_message(int *network_ids, int num_nodes){
                 }
                 
         } 	
-	printf("TransmitMessageString: %s\n", msg);
+        if (debug == true){
+	        printf("TransmitMessageString: %s\n", msg);
+        }
 	setIDLE();
 	cc1200_cmd(SFTX);
 	cc1200_reg_write(0x3F, strlen(msg));
@@ -374,7 +391,9 @@ void send_list_message(int *network_ids, int num_nodes){
                 cc1200_cmd(SNOP);
                 cc1200_reg_read(0x2FD6, & numTx);
         }
-	printf("DONE TRANSMITTING\n\n");
+        if (debug == true){
+	        printf("DONE TRANSMITTING\n\n");
+        }
 	setIDLE();
 }
 
@@ -436,7 +455,9 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 	//memset(output_ids, 0, sizeof output_ids);
         
         int i;
-        printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
+        if (debug == true){
+                printf("len_broadcast_network_ids: %d\n", len_broadcast_network_ids);
+        }
         for (i=0; i<len_broadcast_network_ids;++i){
                 
                 int j;
@@ -448,7 +469,9 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                 }
 		int id_int = convert_char_to_int(id);
 		broadcast_network_ids[i] = id_int;
-                printf("Current ID: %d\n",broadcast_network_ids[i]);
+                if (debug == true){
+                        printf("Current ID: %d\n",broadcast_network_ids[i]);
+                }
         }
 	// return broadcast_network_ids;
 
@@ -456,7 +479,9 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
 
         int k;
 	for (k=0; k<(len_network_ids); ++k){
-		 printf("ID: %d", network_ids[k]);
+                if (debug == true){
+		        printf("ID: %d", network_ids[k]);
+                }
                 if (network_ids[k]!=0){
                        
                         int l;
@@ -467,12 +492,16 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
                                 }
                         }
                         if (found == false){
-                                printf(" (Not in list. SEND... with RSSI: %d )\n", rssi_values[k]);
+                                if (debug == true){
+                                        printf(" (Not in list. SEND... with RSSI: %d )\n", rssi_values[k]);
+                                }
                                 //send_message(0x07, id, network_ids[k]);
                                 send_request_message(network_ids[k], id, rssi_values[k]);
                         }
                         else{
-                                printf(" (already in list) \n");
+                                if (debug == true){
+                                        printf(" (already in list) \n");
+                                }
                         }
                 }
                 
@@ -489,7 +518,9 @@ void process_list_broadcast(void){
         int len_network_ids = 2;
         int i;
 	for (i=0; i<(len_network_ids); ++i){
-		printf("ID: %d\n", network_ids[i]);
+                if (debug == true){
+		        printf("ID: %d\n", network_ids[i]);
+                }
                 int j;
                 bool found = false;
 		for (j=0; j<(len_global_network_ids); ++j){
@@ -498,11 +529,15 @@ void process_list_broadcast(void){
 			}
 		}
                 if (found == false){
-                        printf("Not in list. SEND... with RSSI: %d\n", rssi_values[i]);
+                        if (debug == true){
+                                printf("Not in list. SEND... with RSSI: %d\n", rssi_values[i]);
+                        }
 			send_message(6, id, network_ids[i]);
                 }
                 else{
-                        printf("already in list \n");
+                        if (debug == true){
+                                printf("already in list \n");
+                        }
                 }
         }
 }
