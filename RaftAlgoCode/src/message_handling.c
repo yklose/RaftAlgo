@@ -684,7 +684,15 @@ void leader_loop(){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
-            //if ((loop_counter%30)==0){
+            
+		}   
+        else if ((heartbeat_send == false)){
+			send_message(0x03, id, id);
+			printf("HEARTBEAT\n");
+			heartbeat_send = true;
+		}
+
+        if ((loop_counter%30)==0){
             printf("reset all lists\n");
             for (i = 0; i<6; ++i){
                 network_ids[i] = 0;
@@ -692,13 +700,7 @@ void leader_loop(){
             }
             network_ids[0] = id;
             rssi_values[0] = 127;
-            //}
-		}   
-        else if ((heartbeat_send == false)){
-			send_message(0x03, id, id);
-			printf("HEARTBEAT\n");
-			heartbeat_send = true;
-		}
+        }
 
 
 
