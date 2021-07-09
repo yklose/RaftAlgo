@@ -639,6 +639,8 @@ void leader_loop(){
                         if (checksum_correct==true){
                             // Update local list
                             bool in_local_list = id_in_list(network_ids, sender_id);
+                            printf("net1: %d\n",network_ids[0]);
+                            printf("net2: %d\n",network_ids[1]);
                             if (in_local_list == false){
                                 update_network_ids(sender_id, rssi);
                                 broadcast_list_changed = true;
@@ -702,6 +704,9 @@ void leader_loop(){
             }
             network_ids[0] = id;
             rssi_values[0] = 127;
+
+            printf("net1: %d\n",network_ids[0]);
+            printf("net2: %d\n",network_ids[1]);
         }
 
 
