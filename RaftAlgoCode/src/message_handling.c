@@ -15,6 +15,7 @@ int numRX = 0;
 int fifo = 0;
 extern int id;
 extern int state;
+int decline_counter = 0;
 
 // extern variables
 extern int follower_ids[];
@@ -135,7 +136,15 @@ void handle_propose_message(int sender_id, int proposer_id){
     }
     else{
         printf("SEND ACCEPT DECLINE message\n");
-        send_message(0x02, id, sender_id);
+        decline_counter += 1;
+        if decline_counter < 5{
+            send_message(0x02, id, sender_id);
+        }
+        else{
+            printf("Too many decline msg, set open...\n")
+            state = set_state_open();
+            decline_counter = 0;
+        }
     }
 }
 
@@ -331,7 +340,7 @@ void read_incoming_packet_loop(void){
 		setRX();
 		clock_t starttime   = clock();
 		int msec            = update_msec(starttime);
-		int timeout         = 2000; //generate_random_timeout();
+		int timeout         = generate_random_timeout();
         int packet_len      = 0;
 		bool valid_packet   = false;
         int heart_beat      = 0;
@@ -446,7 +455,7 @@ void read_incoming_packet_loop(void){
                     heart_beat += msec;
 					// Reset Timer
 					printf("RESET TIMER\n");
-					timeout = 2000; //generate_random_timeout();
+					timeout = generate_random_timeout();
 					starttime = clock();
 
                     printf("HEARTBEAT: %d\n", heart_beat);
