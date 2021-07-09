@@ -684,7 +684,7 @@ void leader_loop(){
 			printf("broadcast new list....\n");
 			broadcast_list_changed = false;
 			send_list_message(network_ids, num_nodes);
-            if (loop_counter%30)==0){
+            if ((loop_counter%30)==0){
                 printf("reset all lists\n");
                 for (i = 0; i<6; ++i){
                     network_ids[i] = 0;
