@@ -448,6 +448,12 @@ void read_incoming_packet_loop(void){
 					printf("RESET TIMER\n");
 					timeout = 2000; //generate_random_timeout();
 					starttime = clock();
+
+                    printf("HEARTBEAT: %d\n", heart_beat);
+                    if ((state_follower(state)==true)&&(heart_beat>1000)){
+                        printf("SET OPEN\n");
+                        state = set_state_open();
+                    }
 					break;
 				}
                 printf("---------------------------------------\n");
@@ -455,10 +461,7 @@ void read_incoming_packet_loop(void){
 			if (state_leader(state)==true){
 				break;
 			}
-            if ((state_follower(state)==true)&&(heart_beat>1000)){
-                printf("SET OPEN\n");
-                state = set_state_open();
-            }
+            
 
 		}
 		// TIMER ABGELAUFEN (nur relevant für nicht leader!)
