@@ -24,8 +24,6 @@ void load_variables(void){
 	extern int id;
 	extern int state;
 	state = set_state_open();
-	// print ID
-	printf("RANDOM ID: %d\n", id);
 }
 
 
