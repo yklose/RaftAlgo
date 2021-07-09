@@ -454,6 +454,7 @@ void read_incoming_packet_loop(void){
 				break;
 			}
             if ((state_follower(state)==true)&&(heart_beat>1000)){
+                printf("SET OPEN\n");
                 state = set_state_open();
             }
 
