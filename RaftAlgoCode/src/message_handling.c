@@ -453,7 +453,7 @@ void read_incoming_packet_loop(void){
 			if (state_leader(state)==true){
 				break;
 			}
-            if (state_follower(state)==true)&&(heart_beat>1000)){
+            if ((state_follower(state)==true)&&(heart_beat>1000)){
                 state = set_state_open();
             }
 
