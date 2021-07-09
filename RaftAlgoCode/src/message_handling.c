@@ -16,6 +16,7 @@ int fifo = 0;
 extern int id;
 extern int state;
 int decline_counter = 0;
+extern int debug;
 
 // extern variables
 extern int follower_ids[];

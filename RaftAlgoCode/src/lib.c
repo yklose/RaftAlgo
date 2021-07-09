@@ -20,6 +20,8 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+extern int debug;
+
 void rssi_valid(int rssi_add) {
         int val;
         cc1200_reg_read(rssi_add,&val);
