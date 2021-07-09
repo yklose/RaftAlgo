@@ -484,7 +484,7 @@ void read_incoming_packet_loop(void){
 					}
                     
 					// go in IDLE mode to Reset FIFO (in function)
-					printf("\n\n");
+					printf("\n");
 					setIDLE();
 					cc1200_cmd(SFRX);
 					packet_len = 0;
@@ -495,7 +495,9 @@ void read_incoming_packet_loop(void){
 
                     heart_beat += msec;
 					// Reset Timer
-					printf("RESET TIMER\n");
+                    if (debug == true){
+					    printf("RESET TIMER\n");
+                    }
 					timeout = generate_random_timeout();
 					starttime = clock();
 
@@ -561,7 +563,7 @@ void leader_loop(){
 	// Leader Loop
 	while (true){
 		// print current state
-		printf("Initialize Leader Loop \n\n");
+		//printf("Initialize Leader Loop \n\n");
 		//	TESTIG
 		
 
@@ -654,7 +656,7 @@ void leader_loop(){
                         }
                     }
 					// go in IDLE mode to Reset FIFO
-					printf("\n\n");
+					printf("\n");
 					setIDLE();
 					cc1200_cmd(SFRX);
 					packet_len = 0;
