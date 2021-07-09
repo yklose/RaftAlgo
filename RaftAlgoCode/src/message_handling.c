@@ -484,6 +484,8 @@ void read_incoming_packet_loop(void){
 		accept_not_counter = 0;
         proposer_id = 0;                       
         leader_id = 0;
+        follower_ids[] = {0};
+        
 		if (state_leader(state)==true){
 			break;
 		}
