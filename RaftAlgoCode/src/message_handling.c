@@ -308,8 +308,8 @@ void handle_request_forward_message(char *msg){
     // TODO: ADD to potential new forwarder
     // later decide
     update_potential_lists(sender_id_int, forwarder_id_int, rssi_int);
-    update_potential_lists(222222, forwarder_id_int, 20); 
-    update_potential_lists(333333, 555555, 45);
+    //update_potential_lists(222222, forwarder_id_int, 20); 
+    //update_potential_lists(333333, 555555, 45);
 
     choose_forwarder();
 

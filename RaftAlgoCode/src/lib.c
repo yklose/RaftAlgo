@@ -452,7 +452,7 @@ void get_broadcast_ids_from_msg(char *msg, int *broadcast_network_ids, int len_b
         }
 	// return broadcast_network_ids;
 
-        network_ids[1] = 123456; //JUST FOR TESTING!
+        //network_ids[1] = 123456; //JUST FOR TESTING!
 
         int k;
 	for (k=0; k<(len_network_ids); ++k){
