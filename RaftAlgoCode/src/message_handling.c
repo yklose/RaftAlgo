@@ -137,7 +137,7 @@ void handle_propose_message(int sender_id, int proposer_id){
     else{
         printf("SEND ACCEPT DECLINE message\n");
         decline_counter += 1;
-        if decline_counter < 5{
+        if (decline_counter < 5) {
             send_message(0x02, id, sender_id);
         }
         else{
