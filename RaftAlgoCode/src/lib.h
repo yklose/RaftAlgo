@@ -26,6 +26,7 @@ int set_state_leader();
 // generating functions
 int generate_random_id();
 int generate_random_timout();
+int generate_number(int max);
 // message interaction
 void send_message(int message_type, int tx_id, int rx_id);
 void send_request_message(int forwarder_id, int tx_id, int rssi);

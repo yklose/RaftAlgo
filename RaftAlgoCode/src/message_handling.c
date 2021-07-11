@@ -16,6 +16,7 @@ int fifo = 0;
 extern int id;
 extern int state;
 int decline_counter = 0;
+int decline_max = generate_number(5);
 extern int debug;
 
 // extern variables
@@ -151,13 +152,15 @@ void handle_propose_message(int sender_id, int proposer_id){
     else{
         printf("SEND ACCEPT DECLINE message\n");
         decline_counter += 1;
-        if (decline_counter < 3) {
+        if (decline_counter < decline_max) {
             send_message(0x02, id, sender_id);
         }
         else{
             printf("Too many decline msg, set open...\n");
             state = set_state_open();
             decline_counter = 0;
+            decline_max = generate_number(5);
+
         }
     }
 }
@@ -679,7 +682,7 @@ void leader_loop(){
 				}
 			}
 		}
-        printf("list broadcast changed: %d\n", broadcast_list_changed);
+        //printf("list broadcast changed: %d\n", broadcast_list_changed);
 		// check if local list changed?
         if (potential_forwarder_ids[0] != 0){
             choose_forwarder();
@@ -707,8 +710,6 @@ void leader_loop(){
             network_ids[0] = id;
             rssi_values[0] = 127;
 
-            printf("net1: %d\n",network_ids[0]);
-            printf("net2: %d\n",network_ids[1]);
             broadcast_list_changed = true;
         }
 
