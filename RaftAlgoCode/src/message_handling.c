@@ -249,9 +249,6 @@ void handle_list_broadcast_message(char *msg){
     printf("LIST_BROADCAST MESSAGE\n");
     // update global list 
     // if ids in local list not in global, send request
-    state = set_state_follower();
-    // save leader id
-    leader_id = sender_id;
     send_message(0x04,leader_id,id);
     
 	int num_ids = ((strlen(msg)-4)/6); //TODO: 7 to extern variable!
