@@ -73,7 +73,7 @@ void update_network_ids(int sender_id, int rssi){
                 }
                 if (network_ids[n]==0){
                         network_ids[n]=sender_id;
-                        printf("update \n",n);
+                        //printf("update \n",n);
                         if (debug == true){
 						    printf("Update network id %d at %d\n",sender_id, n);
                         }
@@ -133,6 +133,7 @@ char *read_message(){
             k = k + 1;
         }
     }
+
     message[k+1] = '\0';
     if (debug == true){
         printf("\nReceivedMessage: %s\n",message);
@@ -248,7 +249,11 @@ void handle_list_broadcast_message(char *msg){
     printf("LIST_BROADCAST MESSAGE\n");
     // update global list 
     // if ids in local list not in global, send request
-
+    state = set_state_follower();
+    // save leader id
+    leader_id = sender_id;
+    send_message(0x04,leader_id,id);
+    
 	int num_ids = ((strlen(msg)-4)/6); //TODO: 7 to extern variable!
 	int len_broadcast_network_ids = num_ids;
 	//int broadcast_network_ids[len_broadcast_network_ids] = {0};
