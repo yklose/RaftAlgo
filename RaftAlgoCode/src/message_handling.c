@@ -16,7 +16,8 @@ int fifo = 0;
 extern int id;
 extern int state;
 int decline_counter = 0;
-int decline_max = generate_number(5);
+int decline_max;
+decline_max = generate_number(5);
 extern int debug;
 
 // extern variables
