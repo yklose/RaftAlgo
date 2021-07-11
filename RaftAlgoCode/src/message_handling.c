@@ -66,7 +66,7 @@ void update_network_ids(int sender_id, int rssi){
         extern int num_nodes;
         for (n=0; n<num_nodes;++n){  //TESTING 5 = num_nodes
 			//printf("Network IDs N. %d", n);
-                printf("n: %d\n",n);
+               
 				if (network_ids[n]==sender_id){
                     printf("break \n",n);
                     break;
@@ -645,8 +645,6 @@ void leader_loop(){
                         if (checksum_correct==true){
                             // Update local list
                             bool in_local_list = id_in_list(network_ids, sender_id);
-                            printf("net1: %d\n",network_ids[0]);
-                            printf("net2: %d\n",network_ids[1]);
                             if (in_local_list == false){
                                 update_network_ids(sender_id, rssi);
                                 broadcast_list_changed = true;
