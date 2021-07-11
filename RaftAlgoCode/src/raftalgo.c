@@ -25,7 +25,6 @@ void load_variables(void){
 	extern int state;
 	state = set_state_open();
 	extern int decline_max;
-	decline_max = generate_number(5);
 }
 
 
@@ -69,6 +68,7 @@ int main (void) {
 	if (state_open(state)){
 		printf("INITIAL STATE: OPEN\n\n");
 	}
+	
 
 	// loop for incoming packet
 	read_incoming_packet_loop();

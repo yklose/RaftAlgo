@@ -376,6 +376,7 @@ void read_incoming_packet_loop(void){
         int packet_len      = 0;
 		bool valid_packet   = false;
         int heart_beat      = 0;
+        decline_max = generate_number(5);
 		// Loop while no timeout
 		while (msec < timeout){
 			msec = update_msec(starttime);
