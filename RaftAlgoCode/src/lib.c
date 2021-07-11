@@ -223,42 +223,8 @@ int compute_request_checksum(int forwarder_id, int tx_id, int rssi){
 void send_request_message(int forwarder_id, int tx_id, int rssi){
         char msg[20];
         int checksum = compute_request_checksum(forwarder_id, tx_id, rssi);
-        sprintf(msg, "%d%d%d%03d%03d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
-        /*
-        if (rssi > 99){
-                if (checksum > 99){
-                        sprintf(msg, "%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
-                }
-                else if (checksum > 9){
-                        sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,0x00, checksum, 0x00);
-                }
-                else{
-                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, rssi ,0x00, 0x00, checksum, 0x00);
-                }
-        }
-        else if (rssi > 9){
-                if (checksum > 99){
-                        sprintf(msg, "%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,checksum, 0x00); 
-                }
-                else if (checksum > 9){
-                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi , 0x00, checksum, 0x00); 
-                }
-                else{
-                        sprintf(msg, "%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 ,rssi ,0x00, 0x00, checksum, 0x00); 
-                }
-        }
-        else {
-                if (checksum > 99){
-                        sprintf(msg, "%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,checksum, 0x00); 
-                }
-                else if (checksum > 9){
-                        sprintf(msg, "%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi ,0x00, checksum, 0x00); 
-                }
-                else{
-                        sprintf(msg, "%d%d%d%d%d%d%d%d%d%d",0x07, forwarder_id, tx_id, 0x00 , 0x00 ,rssi , 0x00, 0x00, checksum, 0x00); 
-                }
-        }
-        */
+        sprintf(msg, "%d%06d%06d%03d%03d%d",0x07, forwarder_id, tx_id, rssi ,checksum, 0x00);
+        
         // print message string
         if (debug == true){
                 printf("TransmitMessageString: %s\n", msg);
@@ -306,18 +272,8 @@ void send_message(int message_type, int tx_id, int rx_id){
         char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
 
-        sprintf(msg, "%d%d%d%03d%d",message_type, tx_id, rx_id, checksum, 0x00);
-        /*
-        if (checksum > 99){
-                sprintf(msg, "%d%d%d%d%d",message_type, tx_id, rx_id, checksum, 0x00);
-        }
-        else if (checksum > 9){
-                sprintf(msg, "%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, checksum, 0x00);
-        }
-        else{
-                sprintf(msg, "%d%d%d%d%d%d%d",message_type, tx_id, rx_id, 0x00, 0x00, checksum, 0x00);
-        } 
-        */
+        sprintf(msg, "%d%06d%06d%03d%d",message_type, tx_id, rx_id, checksum, 0x00);
+        
         if (debug == true){
 	        printf("TransmitMessageString: %s\n", msg);
         }
@@ -383,7 +339,7 @@ void send_list_message(int *network_ids, int num_nodes){
                 }
                 else {
                         char buffer[6];
-                        sprintf(buffer, "%d", network_ids[j]);
+                        sprintf(buffer, "%06d", network_ids[j]);
                         strcat( msg, buffer );
                 }
                 
