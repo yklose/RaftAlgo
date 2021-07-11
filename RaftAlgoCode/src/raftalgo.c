@@ -24,6 +24,7 @@ void load_variables(void){
 	extern int id;
 	extern int state;
 	state = set_state_open();
+	extern int decline_max = generate_number(5);
 }
 
 
