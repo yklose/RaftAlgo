@@ -5,7 +5,7 @@
 int num_nodes = 3;//6;
 int id = 123;
 int state = 0;
-bool debug = false;
+bool debug = true;
 
 // PACKET PARAMETERS
 int packet_len      = 0;		// length of the received packet
