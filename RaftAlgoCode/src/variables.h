@@ -12,6 +12,7 @@ int packet_len      = 0;		// length of the received packet
 int max_packet_len  = 0x18;		// maximum packet length allowed
 int id_len          = 6;
 int decline_max     = 3;
+int invalid_msg_count = 0;
 
 // IDENTIFIER PARAMETERS
 int proposer_id     = 0;                        // ID of the proposer
