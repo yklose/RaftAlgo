@@ -19,6 +19,7 @@ int decline_counter = 0;
 extern int decline_max;
 extern int debug;
 extern int invalid_msg_count;
+extern int valid_msg_count;
 
 // extern variables
 extern int follower_ids[];
@@ -411,6 +412,8 @@ void read_incoming_packet_loop(void){
                         if (checksum_correct==true){
 						    handle_list_broadcast_message(message);
 						    valid_packet = true;
+                            valid_msg_count++;
+							printf("valid message number: %d\n",valid_msg_count);
                         }
                         else{
                             invalid_msg_count++;
@@ -488,6 +491,9 @@ void read_incoming_packet_loop(void){
                                     valid_packet = true;
                                 }
                             }
+
+                            valid_msg_count++;
+							printf("valid message number: %d\n",valid_msg_count);
 						}
 						else{
                             invalid_msg_count++;
