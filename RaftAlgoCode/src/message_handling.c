@@ -678,12 +678,13 @@ void leader_loop(){
                                 valid_packet = true;
                             }
 
-                            valid_msg_count_l++;
-							printf("valid message number: %d\n",valid_msg_count_l);
-						}
-						else{
-                            invalid_msg_count_l++;
-							printf("invalid message number: %d\n",invalid_msg_count_l);
+                            valid_msg_count++;
+							printf("valid message number: %d\n",valid_msg_count);
+                        }
+                        else{
+                            invalid_msg_count++;
+							printf("invalid message number: %d\n",invalid_msg_count);
+                        }
                     }
 					// go in IDLE mode to Reset FIFO
 					printf("\n");
