@@ -20,6 +20,8 @@ extern int decline_max;
 extern int debug;
 extern int invalid_msg_count;
 extern int valid_msg_count;
+extern int invalid_msg_count_l;
+extern int valid_msg_count_l;
 
 // extern variables
 extern int follower_ids[];
@@ -675,10 +677,13 @@ void leader_loop(){
                                 handle_ok_message(sender_id);
                                 valid_packet = true;
                             }
-                        }
-                        else{
-                            printf("invalid message\n");
-                        }
+
+                            valid_msg_count_l++;
+							printf("valid message number: %d\n",valid_msg_count_l);
+						}
+						else{
+                            invalid_msg_count_l++;
+							printf("invalid message number: %d\n",invalid_msg_count_l);
                     }
 					// go in IDLE mode to Reset FIFO
 					printf("\n");
