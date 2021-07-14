@@ -63,7 +63,7 @@ int generate_random_timeout(){
 	cc1200_reg_read(0x2F80, &rnd_int);
 	rssi_valid(0x2F72);  //RSSI0 = 0x72
 	int rssi = read_rssi1(0x2F71);
-	return (200 + (rnd_int*rssi)%300);
+	return (400 + (rnd_int*rssi)%600);
 }
 
 int generate_number(int max){
