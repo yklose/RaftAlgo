@@ -272,7 +272,7 @@ void send_message(int message_type, int tx_id, int rx_id){
         if (debug == true){
                 printf("time_to_wait: %d\n", time);
         }
-        sleep(time/1000);
+        //sleep(time/1000);
         //char msg[] = "HelloWorld0";
         char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
