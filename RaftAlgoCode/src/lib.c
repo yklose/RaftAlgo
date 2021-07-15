@@ -264,7 +264,7 @@ int time_to_wait(){
 	cc1200_reg_read(0x2F80, &rnd_int);
 	rssi_valid(0x2F72);  //RSSI0 = 0x72
 	int rssi = read_rssi1(0x2F71);
-	return (rnd_int^rssi)%20*(num_nodes);
+	return (rnd_int^rssi)%40*(num_nodes);
 }
 
 void send_message(int message_type, int tx_id, int rx_id){
@@ -272,7 +272,7 @@ void send_message(int message_type, int tx_id, int rx_id){
         if (debug == true){
                 printf("time_to_wait: %d\n", time);
         }
-        //sleep(time/1000);
+        sleep(time/1000);
         //char msg[] = "HelloWorld0";
         char msg[20];
         int checksum = compute_checksum(message_type, tx_id, rx_id);
