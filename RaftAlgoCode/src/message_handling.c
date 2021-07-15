@@ -729,7 +729,7 @@ void leader_loop(){
             broadcast_list_changed = true;
         }
 
-        printf("CLOCK - END END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
+        //printf("CLOCK - END END: %d\n",clock()* 1000/CLOCKS_PER_SEC);
 
 	}
 
