@@ -415,11 +415,11 @@ void read_incoming_packet_loop(void){
 						    handle_list_broadcast_message(message);
 						    valid_packet = true;
                             valid_msg_count++;
-							printf("valid message number: %d\n",valid_msg_count);
+							//printf("valid message number: %d\n",valid_msg_count);
                         }
                         else{
                             invalid_msg_count++;
-							printf("invalid message number: %d\n",invalid_msg_count);
+							//printf("invalid message number: %d\n",invalid_msg_count);
                         }
 					}
 
@@ -495,11 +495,11 @@ void read_incoming_packet_loop(void){
                             }
 
                             valid_msg_count++;
-							printf("valid message number: %d\n",valid_msg_count);
+							//printf("valid message number: %d\n",valid_msg_count);
 						}
 						else{
                             invalid_msg_count++;
-							printf("invalid message number: %d\n",invalid_msg_count);
+							//printf("invalid message number: %d\n",invalid_msg_count);
 						}
 					}
                     
@@ -679,11 +679,11 @@ void leader_loop(){
                             }
 
                             valid_msg_count++;
-							printf("valid message number: %d\n",valid_msg_count);
+							//printf("valid message number: %d\n",valid_msg_count);
                         }
                         else{
                             invalid_msg_count++;
-							printf("invalid message number: %d\n",invalid_msg_count);
+							//printf("invalid message number: %d\n",invalid_msg_count);
                         }
                     }
 					// go in IDLE mode to Reset FIFO
