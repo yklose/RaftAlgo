@@ -1,1 +1,0 @@
-/usr/bin/cc     -L/usr/local/lib -lspi -Wl,-rpath=$(LOCAL_LIB) -L$(LOCAL_LIB) -lprussdrv CMakeFiles/raftalgo.dir/src/lib.c.o CMakeFiles/raftalgo.dir/src/raftalgo.c.o  -o raftalgo -rdynamic 

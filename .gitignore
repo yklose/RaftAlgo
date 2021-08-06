@@ -1,0 +1,8 @@
+build/
+build/*
+.DS_Store
+raftalgo
+CMakeFiles/
+Makefile
+src/choose*
+.vscode*
